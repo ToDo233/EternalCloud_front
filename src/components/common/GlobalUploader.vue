@@ -42,7 +42,7 @@
 import SparkMD5 from 'spark-md5'
 import FileCrypto from '@/utils/crypto-f.js'
 import Crypto from '@/utils/crypto-m.js'
-
+import { pinByHash } from '@/request/file.js'
 export default {
   props: {
     open: {
@@ -63,11 +63,15 @@ export default {
       percentage: 0,
       // 上传组件配置项
       options: {
-        target: 'https://ipfs-gw.decloud.foundation/api/v0/add', // 上传文件-目标 URL
+        target: '', // 上传文件-目标 URL
         headers: {
-          Authorization:
-            'Basic c3Vic3RyYXRlLWNUR3dEbjZ2aW9lNHFzSmNNSzFBSkh1d2FEeXJtZTg2ZWZTUVZ4NGZoM0JKWmdEc0Q6MHg1Y2YyM2EwYTc2ODM4NjYyNTkyNTBkYjk4ODgxZmNiZWM2YjFlMjA1M2IwODc5NzZlY2VkY2VlYmJmNmI3YjAwZWQxYWU2MTU4YzNiNTBmOTRiYThkNmY4MGFiOGE3N2ZhNDJmMTUxYjE1YmE2ZThhOWJlMGFlOTA2MDdiNmE4Zg====',
+          Authorization: '',
         },
+        // target: 'https://ipfs-gw.decloud.foundation/api/v0/add', // 上传文件-目标 URL
+        // headers: {
+        //   Authorization:
+        //     'Basic c3Vic3RyYXRlLWNUR3dEbjZ2aW9lNHFzSmNNSzFBSkh1d2FEeXJtZTg2ZWZTUVZ4NGZoM0JKWmdEc0Q6MHg1Y2YyM2EwYTc2ODM4NjYyNTkyNTBkYjk4ODgxZmNiZWM2YjFlMjA1M2IwODc5NzZlY2VkY2VlYmJmNmI3YjAwZWQxYWU2MTU4YzNiNTBmOTRiYThkNmY4MGFiOGE3N2ZhNDJmMTUxYjE1YmE2ZThhOWJlMGFlOTA2MDdiNmE4Zg====',
+        // },
       },
       // 文件状态文案映射
       fileStatusText: {
@@ -214,14 +218,14 @@ export default {
      */
     async handleFileAdded(file) {
       if (file.status !== 'ready') return
-      console.log(file);
+      this.options.target = this.uploadData.inlet
+      this.options.headers.Authorization = 'Basic ' + this.uploadData.inletToken
       this.dropBoxShow = false
       this.panelShow = true
       this.collapse = false
       this.fileKey = FileCrypto.generateKey()
       file.statusStr = '文件加密完成'
       await FileCrypto.encryptFile(file, this.fileKey).then(() => {})
-      console.log(file);
     },
     /**
      * 文件上传成功 回调函数
@@ -244,7 +248,20 @@ export default {
       //   this.$message.error(result.message)
       //   file.statusStr = '上传失败'
       // }
-      console.log('文件上传成功')
+      let pinParams = {
+        cid: res.Hash,
+        fileName: res.Name,
+        fileSize: res.Size,
+      }
+      pinByHash(pinParams)
+        .then((res) => {
+          if (res.code == 200) {
+            this.$message.success('文件上传成功')
+          }
+        })
+        .catch((err) => {
+          this.$message.error(err)
+        })
     },
     /**
      * 文件上传失败 回调函数

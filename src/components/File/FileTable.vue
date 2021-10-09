@@ -1,81 +1,179 @@
 <template>
   <div class="file-table-wrapper">
     <!-- 文件表格 -->
-    <el-table class="file-table"
-      :class="['file-type-' + fileType, routeName === 'Share' ? 'share' : routeName === 'MyShare' ? 'my-share' : '']"
-      ref="multipleTable" fit v-loading="loading" element-loading-text="文件加载中……"
-      tooltip-effect="dark" :data="fileList" :highlight-current-row="true"
-      @selection-change="handleSelectRow" @sort-change="handleSortChange"
-      @row-contextmenu="handleContextMenu">
-      <el-table-column type="selection" key="selection" width="55"></el-table-column>
+    <el-table
+      class="file-table"
+      :class="[
+        'file-type-' + fileType,
+        routeName === 'Share'
+          ? 'share'
+          : routeName === 'MyShare'
+          ? 'my-share'
+          : '',
+      ]"
+      ref="multipleTable"
+      fit
+      v-loading="loading"
+      element-loading-text="文件加载中……"
+      tooltip-effect="dark"
+      :data="fileList"
+      :highlight-current-row="true"
+      @selection-change="handleSelectRow"
+      @sort-change="handleSortChange"
+      @row-contextmenu="handleContextMenu"
+    >
+      <el-table-column
+        type="selection"
+        key="selection"
+        width="55"
+      ></el-table-column>
       <el-table-column label prop="isDir" key="isDir" width="60" align="center">
         <template slot-scope="scope">
-          <img :src="setFileImg(scope.row)" :title="`${scope.row.isDir ? '' : '点击预览'}`"
+          <img
+            :src="setFileImg(scope.row)"
+            :title="`${scope.row.isDir ? '' : '点击预览'}`"
             style="width: 30px; max-height: 30px; cursor: pointer"
-            @click="handleFileNameClick(scope.row, scope.$index, fileList)" />
+            @click="handleFileNameClick(scope.row, scope.$index, fileList)"
+          />
         </template>
       </el-table-column>
-      <el-table-column prop="fileName" key="fileName" :sort-by="['isDir', 'fileName']" sortable
-        show-overflow-tooltip>
+      <el-table-column
+        prop="fileName"
+        key="fileName"
+        :sort-by="['isDir', 'fileName']"
+        sortable
+        show-overflow-tooltip
+      >
         <template slot="header">
           <span>文件名</span>
         </template>
         <template slot-scope="scope">
-          <div style="cursor: pointer" :title="`${scope.row.isDir ? '' : '点击预览'}`"
-            @click="handleFileNameClick(scope.row, scope.$index, fileList)">
+          <div
+            style="cursor: pointer"
+            :title="`${scope.row.isDir ? '' : '点击预览'}`"
+            @click="handleFileNameClick(scope.row, scope.$index, fileList)"
+          >
             {{ scope.row | fileNameComplete }}
+            <!--  | fileNameComplete -->
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="fileType === 6 ? '原路径' : '路径'" prop="filePath" key="filePath"
-        show-overflow-tooltip v-if="Number($route.query.fileType)">
+      <el-table-column
+        :label="fileType === 6 ? '原路径' : '路径'"
+        prop="filePath"
+        key="filePath"
+        show-overflow-tooltip
+        v-if="Number($route.query.fileType)"
+      >
         <template slot-scope="scope">
-          <span style="cursor: pointer" title="点击跳转" @click="
+          <span
+            style="cursor: pointer"
+            title="点击跳转"
+            @click="
               $router.push({
-                query: { filePath: scope.row.filePath, fileType: 0 }
+                query: { filePath: scope.row.filePath, fileType: 0 },
               })
-            ">{{ scope.row.filePath }}</span>
+            "
+            >{{ scope.row.filePath }}</span
+          >
         </template>
       </el-table-column>
-      <el-table-column label="类型" width="80" prop="extendName" key="extendName"
-        :sort-by="['isDir', 'extendName']" sortable show-overflow-tooltip
-        v-if="selectedColumnList.includes('extendName')">
+      <el-table-column
+        label="类型"
+        width="80"
+        prop="extendName"
+        key="extendName"
+        :sort-by="['isDir', 'extendName']"
+        sortable
+        show-overflow-tooltip
+        v-if="selectedColumnList.includes('extendName')"
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.extendName">{{ scope.row.extendName }}</span>
           <span v-else>文件夹</span>
         </template>
       </el-table-column>
-      <el-table-column label="大小" width="80" prop="fileSize" key="fileSize"
-        :sort-by="['isDir', 'fileSize']" sortable show-overflow-tooltip align="right"
-        v-if="selectedColumnList.includes('fileSize')">
+      <el-table-column
+        label="大小"
+        width="80"
+        prop="fileSize"
+        key="fileSize"
+        :sort-by="['isDir', 'fileSize']"
+        sortable
+        show-overflow-tooltip
+        align="right"
+        v-if="selectedColumnList.includes('fileSize')"
+      >
         <template slot-scope="scope">
           <div style="padding: 0 10px">
             {{ calculateFileSize(scope.row.fileSize) }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="修改日期" prop="uploadTime" key="uploadTime" width="180"
-        :sort-by="['isDir', 'uploadTime']" sortable align="center"
-        v-if="selectedColumnList.includes('uploadTime') && ![7, 8].includes(fileType)">
+      <el-table-column
+        label="修改日期"
+        prop="uploadTime"
+        key="uploadTime"
+        width="180"
+        :sort-by="['isDir', 'uploadTime']"
+        sortable
+        align="center"
+        v-if="
+          selectedColumnList.includes('uploadTime') &&
+            ![7, 8].includes(fileType)
+        "
+      >
       </el-table-column>
-      <el-table-column label="删除日期" prop="deleteTime" key="deleteTime" width="180"
-        :sort-by="['isDir', 'deleteTime']" sortable align="center"
-        v-if="fileType === 6 && selectedColumnList.includes('deleteTime')"></el-table-column>
-      <el-table-column label="分享类型" prop="shareType" key="shareType" width="100" align="center"
-        v-if="routeName === 'MyShare'">
+      <el-table-column
+        label="删除日期"
+        prop="deleteTime"
+        key="deleteTime"
+        width="180"
+        :sort-by="['isDir', 'deleteTime']"
+        sortable
+        align="center"
+        v-if="fileType === 6 && selectedColumnList.includes('deleteTime')"
+      ></el-table-column>
+      <el-table-column
+        label="分享类型"
+        prop="shareType"
+        key="shareType"
+        width="100"
+        align="center"
+        v-if="routeName === 'MyShare'"
+      >
         <template slot-scope="scope">
           {{ scope.row.shareType === 1 ? '私密' : '公共' }}
         </template>
       </el-table-column>
-      <el-table-column label="分享时间" prop="shareTime" key="shareTime" width="180"
-        :sort-by="['isDir', 'shareTime']" show-overflow-tooltip sortable align="center"
-        v-if="routeName === 'MyShare'"></el-table-column>
-      <el-table-column label="过期时间" prop="endTime" key="endTime" width="190"
-        :sort-by="['isDir', 'endTime']" show-overflow-tooltip sortable align="center"
-        v-if="routeName === 'MyShare'">
+      <el-table-column
+        label="分享时间"
+        prop="shareTime"
+        key="shareTime"
+        width="180"
+        :sort-by="['isDir', 'shareTime']"
+        show-overflow-tooltip
+        sortable
+        align="center"
+        v-if="routeName === 'MyShare'"
+      ></el-table-column>
+      <el-table-column
+        label="过期时间"
+        prop="endTime"
+        key="endTime"
+        width="190"
+        :sort-by="['isDir', 'endTime']"
+        show-overflow-tooltip
+        sortable
+        align="center"
+        v-if="routeName === 'MyShare'"
+      >
         <template slot-scope="scope">
           <div>
-            <i class="el-icon-warning" v-if="getFileShareStatus(scope.row.endTime)"></i>
+            <i
+              class="el-icon-warning"
+              v-if="getFileShareStatus(scope.row.endTime)"
+            ></i>
             <i class="el-icon-time" v-else></i>
             {{ scope.row.endTime }}
           </div>
@@ -84,60 +182,118 @@
     </el-table>
     <!-- 右键列表 -->
     <transition name="el-fade-in-linear">
-      <ul class="right-menu-list" id="rightMenuList" v-show="rightMenu.isShow"
-        :style="`top: ${rightMenu.top};right: ${rightMenu.right};bottom: ${rightMenu.bottom};left: ${rightMenu.left};`">
-        <li class="right-menu-item" @click="handleFileNameClick(selectedFile, 0)" v-if="seeBtnShow">
+      <ul
+        class="right-menu-list"
+        id="rightMenuList"
+        v-show="rightMenu.isShow"
+        :style="
+          `top: ${rightMenu.top};right: ${rightMenu.right};bottom: ${
+            rightMenu.bottom
+          };left: ${rightMenu.left};`
+        "
+      >
+        <li
+          class="right-menu-item"
+          @click="handleFileNameClick(selectedFile, 0)"
+          v-if="seeBtnShow"
+        >
           <i class="el-icon-view"></i> 查看
         </li>
-        <li class="right-menu-item" @click="handleDeleteFileBtnClick(selectedFile)"
-          v-if="deleteBtnShow">
+        <li
+          class="right-menu-item"
+          @click="handleDeleteFileBtnClick(selectedFile)"
+          v-if="deleteBtnShow"
+        >
           <i class="el-icon-delete"></i> 删除
         </li>
-        <li class="right-menu-item" @click="handleRestoreFileBtnClick(selectedFile)"
-          v-if="restoreBtnShow">
+        <li
+          class="right-menu-item"
+          @click="handleRestoreFileBtnClick(selectedFile)"
+          v-if="restoreBtnShow"
+        >
           <i class="el-icon-refresh-left"></i> 还原
         </li>
-        <li class="right-menu-item" @click="handleMoveFileBtnClick(selectedFile)"
-          v-if="moveBtnShow">
+        <li
+          class="right-menu-item"
+          @click="handleMoveFileBtnClick(selectedFile)"
+          v-if="moveBtnShow"
+        >
           <i class="el-icon-s-promotion"></i> 移动
         </li>
-        <li class="right-menu-item" @click="handleRenameFileBtnClick(selectedFile)"
-          v-if="renameBtnShow">
+        <li
+          class="right-menu-item"
+          @click="handleRenameFileBtnClick(selectedFile)"
+          v-if="renameBtnShow"
+        >
           <i class="el-icon-edit-outline"></i> 重命名
         </li>
-        <li class="right-menu-item" @click="handleShareFileBtnClick(selectedFile)"
-          v-if="shareBtnShow">
+        <li
+          class="right-menu-item"
+          @click="handleShareFileBtnClick(selectedFile)"
+          v-if="shareBtnShow"
+        >
           <i class="el-icon-share"></i> 分享
         </li>
-        <li class="right-menu-item" @click="rightMenu.isShow = false" v-if="downloadBtnShow">
-          <a target="_blank" style="display: block; color: inherit"
+        <li
+          class="right-menu-item"
+          @click="rightMenu.isShow = false"
+          v-if="downloadBtnShow"
+        >
+          <a
+            target="_blank"
+            style="display: block; color: inherit"
             :href="getDownloadFilePath(selectedFile)"
-            :download="selectedFile.fileName + '.' + selectedFile.extendName">
+            :download="selectedFile.fileName + '.' + selectedFile.extendName"
+          >
             <i class="el-icon-download"></i> 下载
           </a>
         </li>
         <!-- 0-解压到当前文件夹， 1-自动创建该文件名目录，并解压到目录里， 3-手动选择解压目录 -->
         <li class="right-menu-item unzip-menu-item" v-if="unzipBtnShow">
-          <i class="el-icon-files"></i> 解压缩 <i class="el-icon-arrow-right"></i>
-          <ul class="unzip-list"
-            :style="`top: ${unzipMenu.top};bottom: ${unzipMenu.bottom};left: ${unzipMenu.left};right: ${unzipMenu.right};`">
-            <li class="unzip-item" @click="handleUnzipFileBtnClick(selectedFile, 0)"
-              v-if="unzipBtnShow">
+          <i class="el-icon-files"></i> 解压缩
+          <i class="el-icon-arrow-right"></i>
+          <ul
+            class="unzip-list"
+            :style="
+              `top: ${unzipMenu.top};bottom: ${unzipMenu.bottom};left: ${
+                unzipMenu.left
+              };right: ${unzipMenu.right};`
+            "
+          >
+            <li
+              class="unzip-item"
+              @click="handleUnzipFileBtnClick(selectedFile, 0)"
+              v-if="unzipBtnShow"
+            >
               <i class="el-icon-files"></i> 解压到当前文件夹
             </li>
-            <li class="unzip-item" @click="handleUnzipFileBtnClick(selectedFile, 1)"
-              v-if="unzipBtnShow" :title='`解压到"${selectedFile.fileName}"`'>
-              <i class="el-icon-files"></i> 解压到"{{selectedFile.fileName}}"
+            <li
+              class="unzip-item"
+              @click="handleUnzipFileBtnClick(selectedFile, 1)"
+              v-if="unzipBtnShow"
+              :title="`解压到&quot;${selectedFile.fileName}&quot;`"
+            >
+              <i class="el-icon-files"></i> 解压到"{{ selectedFile.fileName }}"
             </li>
           </ul>
         </li>
-        <li class="right-menu-item" @click="getFileOnlineEditPathByOffice(selectedFile)"
-          v-if="onlineEditBtnShow">
+        <li
+          class="right-menu-item"
+          @click="getFileOnlineEditPathByOffice(selectedFile)"
+          v-if="onlineEditBtnShow"
+        >
           <i class="el-icon-edit"></i> 在线编辑
         </li>
-        <li class="right-menu-item"
-          @click="copyShareLink(selectedFile.shareBatchNum, selectedFile.extractionCode)"
-          v-if="copyLinkBtnShow">
+        <li
+          class="right-menu-item"
+          @click="
+            copyShareLink(
+              selectedFile.shareBatchNum,
+              selectedFile.extractionCode
+            )
+          "
+          v-if="copyLinkBtnShow"
+        >
           <i class="el-icon-edit"></i> 复制链接
         </li>
       </ul>
@@ -412,9 +568,8 @@ export default {
       ) {
         // 如果到底部的距离小于元素总高度
         this.rightMenu.top = 'auto'
-        this.rightMenu.bottom = `${
-          document.body.clientHeight - event.clientY
-        }px`
+        this.rightMenu.bottom = `${document.body.clientHeight -
+          event.clientY}px`
         this.unzipMenu.top = 'auto'
         this.unzipMenu.bottom = '0px'
       } else {
@@ -610,7 +765,9 @@ export default {
             this.$notify({
               title: `${row.fileName}.${row.extendName}`,
               dangerouslyUseHTMLString: true,
-              message: `<audio class="audio-preview" src="${this.audioObj.src}" controls autoplay style="padding-right: 16px; margin-top: 16px;"></audio>`,
+              message: `<audio class="audio-preview" src="${
+                this.audioObj.src
+              }" controls autoplay style="padding-right: 16px; margin-top: 16px;"></audio>`,
               duration: 0, //  不自动关闭
               offset: 100,
               onClose: () => {

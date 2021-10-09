@@ -23,6 +23,8 @@ import { get, post } from './http'
  * 获取文件上传api接口
  */
  export const getFileUploadUrl = p => get('/file/inlet', p);
+ export const pinByHash = p => post('/file/pinByHash', p);
+ export const getFileList = p => get('/file/list', p);
 
 /**
  * 获取文件列表相关接口

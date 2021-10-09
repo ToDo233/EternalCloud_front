@@ -26,8 +26,15 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="handleAddFolderDialogCancel('addFolderForm')">取 消</el-button>
-      <el-button type="primary" :loading="loading" @click="handleAddFolderDialogOk('addFolderForm')">确 定</el-button>
+      <el-button @click="handleAddFolderDialogCancel('addFolderForm')"
+        >取 消</el-button
+      >
+      <el-button
+        type="primary"
+        :loading="loading"
+        @click="handleAddFolderDialogOk('addFolderForm')"
+        >确 定</el-button
+      >
     </div>
   </el-dialog>
 </template>
@@ -41,34 +48,34 @@ export default {
     // 对话框是否可见
     visible: {
       type: Boolean,
-      required: true
+      required: true,
     },
     // 文件路径
     filePath: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     const validateFileName = (rule, value, callback) => {
-      const fileNameReg = new RegExp(`[\\\\/:*?\"<>|]`);
+      const fileNameReg = new RegExp(`[\\\\/:*?\"<>|]`)
       if (value && fileNameReg.test(value)) {
-        callback(new Error(`文件夹名称不能包含下列任何字符：\\\/:*?"<>|`));
+        callback(new Error(`文件夹名称不能包含下列任何字符：\\\/:*?"<>|`))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       form: {
-        fileName: ''
+        fileName: '',
       },
       formRules: {
         fileName: [
           { required: true, message: '请输入文件夹名称', trigger: 'blur' },
-          { validator: validateFileName, trigger: ['blur', 'change'] }
-        ]
+          { validator: validateFileName, trigger: ['blur', 'change'] },
+        ],
       },
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -79,8 +86,8 @@ export default {
       },
       set(val) {
         this.$emit('update:visible', val)
-      }
-    }
+      },
+    },
   },
   methods: {
     /**
@@ -104,7 +111,7 @@ export default {
           createFold({
             fileName: this.form.fileName,
             filePath: this.filePath,
-            isDir: 1
+            isDir: 1,
           }).then((res) => {
             this.loading = false
             if (res.success) {
@@ -120,7 +127,7 @@ export default {
           return false
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>

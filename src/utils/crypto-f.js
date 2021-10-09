@@ -40,7 +40,6 @@ function processFinished(name, data, method, dKey, old_file) {
   old_file.raw = new File(data, name)
   old_file.size = old_file.raw.size
   old_file.raw.uid = old_file.uid
-  console.log(old_file)
   // const chunks_len = old_file.chunks.length
   // old_file.chunks[chunks_len - 1].endByte = old_file.size
 }

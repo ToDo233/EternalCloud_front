@@ -2,43 +2,80 @@
   <div class="file-list-wrapper">
     <!-- 操作按钮 -->
     <el-header>
-      <OperationMenu :fileType="fileType" :filePath="filePath" :operationFile="operationFile"
-        :selectionFile="selectionFile" :batchOperate.sync="batchOperate"
-        @getSearchFileList="getSearchFileList" @getTableDataByType="getTableDataByType"
+      <OperationMenu
+        :fileType="fileType"
+        :filePath="filePath"
+        :operationFile="operationFile"
+        :selectionFile="selectionFile"
+        :batchOperate.sync="batchOperate"
+        @getSearchFileList="getSearchFileList"
+        @getTableDataByType="getTableDataByType"
         @setMoveFileDialogData="setMoveFileDialogData"
-        @setShareFileDialogData="setShareFileDialogData"></OperationMenu>
+        @setShareFileDialogData="setShareFileDialogData"
+      ></OperationMenu>
     </el-header>
     <div class="middle-wrapper">
       <!-- 面包屑导航栏 -->
       <BreadCrumb class="breadcrumb" :fileType="fileType"></BreadCrumb>
     </div>
     <!-- 文件列表-表格模式 -->
-    <FileTable :fileType="fileType" :filePath="filePath" :fileList="fileList" :loading="loading"
-      v-if="fileModel === 0" @setMoveFileDialogData="setMoveFileDialogData"
-      @setShareFileDialogData="setShareFileDialogData" @setOperationFile="setOperationFile"
-      @setSelectionFile="setSelectionFile" @getTableDataByType="getTableDataByType"></FileTable>
-    <!-- 文件列表-网格模式 -->
-    <FileGrid :fileType="fileType" :filePath="filePath" :fileList="fileList" :loading="loading"
-      :batchOperate="batchOperate" v-if="fileModel === 1"
+    <FileTable
+      :fileType="fileType"
+      :filePath="filePath"
+      :fileList="fileList"
+      :loading="loading"
+      v-if="fileModel === 0"
       @setMoveFileDialogData="setMoveFileDialogData"
-      @setShareFileDialogData="setShareFileDialogData" @setOperationFile="setOperationFile"
-      @setSelectionFile="setSelectionFile" @getTableDataByType="getTableDataByType"></FileGrid>
+      @setShareFileDialogData="setShareFileDialogData"
+      @setOperationFile="setOperationFile"
+      @setSelectionFile="setSelectionFile"
+      @getTableDataByType="getTableDataByType"
+    ></FileTable>
+    <!-- 文件列表-网格模式 -->
+    <FileGrid
+      :fileType="fileType"
+      :filePath="filePath"
+      :fileList="fileList"
+      :loading="loading"
+      :batchOperate="batchOperate"
+      v-if="fileModel === 1"
+      @setMoveFileDialogData="setMoveFileDialogData"
+      @setShareFileDialogData="setShareFileDialogData"
+      @setOperationFile="setOperationFile"
+      @setSelectionFile="setSelectionFile"
+      @getTableDataByType="getTableDataByType"
+    ></FileGrid>
     <!-- 图片-时间线模式 -->
-    <FileTimeLine class="image-model" v-if="fileModel === 2" :fileList="fileList"></FileTimeLine>
+    <FileTimeLine
+      class="image-model"
+      v-if="fileModel === 2"
+      :fileList="fileList"
+    ></FileTimeLine>
     <div class="pagination-wrapper">
       <div class="current-page-count">当前页{{ fileList.length }}条</div>
-      <el-pagination :current-page="pageData.currentPage" :page-size="pageData.pageCount"
-        :total="pageData.total" :page-sizes="[10, 50, 100, 200]"
-        layout="sizes, total, prev, pager, next" @current-change="handleCurrentChange"
-        @size-change="handleSizeChange">
+      <el-pagination
+        :current-page="pageData.currentPage"
+        :page-size="pageData.pageCount"
+        :total="pageData.total"
+        :page-sizes="[10, 50, 100, 200]"
+        layout="sizes, total, prev, pager, next"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+      >
       </el-pagination>
     </div>
     <!-- 移动文件模态框 -->
-    <MoveFileDialog :dialogData="dialogMoveFile" @setSelectFilePath="setSelectFilePath"
-      @confirmDialog="confirmMoveFile" @setDialogData="setMoveFileDialogData"></MoveFileDialog>
+    <MoveFileDialog
+      :dialogData="dialogMoveFile"
+      @setSelectFilePath="setSelectFilePath"
+      @confirmDialog="confirmMoveFile"
+      @setDialogData="setMoveFileDialogData"
+    ></MoveFileDialog>
     <!-- 分享文件模态框 -->
-    <ShareFileDialog :dialogShareFile="dialogShareFile"
-      @setDialogShareFileData="setDialogShareFileData"></ShareFileDialog>
+    <ShareFileDialog
+      :dialogShareFile="dialogShareFile"
+      @setDialogShareFileData="setDialogShareFileData"
+    ></ShareFileDialog>
   </div>
 </template>
 
@@ -59,6 +96,7 @@ import {
   batchMoveFile,
   searchFile,
   shareFile,
+  getFileList,
 } from '@/request/file.js'
 
 export default {
@@ -214,6 +252,7 @@ export default {
   created() {
     // this.setPageCount()
     // this.getTableDataByType()
+    this.showFileList()
   },
   methods: {
     /**
@@ -251,20 +290,32 @@ export default {
      * 表格数据获取相关事件 | 获取当前路径下的文件列表
      */
     showFileList() {
-      let data = {
-        filePath: this.filePath,
-        currentPage: this.pageData.currentPage,
-        pageCount: this.pageData.pageCount,
-      }
-      getFileListByPath(data).then((res) => {
-        if (res.success) {
-          this.fileList = res.data.list
-          this.pageData.total = res.data.total
+      this.loading = true
+      getFileList()
+        .then((res) => {
+          if (res.code == 200) {
+            this.fileList = res.rows
+            this.pageData.total = res.total
+          }
           this.loading = false
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+        })
+        .catch((err) => {
+          this.loading = false
+        })
+      // let data = {
+      //   filePath: this.filePath,
+      //   currentPage: this.pageData.currentPage,
+      //   pageCount: this.pageData.pageCount,
+      // }
+      // getFileListByPath(data).then((res) => {
+      //   if (res.success) {
+      //     this.fileList = res.data.list
+      //     this.pageData.total = res.data.total
+      //     this.loading = false
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     },
     /**
      * 表格数据获取相关事件 | 分页组件 | 当前页码改变
