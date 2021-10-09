@@ -1,4 +1,4 @@
-import globalFunction from '@/globalFunction.js'
+import globalFunction from '@/utils/globalFunction.js'
 import { checkUserLoginInfo } from '@/request/user.js' //引入axios封装
 
 export default {

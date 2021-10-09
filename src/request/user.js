@@ -21,6 +21,8 @@ import { get, post } from './http'
 
 // 用户登录
 export const login = p => get('/user/login', p);
+export const getToken = p => post('/user/getToken', p);
+export const checkToken = p => post('/user/check', p);
 // 获取登录状态及用户信息
 export const checkUserLoginInfo = p => get('/user/checkuserlogininfo', p);
 // 用户注册

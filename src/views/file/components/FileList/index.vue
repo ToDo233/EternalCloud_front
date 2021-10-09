@@ -2,76 +2,43 @@
   <div class="file-list-wrapper">
     <!-- 操作按钮 -->
     <el-header>
-      <OperationMenu
-        :fileType="fileType"
-        :filePath="filePath"
-        :operationFile="operationFile"
-        :selectionFile="selectionFile"
-        :batchOperate.sync="batchOperate"
-        @getSearchFileList="getSearchFileList"
-        @getTableDataByType="getTableDataByType"
+      <OperationMenu :fileType="fileType" :filePath="filePath" :operationFile="operationFile"
+        :selectionFile="selectionFile" :batchOperate.sync="batchOperate"
+        @getSearchFileList="getSearchFileList" @getTableDataByType="getTableDataByType"
         @setMoveFileDialogData="setMoveFileDialogData"
-        @setShareFileDialogData="setShareFileDialogData"
-      ></OperationMenu>
+        @setShareFileDialogData="setShareFileDialogData"></OperationMenu>
     </el-header>
     <div class="middle-wrapper">
       <!-- 面包屑导航栏 -->
       <BreadCrumb class="breadcrumb" :fileType="fileType"></BreadCrumb>
     </div>
     <!-- 文件列表-表格模式 -->
-    <FileTable
-      :fileType="fileType"
-      :filePath="filePath"
-      :fileList="fileList"
-      :loading="loading"
-      v-if="fileModel === 0"
-      @setMoveFileDialogData="setMoveFileDialogData"
-      @setShareFileDialogData="setShareFileDialogData"
-      @setOperationFile="setOperationFile"
-      @setSelectionFile="setSelectionFile"
-      @getTableDataByType="getTableDataByType"
-    ></FileTable>
+    <FileTable :fileType="fileType" :filePath="filePath" :fileList="fileList" :loading="loading"
+      v-if="fileModel === 0" @setMoveFileDialogData="setMoveFileDialogData"
+      @setShareFileDialogData="setShareFileDialogData" @setOperationFile="setOperationFile"
+      @setSelectionFile="setSelectionFile" @getTableDataByType="getTableDataByType"></FileTable>
     <!-- 文件列表-网格模式 -->
-    <FileGrid
-      :fileType="fileType"
-      :filePath="filePath"
-      :fileList="fileList"
-      :loading="loading"
-      :batchOperate="batchOperate"
-      v-if="fileModel === 1"
+    <FileGrid :fileType="fileType" :filePath="filePath" :fileList="fileList" :loading="loading"
+      :batchOperate="batchOperate" v-if="fileModel === 1"
       @setMoveFileDialogData="setMoveFileDialogData"
-      @setShareFileDialogData="setShareFileDialogData"
-      @setOperationFile="setOperationFile"
-      @setSelectionFile="setSelectionFile"
-      @getTableDataByType="getTableDataByType"
-    ></FileGrid>
+      @setShareFileDialogData="setShareFileDialogData" @setOperationFile="setOperationFile"
+      @setSelectionFile="setSelectionFile" @getTableDataByType="getTableDataByType"></FileGrid>
     <!-- 图片-时间线模式 -->
     <FileTimeLine class="image-model" v-if="fileModel === 2" :fileList="fileList"></FileTimeLine>
     <div class="pagination-wrapper">
       <div class="current-page-count">当前页{{ fileList.length }}条</div>
-      <el-pagination
-        :current-page="pageData.currentPage"
-        :page-size="pageData.pageCount"
-        :total="pageData.total"
-        :page-sizes="[10, 50, 100, 200]"
-        layout="sizes, total, prev, pager, next"
-        @current-change="handleCurrentChange"
-        @size-change="handleSizeChange"
-      >
+      <el-pagination :current-page="pageData.currentPage" :page-size="pageData.pageCount"
+        :total="pageData.total" :page-sizes="[10, 50, 100, 200]"
+        layout="sizes, total, prev, pager, next" @current-change="handleCurrentChange"
+        @size-change="handleSizeChange">
       </el-pagination>
     </div>
     <!-- 移动文件模态框 -->
-    <MoveFileDialog
-      :dialogData="dialogMoveFile"
-      @setSelectFilePath="setSelectFilePath"
-      @confirmDialog="confirmMoveFile"
-      @setDialogData="setMoveFileDialogData"
-    ></MoveFileDialog>
+    <MoveFileDialog :dialogData="dialogMoveFile" @setSelectFilePath="setSelectFilePath"
+      @confirmDialog="confirmMoveFile" @setDialogData="setMoveFileDialogData"></MoveFileDialog>
     <!-- 分享文件模态框 -->
-    <ShareFileDialog
-      :dialogShareFile="dialogShareFile"
-      @setDialogShareFileData="setDialogShareFileData"
-    ></ShareFileDialog>
+    <ShareFileDialog :dialogShareFile="dialogShareFile"
+      @setDialogShareFileData="setDialogShareFileData"></ShareFileDialog>
   </div>
 </template>
 
@@ -91,7 +58,7 @@ import {
   moveFile,
   batchMoveFile,
   searchFile,
-  shareFile
+  shareFile,
 } from '@/request/file.js'
 
 export default {
@@ -103,22 +70,22 @@ export default {
     FileGrid,
     FileTimeLine,
     MoveFileDialog,
-    ShareFileDialog
+    ShareFileDialog,
   },
   data() {
     return {
       fileNameSearch: '',
-      loading: true, //  表格数据-loading
+      loading: false, //  表格数据-loading
       fileList: [], //  表格数据-文件列表
       pageData: {
         currentPage: 1,
         pageCount: 50,
-        total: 0
+        total: 0,
       },
       //  移动文件模态框数据
       dialogMoveFile: {
         isBatchMove: false,
-        visible: false //  是否可见
+        visible: false, //  是否可见
       },
       selectFilePath: '', //  移动文件路径
       operationFile: {}, // 当前操作行
@@ -128,7 +95,7 @@ export default {
         visible: false,
         loading: false,
         success: false,
-        shareData: {}
+        shareData: {},
       },
       //  可以识别的文件类型
       fileImgTypeList: [
@@ -163,7 +130,7 @@ export default {
         'svg',
         'gif',
         'json',
-        'exe'
+        'exe',
       ],
       //  文件图片Map映射
       fileImgMap: {
@@ -200,9 +167,9 @@ export default {
         svg: require('@/assets/images/file/file_svg.png'),
         gif: require('@/assets/images/file/file_gif.png'),
         json: require('@/assets/images/file/file_json.png'),
-        exe: require('@/assets/images/file/file_exe.png')
+        exe: require('@/assets/images/file/file_exe.png'),
       },
-      batchOperate: false //  批量操作模式
+      batchOperate: false, //  批量操作模式
     }
   },
   computed: {
@@ -217,7 +184,7 @@ export default {
     // 文件查看模式 0列表模式 1网格模式 2 时间线模式
     fileModel() {
       return this.$store.getters.fileModel
-    }
+    },
   },
   watch: {
     filePath() {
@@ -242,11 +209,11 @@ export default {
       if (!value) {
         this.selectionFile = []
       }
-    }
+    },
   },
   created() {
-    this.setPageCount()
-    this.getTableDataByType()
+    // this.setPageCount()
+    // this.getTableDataByType()
   },
   methods: {
     /**
@@ -287,7 +254,7 @@ export default {
       let data = {
         filePath: this.filePath,
         currentPage: this.pageData.currentPage,
-        pageCount: this.pageData.pageCount
+        pageCount: this.pageData.pageCount,
       }
       getFileListByPath(data).then((res) => {
         if (res.success) {
@@ -334,7 +301,7 @@ export default {
       let data = {
         fileType: this.fileType,
         currentPage: this.pageData.currentPage,
-        pageCount: this.pageData.pageCount
+        pageCount: this.pageData.pageCount,
       }
       getFileListByType(data).then((res) => {
         if (res.success) {
@@ -369,7 +336,9 @@ export default {
      * @param {boolean} visible 移动文件对话框状态
      */
     setMoveFileDialogData(isBatchMove, visible) {
-      this.dialogMoveFile.isBatchMove = isBatchMove ? isBatchMove : this.dialogMoveFile.isBatchMove
+      this.dialogMoveFile.isBatchMove = isBatchMove
+        ? isBatchMove
+        : this.dialogMoveFile.isBatchMove
       this.dialogMoveFile.visible = visible
     },
     /**
@@ -387,7 +356,7 @@ export default {
         //  批量移动
         let data = {
           filePath: this.selectFilePath,
-          files: JSON.stringify(this.selectionFile)
+          files: JSON.stringify(this.selectionFile),
         }
         batchMoveFile(data).then((res) => {
           if (res.success) {
@@ -405,7 +374,7 @@ export default {
           oldFilePath: this.operationFile.filePath,
           filePath: this.selectFilePath,
           fileName: this.operationFile.fileName,
-          extendName: this.operationFile.extendName
+          extendName: this.operationFile.extendName,
         }
         moveFile(data).then((res) => {
           if (res.success) {
@@ -427,7 +396,7 @@ export default {
       searchFile({
         currentPage: this.pageData.currentPage,
         pageCount: this.pageData.pageCount,
-        fileName: fileName
+        fileName: fileName,
       }).then((res) => {
         this.loading = false
         if (res.success) {
@@ -458,10 +427,10 @@ export default {
           files: JSON.stringify(
             this.selectionFile.map((item) => {
               return {
-                userFileId: item.userFileId
+                userFileId: item.userFileId,
               }
             })
-          )
+          ),
         }).then(
           (res) => {
             this.dialogShareFile.loading = false
@@ -483,38 +452,29 @@ export default {
         this.dialogShareFile.loading = false
         this.dialogShareFile.success = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '~@/assets/styles/varibles.styl';
-
-.file-list-wrapper {
-  >>> .el-header {
-    padding: 0;
-  }
-
-  .middle-wrapper {
-    margin-bottom: 8px;
-  }
-
-  .pagination-wrapper {
-    position: relative;
-    border-top: 1px solid $BorderBase;
-    height: 44px;
-    line-height: 44px;
-    text-align: center;
-
-    .current-page-count {
-      position: absolute;
-      left: 16px;
-      height: 32px;
-      line-height: 32px;
-      font-size: 13px;
-      color: $RegularText;
-    }
-  }
-}
+@import '~@/assets/styles/varibles.styl'
+.file-list-wrapper
+  >>> .el-header
+    padding: 0
+  .middle-wrapper
+    margin-bottom: 8px
+  .pagination-wrapper
+    position: relative
+    border-top: 1px solid $BorderBase
+    height: 44px
+    line-height: 44px
+    text-align: center
+    .current-page-count
+      position: absolute
+      left: 16px
+      height: 32px
+      line-height: 32px
+      font-size: 13px
+      color: $RegularText
 </style>

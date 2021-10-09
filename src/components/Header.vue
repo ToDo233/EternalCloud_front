@@ -1,6 +1,7 @@
 <template>
   <div class="header-wrapper">
-    <img class="logo" :src="logoUrl" @click="$router.push({ name: 'Home' })" />
+    <div class="logo_text">EternalCloud-永恒云盘</div>
+    <!-- <img class="logo" :src="logoUrl" @click="$router.push({ name: 'Home' })" /> -->
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router>
       <el-menu-item index="Home" :route="{ name: 'Home' }">首页</el-menu-item>
       <el-menu-item index="File" :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }">网盘
@@ -74,6 +75,8 @@ export default {
   padding: 0 20px
   box-shadow: $tabBoxShadow
   display: flex
+  .logo_text
+    line-height 61px
   .logo
     margin: 14px 24px 0 24px
     display: inline-block

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import globalFunction from '@/globalFunction.js'
+import globalFunction from '@/utils/globalFunction.js'
 import router from '@/router/router'
 import { MessageBox, Message } from 'element-ui'
 
@@ -23,8 +23,7 @@ axios.defaults.timeout = 10000 * 5
 axios.defaults.baseURL = '/api'
 
 // POST 请求头
-axios.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded'
+axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded'
 
 // 请求携带cookie
 axios.defaults.withCredentials = true
@@ -32,7 +31,9 @@ axios.defaults.withCredentials = true
 // 请求拦截器
 axios.interceptors.request.use(
   (config) => {
-    config.headers['token'] = globalFunction.getCookies('token')
+    // config.headers['token'] = globalFunction.getCookies('token')
+    let token = globalFunction.getCookies('token')
+    config.headers['Authorization'] = 'Bearer ' + token
     return config
   },
   (error) => {
@@ -60,7 +61,7 @@ axios.interceptors.response.use(
           loginTip()
           break
         case 500:
-          Message.error('服务异常，请稍后刷新重试或联系管理员')
+          Message.error('服务升级中，请稍后刷新重试')
           break
         case 502:
           Message.error('服务异常，请稍后刷新重试或联系管理员')
