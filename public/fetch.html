@@ -16,11 +16,13 @@
   </body>
   <script>
     const cid = getQueryVariable('cid')
-    const fileKey = getQueryVariable('xxkey').replace('dengdeng','=').replace('andand','&').replace('jingjing','#')
+    const fileKey = getQueryVariable('xxkey').replace('equalEqual','=').replace('andAnd','&').replace('poundPound','#')
     const fileName = getQueryVariable('filename')
     const tempArr = fileName.split('.')
+    console.log(fileName)
     const size = getQueryVariable('size')
     const mimeType = tempArr.length > 1 ? tempArr[tempArr.length-1] : ''
+    console.log(mimeType)
     let pg=document.getElementById('pg');
     let pgmsg=document.getElementById('pgmsg');
 

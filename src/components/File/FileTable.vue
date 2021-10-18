@@ -529,6 +529,15 @@ export default {
     },
   },
   watch: {
+    downloadProgress(){
+      if(this.downloadProgress > 99){
+        this.downloadDialogVisible = false
+        console.log('this.downloadDialogVisible'+this.downloadDialogVisible)
+        this.downloadProgress = 0
+        this.aftProgress = 0
+        clearInterval(this.timer)
+      }
+    },
     /**
      * 文件路径变化时清空表格已选行
      */
@@ -562,6 +571,20 @@ export default {
         document.body.removeEventListener('click', this.closeRightMenu)
       }
     },
+  },
+  mounted(){
+    window.addEventListener('message', event => {
+      const data = event.data
+      switch (data.cmd) {
+        case 'report':
+          this.aftProgress = this.downloadProgress
+          this.downloadProgress = Number(data.params.data[0])
+          break
+        case 'catch':
+          // error
+          break
+      }
+    });
   },
   methods: {
     /**
@@ -802,9 +825,9 @@ export default {
       if(row.fileKey != 'null'){
         mk =  localStorage.getItem('mk');
         let fk = row.fileKey
-        fileKey = Crypto.decryptAes(mk , fk).replace('=','dengdeng').replace('&','andand').replace('#','jingjing')
+        fileKey = Crypto.decryptAes(mk , fk).replace('=','equalEqual').replace('&','andAnd').replace('#','poundPound')
       }
-      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
+      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
       //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
       //window.open(url, '_blank','toolbar=no, width=400, height=400')
       this.downloadDialogVisible = true
