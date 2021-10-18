@@ -293,6 +293,7 @@
         title="下载"
         :visible.sync="downloadDialogVisible"
         width="30%"
+        :show-close="false"
         center>
 
       <el-progress :text-inside="true" :stroke-width="26" :percentage="downloadProgress"></el-progress>
@@ -303,7 +304,7 @@
 
       <template #footer>
     <span class="dialog-footer">
-      <el-button @click="centerDialogVisible = false">取 消</el-button>
+      <el-button @click="handlerDownloadClose">取 消</el-button>
     </span>
       </template>
     </el-dialog>
@@ -839,6 +840,7 @@ export default {
     },
     currSpeed(size){
       let t = (this.downloadProgress - this.aftProgress) * size
+      this.aftProgress = this.downloadProgress
       this.curSpeed = this.calculateFileSize(t)
     },
     /**
@@ -891,7 +893,14 @@ export default {
         this.$emit('setMoveFileDialogData', false, true)
       }
     },
-
+    handlerDownloadClose(){
+      //下载关闭事件
+      this.downloadDialogVisible = false
+      this.downloadFrame.postMessage("xx", '*')
+      this.downloadProgress = 0
+      this.aftProgress = 0
+      clearInterval(this.timer)
+    },
     /**
      * 删除按钮点击事件
      * @description 区分 删除到回收站中 | 在回收站中彻底删除，打开确认对话框

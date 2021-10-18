@@ -25,15 +25,14 @@
     console.log(mimeType)
     let pg=document.getElementById('pg');
     let pgmsg=document.getElementById('pgmsg');
+    let close = 0;
+     window.addEventListener("message", function(event){
+	          let data = event.data;
+               if (data == 'xx'){
+                   close = 1;
+               }
+	        },false);
 
-	        window.addEventListener("message", function(event){
-	          var data = event.data;
-	          switch (data.cmd) {
-	            case 'getFormJson':
-	                // 处理业务逻辑
-	                break;
-	            }
-	        });
     const url = 'https://ipfs-gw.decloud.foundation/ipfs/'+ cid +'?filename=' + fileName
     fetch(url).then(res => {
       const reader = res.body.getReader()
@@ -60,6 +59,10 @@
             document.getElementById("btn").click()
           }
         }else{
+              if(close == 1){
+                  console.log("取消了下载")
+                  return
+              }
           let temp = Array.from(res.value)
           cent = cent.concat(temp)
           pg.value = cent.length / size * 100
