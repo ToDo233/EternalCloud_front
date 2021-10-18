@@ -1,5 +1,5 @@
 const DEC = {
-  signature: 'VXBsb2FkIGJ5IENyYXRvLmlvIHBvd2VyIGJ5IGhhdC5zaA', //"RW5jcnlwdGVkIFVzaW5nIEhhdC5zaA",
+  signature: 'VXBsb2FkIGJ5IENyYXRvLmlvIHBvd2VyIGJ5IGhhdC5zaA',
   hash: 'SHA-512',
   algoName1: 'PBKDF2',
   algoName2: 'AES-GCM',

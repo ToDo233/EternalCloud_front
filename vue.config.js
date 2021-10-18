@@ -18,7 +18,6 @@ module.exports = {
           '^/api':'/'
         }
       }
-      
     }
   },
 
@@ -29,5 +28,5 @@ module.exports = {
       preProcessor: 'stylus',
       patterns: []
     }
-  }  
+  }
 }

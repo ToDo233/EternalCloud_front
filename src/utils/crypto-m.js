@@ -1,7 +1,7 @@
 import JSEncrypt from 'jsencrypt'
 import CryptoJS from 'crypto-js'
 
-var methods = [
+const methods = [
   'md2',
   'md5',
   'sha1',
@@ -13,11 +13,11 @@ var methods = [
 ]
 // 获取公钥和私钥
 function getRsaKey() {
-  var size =
-    arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1024
-  var crypt = new JSEncrypt({
+  const size =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1024;
+  const crypt = new JSEncrypt({
     default_key_size: size,
-  }).getKey()
+  }).getKey();
   return {
     publicKeyBase64: crypt.getPublicBaseKeyB64(),
     privateKeyBase64: crypt.getPrivateBaseKeyB64(),
@@ -27,52 +27,52 @@ function getRsaKey() {
 }
 // 使用公钥加密
 function encryptRsa(publicKey, word) {
-  var encrypt = new JSEncrypt()
+  const encrypt = new JSEncrypt();
   encrypt.setPublicKey(publicKey)
   return encrypt.encrypt(word)
 }
 // 使用私钥解密
 function decryptRsa(privateKey, word) {
-  var decrypt = new JSEncrypt()
+  const decrypt = new JSEncrypt();
   decrypt.setPrivateKey(privateKey)
   return decrypt.decrypt(word)
 }
 // 使用私钥加密
 function encryptRsaByPrivateKey(privateKey, word) {
-  var decrypt = new JSEncrypt()
+  const decrypt = new JSEncrypt();
   decrypt.setPrivateKey(privateKey)
   return decrypt.encrypt(word)
 }
 // 使用公钥解密 jsencrypt不支持，此方法
 function decryptRsaByPublicKey(publicKey, word) {
-  var encrypt = new JSEncrypt()
+  const encrypt = new JSEncrypt();
   encrypt.setPublicKey(publicKey)
   return encrypt.decrypt(word)
 }
 // 使用私钥加签
 function sign(privateKey, word) {
-  var method =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sha256'
+  const method =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sha256';
 
   if (!methods.includes(method)) {
     return new Error('method must be one of '.concat(methods.join(',')))
   }
 
-  var encrypt = new JSEncrypt()
+  const encrypt = new JSEncrypt();
   encrypt.setPrivateKey(privateKey)
   console.log(encrypt)
   return encrypt.sign(word, CryptoJS[method.toUpperCase()], method)
 }
 // 使用公钥验签
 function verify(publicKey, word, signature) {
-  var method =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'sha256'
+  const method =
+      arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'sha256';
 
   if (!methods.includes(method)) {
     return new Error('method must be one of '.concat(methods.join(',')))
   }
 
-  var decrypt = new JSEncrypt()
+  const decrypt = new JSEncrypt();
   decrypt.setPublicKey(publicKey)
   return decrypt.verify(word, signature, CryptoJS[method.toUpperCase()])
 }
@@ -80,10 +80,10 @@ function verify(publicKey, word, signature) {
 function encryptAes(secretKey, word) {
   secretKey = CryptoJS.enc.Utf8.parse(secretKey)
   word = CryptoJS.enc.Utf8.parse(word)
-  var encrypted = CryptoJS.AES.encrypt(word, secretKey, {
+  const encrypted = CryptoJS.AES.encrypt(word, secretKey, {
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7,
-  })
+  });
   return encrypted.toString()
 }
 // 使用aes秘钥解密
@@ -110,20 +110,8 @@ function masterKey() {
   return masterKey
 }
 
-// ArrayBuffer转为字符串，参数为ArrayBuffer对象
-function ab2str(buf) {
-  return String.fromCharCode.apply(null, new Uint16Array(buf))
-}
 
-// 字符串转为ArrayBuffer对象，参数为字符串
-function str2ab(str) {
-  var buf = new ArrayBuffer(str.length * 2) // 每个字符占用2个字节
-  var bufView = new Uint16Array(buf)
-  for (var i = 0, strLen = str.length; i < strLen; i++) {
-    bufView[i] = str.charCodeAt(i)
-  }
-  return buf
-}
+
 function concatenate(resultConstructor, ...arrays) {
   let totalLength = 0
   for (let arr of arrays) {
@@ -138,8 +126,8 @@ function concatenate(resultConstructor, ...arrays) {
   return result
 }
 
-function dataURLtoFile(dataurl, filename) {
-  var arr = dataurl.split(','),
+function dataURLtoFile(data, filename) {
+  var arr = data.split(','),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,

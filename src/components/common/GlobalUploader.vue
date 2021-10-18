@@ -127,6 +127,8 @@ export default {
     this.$off('openUploader')
   },
   methods: {
+
+
     handleFileProcess(event, file, fileList) {
       console.log(file)
     },
@@ -224,9 +226,11 @@ export default {
       this.panelShow = true
       this.collapse = false
       this.fileKey = FileCrypto.generateKey()
+
       file.statusStr = '文件加密完成'
       await FileCrypto.encryptFile(file, this.fileKey).then(() => {})
     },
+
     /**
      * 文件上传成功 回调函数
      * @param {object} rootFile 成功上传的文件所属的根 Uploader.File 对象，它应该包含或者等于成功上传文件
@@ -252,7 +256,13 @@ export default {
         cid: res.Hash,
         fileName: res.Name,
         fileSize: res.Size,
+        fileKey: '',
       }
+      pinParams.fileKey =  Crypto.encryptAes(
+          localStorage.getItem('mk'),
+          this.fileKey
+      )
+      console.log(pinParams)
       pinByHash(pinParams)
         .then((res) => {
           if (res.code == 200) {

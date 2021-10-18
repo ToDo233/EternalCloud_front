@@ -234,19 +234,10 @@
         >
           <i class="el-icon-share"></i> 分享
         </li>
-        <li
-          class="right-menu-item"
-          @click="rightMenu.isShow = false"
-          v-if="downloadBtnShow"
-        >
-          <a
-            target="_blank"
-            style="display: block; color: inherit"
-            :href="getDownloadFilePath(selectedFile)"
-            :download="selectedFile.fileName + '.' + selectedFile.extendName"
-          >
-            <i class="el-icon-download"></i> 下载
-          </a>
+        <li class="right-menu-item"  v-if="downloadBtnShow"  @click="getDownloadFilePath1(selectedFile)">
+
+          <i class="el-icon-download"></i> 下载
+
         </li>
         <!-- 0-解压到当前文件夹， 1-自动创建该文件名目录，并解压到目录里， 3-手动选择解压目录 -->
         <li class="right-menu-item unzip-menu-item" v-if="unzipBtnShow">
@@ -298,7 +289,26 @@
         </li>
       </ul>
     </transition>
+    <el-dialog
+        title="下载"
+        :visible.sync="downloadDialogVisible"
+        width="30%"
+        center>
+
+      <el-progress :text-inside="true" :stroke-width="26" :percentage="downloadProgress"></el-progress>
+      <div>
+        <span>下载速度：{{curSpeed}} /S</span>
+      </div>
+      <iframe :src="downloadSrc"  ref="downloadDia" height=0 width =0></iframe>
+
+      <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">取 消</el-button>
+    </span>
+      </template>
+    </el-dialog>
   </div>
+
 </template>
 
 <script>
@@ -309,6 +319,7 @@ import {
   deleteRecoveryFile,
   restoreRecoveryFile,
 } from '@/request/file.js'
+import Crypto from '@/utils/crypto-m.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -337,6 +348,13 @@ export default {
   },
   data() {
     return {
+      downloadDialogVisible: false, //  表格操作列-是否收缩
+      downloadSrc: '',
+      downloadFrame:{},
+      downloadProgress:0,
+      aftProgress:0,
+      timer: '',
+      curSpeed:0,
       //  可以识别的文件类型
       fileImgTypeList: [
         'png',
@@ -777,6 +795,28 @@ export default {
           }
         }
       }
+    },
+    getDownloadFilePath1(row){
+      let mk = null
+      let fileKey = null
+      if(row.fileKey != 'null'){
+        mk =  localStorage.getItem('mk');
+        let fk = row.fileKey
+        fileKey = Crypto.decryptAes(mk , fk).replace('=','dengdeng').replace('&','andand').replace('#','jingjing')
+      }
+      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
+      //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
+      //window.open(url, '_blank','toolbar=no, width=400, height=400')
+      this.downloadDialogVisible = true
+      this.downloadSrc = url
+      this.$nextTick(() => {
+        this.downloadFrame = this.$refs.downloadDia.contentWindow
+        this.timer = setInterval(this.currSpeed, 1000 ,row.fileSize)
+      })
+    },
+    currSpeed(size){
+      let t = (this.downloadProgress - this.aftProgress) * size
+      this.curSpeed = this.calculateFileSize(t)
     },
     /**
      * 表格选择项发生变化时的回调函数

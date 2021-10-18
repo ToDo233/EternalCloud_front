@@ -50,11 +50,14 @@ const globalFunction = {
    * @returns {string}  文件下载路径
    */
   getDownloadFilePath: function (row) {
+
     return `/api/filetransfer/downloadfile?userFileId=${row.userFileId}&shareBatchNum=${row.shareBatchNum}&extractionCode=${row.extractionCode}&token=${globalFunction.getCookies('token')}`
   },
+
+
   /**
    * 获取 Onlyoffice 文件创建路径
-   * @param {object} row 
+   * @param {object} row
    * @returns {string} office 文件创建路径
    */
   createFileOnlineByOffice: function (data) {
@@ -73,7 +76,7 @@ const globalFunction = {
   },
   /**
    * 获取 Onlyoffice 文件在线预览路径
-   * @param {object} row 
+   * @param {object} row
    * @returns {string} office 文件在线预览路径
    */
   getFileOnlineViewPathByOffice: function (row) {
@@ -101,7 +104,7 @@ const globalFunction = {
   },
   /**
    * 获取 Onlyoffice 文件在线编辑路径
-   * @param {object} row 
+   * @param {object} row
    * @returns {string} office 文件在线编辑路径
    */
   getFileOnlineEditPathByOffice: function (row) {
@@ -155,7 +158,7 @@ const globalFunction = {
   },
   /**
    * 获取分享链接
-   * @param {string} shareBatchNum 
+   * @param {string} shareBatchNum
    * @returns {string} 完整的分享链接
    */
   getShareLink: function (shareBatchNum) {
@@ -163,8 +166,8 @@ const globalFunction = {
   },
   /**
    * 复制分享链接
-   * @param {string} shareBatchNum 
-   * @param {string} extractionCode 
+   * @param {string} shareBatchNum
+   * @param {string} extractionCode
    */
   copyShareLink: function (shareBatchNum, extractionCode) {
     let input = document.createElement('textarea') // 直接构建textarea以保持换行

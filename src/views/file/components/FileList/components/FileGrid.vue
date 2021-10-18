@@ -59,15 +59,10 @@
         <li class="right-menu-item" @click="handleShareFileBtnClick(selectedFile)" v-if="shareBtnShow">
           <i class="el-icon-share"></i> 分享
         </li>
-        <li class="right-menu-item" @click="rightMenu.isShow = false" v-if="downloadBtnShow">
-          <a
-            target="_blank"
-            style="display: block; color: inherit"
-            :href="getDownloadFilePath(selectedFile)"
-            :download="selectedFile.fileName + '.' + selectedFile.extendName"
-          >
+        <li class="right-menu-item"  v-if="downloadBtnShow"  @click="getDownloadFilePath1(selectedFile)">
+
             <i class="el-icon-download"></i> 下载
-          </a>
+
         </li>
         <li class="right-menu-item" @click="handleUnzipFileBtnClick(selectedFile)" v-if="unzipBtnShow">
           <i class="el-icon-files"></i> 解压缩
@@ -645,6 +640,24 @@ export default {
             message: '取消输入'
           })
         })
+    },
+    getDownloadFilePath1(row){
+      let mk = null
+      let fileKey = null
+      if(row.fileKey != 'null'){
+        mk =  localStorage.getItem('mk');
+        let fk = row.fileKey
+        fileKey = Crypto.decryptAes(mk , fk).replace('=','dengdeng').replace('&','andand').replace('#','jingjing')
+      }
+      const url =  `https://pan.nash-io.cloud/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
+      //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
+      //window.open(url, '_blank','toolbar=no, width=400, height=400')
+      this.downloadDialogVisible = true
+      this.downloadSrc = url
+      this.$nextTick(() => {
+        this.downloadFrame = this.$refs.downloadDia.contentWindow
+        this.timer = setInterval(this.currSpeed, 1000 ,row.fileSize)
+      })
     },
     /**
      * 文件重命名对话框 | 确定按钮点击事件
