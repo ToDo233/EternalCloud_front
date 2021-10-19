@@ -532,11 +532,15 @@ export default {
   watch: {
     downloadProgress(){
       if(this.downloadProgress > 99){
-        this.downloadDialogVisible = false
-        console.log('this.downloadDialogVisible'+this.downloadDialogVisible)
-        this.downloadProgress = 0
-        this.aftProgress = 0
         clearInterval(this.timer)
+        //延迟3秒
+        setTimeout(()=>{
+          this.downloadDialogVisible = false
+          this.downloadProgress = 0
+          this.aftProgress = 0
+        },1000)
+
+
       }
     },
     /**
