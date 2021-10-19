@@ -293,6 +293,7 @@
         title="下载"
         :visible.sync="downloadDialogVisible"
         width="30%"
+        :show-close="false"
         center>
 
       <el-progress :text-inside="true" :stroke-width="26" :percentage="downloadProgress"></el-progress>
@@ -303,7 +304,7 @@
 
       <template #footer>
     <span class="dialog-footer">
-      <el-button @click="centerDialogVisible = false">取 消</el-button>
+      <el-button @click="handlerDownloadClose">取 消</el-button>
     </span>
       </template>
     </el-dialog>
@@ -529,6 +530,15 @@ export default {
     },
   },
   watch: {
+    downloadProgress(){
+      if(this.downloadProgress > 99){
+        this.downloadDialogVisible = false
+        console.log('this.downloadDialogVisible'+this.downloadDialogVisible)
+        this.downloadProgress = 0
+        this.aftProgress = 0
+        clearInterval(this.timer)
+      }
+    },
     /**
      * 文件路径变化时清空表格已选行
      */
@@ -562,6 +572,20 @@ export default {
         document.body.removeEventListener('click', this.closeRightMenu)
       }
     },
+  },
+  mounted(){
+    window.addEventListener('message', event => {
+      const data = event.data
+      switch (data.cmd) {
+        case 'report':
+          this.aftProgress = this.downloadProgress
+          this.downloadProgress = Number(data.params.data[0])
+          break
+        case 'catch':
+          // error
+          break
+      }
+    });
   },
   methods: {
     /**
@@ -802,9 +826,9 @@ export default {
       if(row.fileKey != 'null'){
         mk =  localStorage.getItem('mk');
         let fk = row.fileKey
-        fileKey = Crypto.decryptAes(mk , fk).replace('=','dengdeng').replace('&','andand').replace('#','jingjing')
+        fileKey = Crypto.decryptAes(mk , fk).replace('=','equalEqual').replace('&','andAnd').replace('#','poundPound')
       }
-      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
+      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
       //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
       //window.open(url, '_blank','toolbar=no, width=400, height=400')
       this.downloadDialogVisible = true
@@ -816,6 +840,7 @@ export default {
     },
     currSpeed(size){
       let t = (this.downloadProgress - this.aftProgress) * size
+      this.aftProgress = this.downloadProgress
       this.curSpeed = this.calculateFileSize(t)
     },
     /**
@@ -868,7 +893,14 @@ export default {
         this.$emit('setMoveFileDialogData', false, true)
       }
     },
-
+    handlerDownloadClose(){
+      //下载关闭事件
+      this.downloadDialogVisible = false
+      this.downloadFrame.postMessage("xx", '*')
+      this.downloadProgress = 0
+      this.aftProgress = 0
+      clearInterval(this.timer)
+    },
     /**
      * 删除按钮点击事件
      * @description 区分 删除到回收站中 | 在回收站中彻底删除，打开确认对话框

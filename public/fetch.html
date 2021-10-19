@@ -15,32 +15,34 @@
     <progress max="100" value="0" id="pg" style="height: 40px;"></progress>
     <span id="pgmsg"></span>
   </div>
-</body>
-<script>
-  const cid = getQueryVariable('cid')
-  const fileKey = getQueryVariable('xxkey').replace('dengdeng', '=').replace('andand', '&').replace('jingjing', '#')
-  const fileName = getQueryVariable('filename')
-  const tempArr = fileName.split('.')
-  const size = getQueryVariable('size')
-  const mimeType = tempArr.length > 1 ? tempArr[tempArr.length - 1] : ''
-  let pg = document.getElementById('pg');
-  let pgmsg = document.getElementById('pgmsg');
+  </body>
+  <script>
+    const cid = getQueryVariable('cid')
+    const fileKey = getQueryVariable('xxkey').replace('equalEqual','=').replace('andAnd','&').replace('poundPound','#')
+    const fileName = getQueryVariable('filename')
+    const tempArr = fileName.split('.')
+    console.log(fileName)
+    const size = getQueryVariable('size')
+    const mimeType = tempArr.length > 1 ? tempArr[tempArr.length-1] : ''
+    console.log(mimeType)
+    let pg=document.getElementById('pg');
+    let pgmsg=document.getElementById('pgmsg');
+    let close = 0;
+     window.addEventListener("message", function(event){
+	          let data = event.data;
+               if (data == 'xx'){
+                   close = 1;
+               }
+	        },false);
 
-  window.addEventListener("message", function (event) {
-    var data = event.data;
-    switch (data.cmd) {
-      case 'getFormJson':
-        // 处理业务逻辑
-        break;
-    }
-  });
-  const url = 'https://ipfs-gw.decloud.foundation/ipfs/' + cid + '?filename=' + fileName
-  fetch(url).then(res => {
-    const reader = res.body.getReader()
-    let cent = []
-    const pump = () => reader.read()
-      .then(res => {
-        if (res.done) {
+    const url = 'https://ipfs-gw.decloud.foundation/ipfs/'+ cid +'?filename=' + fileName
+    fetch(url).then(res => {
+      const reader = res.body.getReader()
+      let cent = []
+      const pump = () => reader.read()
+        .then(res =>
+        {
+          if(res.done){
           console.log('done')
           let len = cent.length
           let buffer = new ArrayBuffer(len)
@@ -58,7 +60,11 @@
             document.getElementById("btn").href = window.URL.createObjectURL(blob)
             document.getElementById("btn").click()
           }
-        } else {
+        }else{
+              if(close == 1){
+                  console.log("取消了下载")
+                  return
+              }
           let temp = Array.from(res.value)
           cent = cent.concat(temp)
           pg.value = cent.length / size * 100
