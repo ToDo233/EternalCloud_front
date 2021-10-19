@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>解密下载--crato</title>
     <script src="/crypto-f.js"></script>
-    <script src="/jsdelivr.js"></script>
+<!--    <script src="/jsdelivr.js"></script>-->
   </head>
   <body>
    <div id='msg'>正在解密下载中</div>
@@ -17,7 +17,7 @@
   <script>
     const cid = getQueryVariable('cid')
     const fileKey = getQueryVariable('xxkey').replace('equalEqual','=').replace('andAnd','&').replace('poundPound','#')
-    const fileName = getQueryVariable('filename')
+    const fileName = getQueryVariable('filename').replace("Encrypted-","")
     const tempArr = fileName.split('.')
     console.log(fileName)
     const size = getQueryVariable('size')

@@ -533,14 +533,12 @@ export default {
     downloadProgress(){
       if(this.downloadProgress > 99){
         clearInterval(this.timer)
-        //延迟3秒
+        //延迟1秒
         setTimeout(()=>{
           this.downloadDialogVisible = false
           this.downloadProgress = 0
           this.aftProgress = 0
         },1000)
-
-
       }
     },
     /**
@@ -844,7 +842,6 @@ export default {
     },
     currSpeed(size){
       let t = (this.downloadProgress - this.aftProgress) * size
-      this.aftProgress = this.downloadProgress
       this.curSpeed = this.calculateFileSize(t)
     },
     /**
