@@ -543,11 +543,13 @@ export default {
       if (this.downloadProgress > 99) {
         clearInterval(this.timer)
         //延迟3秒
-        setTimeout(() => {
+        setTimeout(()=>{
           this.downloadDialogVisible = false
           this.downloadProgress = 0
           this.aftProgress = 0
-        }, 1000)
+        },1000)
+
+
       }
     },
     /**
@@ -842,12 +844,7 @@ export default {
           .replace('&', 'andAnd')
           .replace('#', 'poundPound')
       }
-      
-      let url = `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${
-        row.fileName
-      }&xxkey=${fileKey}&size=${row.fileSize}`
-      const downurl =  encodeURI(url)
-      console.log(url);
+      const downurl =  `/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
       //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
       //window.open(url, '_blank','toolbar=no, width=400, height=400')
       this.downloadDialogVisible = true

@@ -175,7 +175,7 @@ export default {
                 this.loading = false
                 return
               }
-              // console.log('解密出 MasterKey '+ MasterKey_af)
+               console.log('解密出 MasterKey '+ MasterKey_af)
               this.MasterKey_af = MasterKey_af
 
               //  let rsa_private_key = Crypto.decryptAes(MasterKey_af , rsa_private_key_ba)
@@ -184,20 +184,21 @@ export default {
                 MasterKey_af,
                 res.data.privateKeyBa
               )
-              //console.log('解密出 rsa_private_key '+ rsa_private_key)
+              console.log('解密出 rsa_private_key '+ rsa_private_key)
 
               let token_ba = res.data.token
-              let tokens = token_ba.split('==')
+              // let tokens = token_ba.split('==')
+              // console.log(tokens)
               let trust_token = ''
-              for (let index = 0; index < tokens.length - 1; index++) {
-                let element = tokens[index]
+              // for (let index = 0; index < tokens.length - 1; index++) {
+              //   let element = tokens[index]
                 //console.log(element)
                 // 3 使用RSA私钥解密出token
                 trust_token += Crypto.decryptRsa(
                   rsa_private_key,
-                  element + '=='
+                  token_ba + '=='
                 )
-              }
+              // }
               //console.log('解密出token：'+ trust_token)
               // this.ttoken = trust_token
               let check = {
@@ -215,7 +216,7 @@ export default {
                   })
                   this.$router.replace(this.url) //  跳转到前一个页面或者网盘主页
 
-                  
+
                   this.$refs[formName].resetFields() //  清空表单
                 }
                 this.loading = false

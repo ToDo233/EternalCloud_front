@@ -1,91 +1,89 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
-
-<head>
-  <meta charset="utf-8">
-  <title>解密下载--crato</title>
-  <script src="/crypto-f.js"></script>
-  <script src="/jsdelivr.js"></script>
-</head>
-
-<body>
-  <div id='msg'>正在解密下载中</div>
-  <a href="" download="文件.csv" id="btn" style="display: none;">下载</a>
-  <div>
+  <head>
+    <meta charset="utf-8">
+    <title>解密下载--crato</title>
+    <script src="/crypto-f.js"></script>
+<!--    <script src="/jsdelivr.js"></script>-->
+  </head>
+  <body>
+   <div id='msg'>正在解密下载中</div>
+    <a href="" download="文件.csv" id="btn" style="display: none;">下载</a>
+   <div>
     <progress max="100" value="0" id="pg" style="height: 40px;"></progress>
     <span id="pgmsg"></span>
   </div>
-</body>
-<script>
-  const cid = getQueryVariable('cid')
-  const fileKey = getQueryVariable('xxkey').replace('equalEqual', '=').replace('andAnd', '&').replace('poundPound', '#')
-  const fileName = getQueryVariable('filename').replace('Encrypted-','')
-  const tempArr = fileName.split('.')
-  console.log(fileName)
-  const size = getQueryVariable('size')
-  const mimeType = tempArr.length > 1 ? tempArr[tempArr.length - 1] : ''
-  console.log(mimeType)
-  let pg = document.getElementById('pg');
-  let pgmsg = document.getElementById('pgmsg');
-  let close = 0;
-  window.addEventListener("message", function (event) {
-    let data = event.data;
-    if (data == 'xx') {
-      close = 1;
-    }
-  }, false);
+  </body>
+  <script>
+    const cid = getQueryVariable('cid')
+    const fileKey = getQueryVariable('xxkey').replace('equalEqual','=').replace('andAnd','&').replace('poundPound','#')
+    const fileName = getQueryVariable('filename').replace("Encrypted-","")
+    const tempArr = fileName.split('.')
+    console.log(fileName)
+    const size = getQueryVariable('size')
+    const mimeType = tempArr.length > 1 ? tempArr[tempArr.length-1] : ''
+    console.log(mimeType)
+    let pg=document.getElementById('pg');
+    let pgmsg=document.getElementById('pgmsg');
+    let close = 0;
+     window.addEventListener("message", function(event){
+	          let data = event.data;
+               if (data == 'xx'){
+                   close = 1;
+               }
+	        },false);
 
-  const url = 'https://ipfs-gw.decloud.foundation/ipfs/' + cid + '?filename=' + fileName
-  fetch(url).then(res => {
-    console.log(res);
-    const reader = res.body.getReader()
-    let cent = []
-    const pump = () => reader.read()
-      .then(res => {
-        if (res.done) {
+    const url = 'https://ipfs-gw.decloud.foundation/ipfs/'+ cid +'?filename=' + fileName
+    fetch(url).then(res => {
+      const reader = res.body.getReader()
+      let cent = []
+      const pump = () => reader.read()
+        .then(res =>
+        {
+          if(res.done){
           console.log('done')
           let len = cent.length
           let buffer = new ArrayBuffer(len)
           let arr = new Uint8Array(buffer)
-          for (var i = 0; i < len; i++) {
+          for (var i = 0;i<len;i++){
             arr[i] = cent[i]
           }
           let ab = arr.buffer
-          const f = buf2File(ab, fileName)
-          if (fileKey != 'null') {
-            decryptFile(f, fileKey, fileName)
-          } else {
+          const f = buf2File(ab,fileName)
+          if(fileKey != 'null'){
+          decryptFile(f ,fileKey ,fileName)
+          }else{
             const blob = buf2Blob(ab)
             document.getElementById("btn").download = fileName
             document.getElementById("btn").href = window.URL.createObjectURL(blob)
             document.getElementById("btn").click()
           }
-        } else {
-          if (close == 1) {
-            console.log("取消了下载")
-            return
-          }
+        }else{
+              if(close == 1){
+                  console.log("取消了下载")
+                  return
+              }
           let temp = Array.from(res.value)
           cent = cent.concat(temp)
           pg.value = cent.length / size * 100
-          // pgmsg.innerHTML = cent.length / size * 100 + '%'
-          let currp = cent.length / size * 100
-          currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
-          window.parent.postMessage({
-            cmd: 'report',
-            params: {
-              success: true,
-              data: currp
-            }
-          }, '*');
+         // pgmsg.innerHTML = cent.length / size * 100 + '%'
+         let currp =  cent.length / size * 100
+         currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
+            window.parent.postMessage({
+	            cmd: 'report',
+	            params: {
+	              success: true,
+	              data: currp
+	            }
+	        }, '*');
           pump()
         }
-      }
-      )
+        }
+          )
 
-    pump()
+      pump()
 
-  })
+    })
 
 
 
@@ -94,29 +92,28 @@
     var bytes = new Uint8Array(buffer);
     var len = bytes.byteLength;
     for (var i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
+        binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
-  }
-  function getQueryVariable(variable) {
-    var query = decodeURI(window.location.search).substring(1);
-    var vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
-      if (pair[0] == variable) { return pair[1]; }
-    }
-    return (false);
-  }
+}
+function getQueryVariable(variable){
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0;i<vars.length;i++) {
+           var pair = vars[i].split("=");
+           if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
+}
 
-  function buf2Blob(buf) {
-    return new Blob([buf], { type: mimeType });
-  }
+function buf2Blob(buf){
+return new Blob([buf], { type: mimeType });
+}
 
-  function buf2File(buf, filename) {
-    return new File([buf], filename);
-  }
+function buf2File(buf, filename){
+return new File([buf], filename);
+}
 
 
 </script>
-
 </html>
