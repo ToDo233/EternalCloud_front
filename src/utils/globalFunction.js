@@ -50,7 +50,6 @@ const globalFunction = {
    * @returns {string}  文件下载路径
    */
   getDownloadFilePath: function (row) {
-
     return `/api/filetransfer/downloadfile?userFileId=${row.userFileId}&shareBatchNum=${row.shareBatchNum}&extractionCode=${row.extractionCode}&token=${globalFunction.getCookies('token')}`
   },
 

@@ -1,28 +1,53 @@
 <template>
   <div class="login-wrapper" id="loginBackground">
-    <div class="form-wrapper"  v-loading="loading">
+    <div class="form-wrapper" v-loading="loading">
       <h1 class="login-title">登录</h1>
       <p class="login-system">永恒云盘</p>
       <!-- 登录表单 -->
-      <el-form class="login-form" ref="loginForm" :model="loginForm" :rules="loginFormRules"
-        label-width="100px" hide-required-asterisk>
+      <el-form
+        class="login-form"
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginFormRules"
+        label-width="100px"
+        hide-required-asterisk
+      >
         <el-form-item prop="userName">
-          <el-input prefix-icon="el-icon-mobile-phone" v-model="loginForm.userName"
-            placeholder="用户名"></el-input>
+          <el-input
+            prefix-icon="el-icon-mobile-phone"
+            v-model="loginForm.userName"
+            placeholder="用户名"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input prefix-icon="el-icon-lock" v-model="loginForm.password" placeholder="密码"
-            show-password></el-input>
+          <el-input
+            prefix-icon="el-icon-lock"
+            v-model="loginForm.password"
+            placeholder="密码"
+            show-password
+          ></el-input>
         </el-form-item>
         <el-form-item>
-          <drag-verify ref="dragVerifyRef" text="请按住滑块拖动解锁" successText="验证通过"
-            handlerIcon="el-icon-d-arrow-right" successIcon="el-icon-circle-check"
-            handlerBg="#F5F7FA" :width="375" :isPassing.sync="isPassing"
-            @update:isPassing="updateIsPassing"></drag-verify>
+          <drag-verify
+            ref="dragVerifyRef"
+            text="请按住滑块拖动解锁"
+            successText="验证通过"
+            handlerIcon="el-icon-d-arrow-right"
+            successIcon="el-icon-circle-check"
+            handlerBg="#F5F7FA"
+            :width="375"
+            :isPassing.sync="isPassing"
+            @update:isPassing="updateIsPassing"
+          ></drag-verify>
         </el-form-item>
         <el-form-item class="login-btn-form-item">
-          <el-button class="login-btn" type="primary" :disabled="loginBtnDisabled"
-            @click="submitForm('loginForm')">登录</el-button>
+          <el-button
+            class="login-btn"
+            type="primary"
+            :disabled="loginBtnDisabled"
+            @click="submitForm('loginForm')"
+            >登录</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -70,8 +95,8 @@ export default {
       },
       isPassing: false, //  滑动解锁是否验证通过
       loginBtnDisabled: true, //  登录按钮是否禁用
-      MasterKey_af:'',
-      loading:false
+      MasterKey_af: '',
+      loading: false,
     }
   },
   computed: {
@@ -141,6 +166,7 @@ export default {
               }
               // 1 使用密码解密masterkey
               let MasterKey_af = Crypto.decryptAes(keykey, res.data.masterKeyBa)
+              console.log(MasterKey_af);
               // 解密不出来说明密码错误
               if (!MasterKey_af) {
                 this.$message.error('密码错误，请重试')
@@ -178,13 +204,20 @@ export default {
               let check = {
                 token: trust_token,
               }
+              console.log(trust_token);
               this.setCookies('token', trust_token) //  存储登录状态
               checkToken().then((res) => {
                 if (res.checkResult) {
-                  this.$refs[formName].resetFields() //  清空表单
                   //this.$store.state.user.mk = this.MasterKey_af
                   localStorage.setItem('mk', this.MasterKey_af)
+                  this.$store.commit('changeIsLogin', true)
+                  this.$store.commit('changeUserInfoObj', {
+                    username: this.loginForm.userName,
+                  })
                   this.$router.replace(this.url) //  跳转到前一个页面或者网盘主页
+
+                  
+                  this.$refs[formName].resetFields() //  清空表单
                 }
                 this.loading = false
               })

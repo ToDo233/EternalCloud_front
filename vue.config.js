@@ -11,6 +11,7 @@ module.exports = {
     host: '0.0.0.0',
     proxy: { //配置代理，解决跨域请求后台数据的问题
       '/api': {
+        // 43.129.187.26
         target: productConfig.baseUrl, //后台接口，连接本地服务
         ws: true, //是否跨域
         changeOrigin: true,
