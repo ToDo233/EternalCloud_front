@@ -149,7 +149,7 @@ export default {
                 this.loading = false
                 return
               }
-              // console.log('解密出 MasterKey '+ MasterKey_af)
+               console.log('解密出 MasterKey '+ MasterKey_af)
               this.MasterKey_af = MasterKey_af
 
               //  let rsa_private_key = Crypto.decryptAes(MasterKey_af , rsa_private_key_ba)
@@ -158,10 +158,11 @@ export default {
                 MasterKey_af,
                 res.data.privateKeyBa
               )
-              //console.log('解密出 rsa_private_key '+ rsa_private_key)
+              console.log('解密出 rsa_private_key '+ rsa_private_key)
 
               let token_ba = res.data.token
               let tokens = token_ba.split('==')
+              console.log(tokens)
               let trust_token = ''
               for (let index = 0; index < tokens.length - 1; index++) {
                 let element = tokens[index]

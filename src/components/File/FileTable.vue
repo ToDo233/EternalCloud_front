@@ -830,9 +830,8 @@ export default {
         let fk = row.fileKey
         fileKey = Crypto.decryptAes(mk , fk).replace('=','equalEqual').replace('&','andAnd').replace('#','poundPound')
       }
-      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
-      //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
-      //window.open(url, '_blank','toolbar=no, width=400, height=400')
+      const url =  `/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
+
       this.downloadDialogVisible = true
       this.downloadSrc = url
       this.$nextTick(() => {
