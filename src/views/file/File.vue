@@ -1,9 +1,9 @@
 <template>
   <div class="file-wrapper">
     <el-container class="el-container">
-      <el-aside width="auto">
+      <!-- <el-aside width="auto">
         <AsideMenu></AsideMenu>
-      </el-aside>
+      </el-aside> -->
       <el-container>
         <el-main class="el-main">
           <FileList></FileList>

@@ -2,29 +2,50 @@
   <div class="header-wrapper">
     <div class="logo_text">EternalCloud-永恒云盘</div>
     <!-- <img class="logo" :src="logoUrl" @click="$router.push({ name: 'Home' })" /> -->
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router>
+    <el-menu
+      :default-active="activeIndex"
+      class="el-menu-demo"
+      mode="horizontal"
+      router
+    >
       <el-menu-item index="Home" :route="{ name: 'Home' }">首页</el-menu-item>
-      <el-menu-item index="File" :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }">网盘
+      <el-menu-item
+        index="File"
+        v-if="isLogin"
+        :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }"
+        >网盘
       </el-menu-item>
-      <el-menu-item index="MyShare" :route="{ name: 'MyShare', query: { filePath: '/' } }">我的分享
+      <!-- <el-menu-item index="MyShare" :route="{ name: 'MyShare', query: { filePath: '/' } }">我的分享
       </el-menu-item>
       <li class="el-menu-item external-link"><a href="https://pan.qiwenshare.com/docs/"
-          target="_blank">文档</a></li>
+          target="_blank">文档</a></li> -->
       <!-- 为了和其他菜单样式保持一致，请一定要添加类名 el-menu-item -->
+
       <div class="el-menu-item exit" @click="exitButton()" v-show="isLogin">
         退出
       </div>
-      <div class="el-menu-item username" v-show="isLogin"><i
-          class="el-icon-user-solid"></i>{{ username }}</div>
-      <el-menu-item class="login" index="Login" :route="{ name: 'Login' }" v-show="!isLogin">登录
+      <div class="el-menu-item username" v-show="isLogin">
+        <i class="el-icon-user-solid"></i>{{ username }}
+      </div>
+      <el-menu-item
+        class="login"
+        index="Login"
+        :route="{ name: 'Login' }"
+        v-show="!isLogin"
+        >登录
       </el-menu-item>
       <!-- 生产环境 -->
-      <el-menu-item class="register" v-if="isProductEnv" v-show="!isLogin">
+      <!-- <el-menu-item class="register" v-if="isProductEnv" v-show="!isLogin">
         <a href="https://www.qiwenshare.com/register" target="_blank">注册</a>
-      </el-menu-item>
+      </el-menu-item> -->
       <!-- 开发环境 -->
-      <el-menu-item class="register" v-else v-show="!isLogin" index="Register"
-        :route="{ name: 'Register' }">注册</el-menu-item>
+      <el-menu-item
+        class="register"
+        v-show="!isLogin"
+        index="Register"
+        :route="{ name: 'Register' }"
+        >注册</el-menu-item
+      >
     </el-menu>
   </div>
 </template>
@@ -58,11 +79,17 @@ export default {
      * @description 清除 cookie 存放的 token  并跳转到登录页面
      */
     exitButton() {
+      this.removeCookies('token')
+      // localStorage.removeItem('isLogin')
+      // localStorage.removeItem('userInfoObj')
+      this.$store.commit('changeIsLogin', '')
+      this.$store.commit('changeUserInfoObj', {})
       this.$message.success('退出登录成功！')
-      this.$store.dispatch('getUserInfo').then(() => {
-        this.removeCookies('token')
-        this.$router.push({ path: '/login' })
-      })
+      this.$router.push({ path: '/login' })
+      // this.$store.dispatch('getUserInfo').then(() => {
+      //   this.removeCookies('token')
+      //   this.$router.push({ path: '/login' })
+      // })
     },
   },
 }

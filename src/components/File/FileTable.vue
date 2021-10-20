@@ -234,10 +234,12 @@
         >
           <i class="el-icon-share"></i> 分享
         </li>
-        <li class="right-menu-item"  v-if="downloadBtnShow"  @click="getDownloadFilePath1(selectedFile)">
-
+        <li
+          class="right-menu-item"
+          v-if="downloadBtnShow"
+          @click="getDownloadFilePath1(selectedFile)"
+        >
           <i class="el-icon-download"></i> 下载
-
         </li>
         <!-- 0-解压到当前文件夹， 1-自动创建该文件名目录，并解压到目录里， 3-手动选择解压目录 -->
         <li class="right-menu-item unzip-menu-item" v-if="unzipBtnShow">
@@ -290,26 +292,33 @@
       </ul>
     </transition>
     <el-dialog
-        title="下载"
-        :visible.sync="downloadDialogVisible"
-        width="30%"
-        :show-close="false"
-        center>
-
-      <el-progress :text-inside="true" :stroke-width="26" :percentage="downloadProgress"></el-progress>
+      title="下载"
+      :visible.sync="downloadDialogVisible"
+      width="30%"
+      :show-close="false"
+      center
+    >
+      <el-progress
+        :text-inside="true"
+        :stroke-width="26"
+        :percentage="downloadProgress"
+      ></el-progress>
       <div>
-        <span>下载速度：{{curSpeed}} /S</span>
+        <span>下载速度：{{ curSpeed }} /S</span>
       </div>
-      <iframe :src="downloadSrc"  ref="downloadDia" height=0 width =0></iframe>
-
+      <iframe
+        :src="downloadSrc"
+        ref="downloadDia"
+        height="0"
+        width="0"
+      ></iframe>
       <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="handlerDownloadClose">取 消</el-button>
-    </span>
+        <span class="dialog-footer">
+          <el-button @click="handlerDownloadClose">取 消</el-button>
+        </span>
       </template>
     </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -351,11 +360,11 @@ export default {
     return {
       downloadDialogVisible: false, //  表格操作列-是否收缩
       downloadSrc: '',
-      downloadFrame:{},
-      downloadProgress:0,
-      aftProgress:0,
+      downloadFrame: {},
+      downloadProgress: 0,
+      aftProgress: 0,
       timer: '',
-      curSpeed:0,
+      curSpeed: 0,
       //  可以识别的文件类型
       fileImgTypeList: [
         'png',
@@ -530,17 +539,15 @@ export default {
     },
   },
   watch: {
-    downloadProgress(){
-      if(this.downloadProgress > 99){
+    downloadProgress() {
+      if (this.downloadProgress > 99) {
         clearInterval(this.timer)
         //延迟3秒
-        setTimeout(()=>{
+        setTimeout(() => {
           this.downloadDialogVisible = false
           this.downloadProgress = 0
           this.aftProgress = 0
-        },1000)
-
-
+        }, 1000)
       }
     },
     /**
@@ -577,8 +584,8 @@ export default {
       }
     },
   },
-  mounted(){
-    window.addEventListener('message', event => {
+  mounted() {
+    window.addEventListener('message', (event) => {
       const data = event.data
       switch (data.cmd) {
         case 'report':
@@ -589,7 +596,7 @@ export default {
           // error
           break
       }
-    });
+    })
   },
   methods: {
     /**
@@ -824,25 +831,34 @@ export default {
         }
       }
     },
-    getDownloadFilePath1(row){
+    getDownloadFilePath1(row) {
       let mk = null
       let fileKey = null
-      if(row.fileKey != 'null'){
-        mk =  localStorage.getItem('mk');
+      if (row.fileKey != 'null') {
+        mk = localStorage.getItem('mk')
         let fk = row.fileKey
-        fileKey = Crypto.decryptAes(mk , fk).replace('=','equalEqual').replace('&','andAnd').replace('#','poundPound')
+        fileKey = Crypto.decryptAes(mk, fk)
+          .replace('=', 'equalEqual')
+          .replace('&', 'andAnd')
+          .replace('#', 'poundPound')
       }
-      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
+      
+      let url = `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${
+        row.fileName
+      }&xxkey=${fileKey}&size=${row.fileSize}`
+      const downurl =  encodeURI(url)
+      console.log(url);
       //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
       //window.open(url, '_blank','toolbar=no, width=400, height=400')
       this.downloadDialogVisible = true
-      this.downloadSrc = url
+      this.downloadSrc = downurl
+      // this.downloadSrc = url
       this.$nextTick(() => {
         this.downloadFrame = this.$refs.downloadDia.contentWindow
-        this.timer = setInterval(this.currSpeed, 1000 ,row.fileSize)
+        this.timer = setInterval(this.currSpeed, 1000, row.fileSize)
       })
     },
-    currSpeed(size){
+    currSpeed(size) {
       let t = (this.downloadProgress - this.aftProgress) * size
       this.aftProgress = this.downloadProgress
       this.curSpeed = this.calculateFileSize(t)
@@ -897,10 +913,10 @@ export default {
         this.$emit('setMoveFileDialogData', false, true)
       }
     },
-    handlerDownloadClose(){
+    handlerDownloadClose() {
       //下载关闭事件
       this.downloadDialogVisible = false
-      this.downloadFrame.postMessage("xx", '*')
+      this.downloadFrame.postMessage('xx', '*')
       this.downloadProgress = 0
       this.aftProgress = 0
       clearInterval(this.timer)
