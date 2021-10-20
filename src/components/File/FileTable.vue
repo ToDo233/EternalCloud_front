@@ -844,7 +844,7 @@ export default {
           .replace('&', 'andAnd')
           .replace('#', 'poundPound')
       }
-      const url =  `http://localhost:8080/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
+      const downurl =  `/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
       //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
       //window.open(url, '_blank','toolbar=no, width=400, height=400')
       this.downloadDialogVisible = true
