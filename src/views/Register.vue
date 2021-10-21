@@ -1,8 +1,8 @@
 <template>
   <div class="register-wrapper" id="registerBackground">
     <div class="form-wrapper">
-      <h1 class="register-title">注册</h1>
-      <p class="register-system">永恒云盘</p>
+      <h1 class="register-title">Sign Up</h1>
+      <p class="register-system">Metes</p>
       <!-- 注册表单 -->
       <el-form
         class="register-form"

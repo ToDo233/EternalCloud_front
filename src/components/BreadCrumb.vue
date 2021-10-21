@@ -1,15 +1,15 @@
 <template>
-  <div class="breadcrumb-wrapper">
-    <div class="title">当前位置：</div>
-    <el-breadcrumb v-if="fileType && !['Share', 'MyShare'].includes($route.name)" separator="/">
-      <el-breadcrumb-item>{{ fileTypeMap[fileType] }}</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-breadcrumb v-else separator="/">
-      <el-breadcrumb-item v-for="(item, index) in breadCrumbList" :key="index" :to="getRouteQuery(item)">{{
-        item.name
-      }}</el-breadcrumb-item>
-    </el-breadcrumb>
-  </div>
+<!--  <div class="breadcrumb-wrapper">-->
+<!--    <div class="title">Root：</div>-->
+<!--    <el-breadcrumb v-if="fileType && !['Share', 'MyShare'].includes($route.name)" separator="/">-->
+<!--      <el-breadcrumb-item>{{ fileTypeMap[fileType] }}</el-breadcrumb-item>-->
+<!--    </el-breadcrumb>-->
+<!--    <el-breadcrumb v-else separator="/">-->
+<!--      <el-breadcrumb-item v-for="(item, index) in breadCrumbList" :key="index" :to="getRouteQuery(item)">{{-->
+<!--        item.name-->
+<!--      }}</el-breadcrumb-item>-->
+<!--    </el-breadcrumb>-->
+<!--  </div>-->
 </template>
 
 <script>

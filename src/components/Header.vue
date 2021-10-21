@@ -1,6 +1,6 @@
 <template>
   <div class="header-wrapper">
-    <div class="logo_text">EternalCloud-永恒云盘</div>
+    <div class="logo_text">Metes</div>
     <!-- <img class="logo" :src="logoUrl" @click="$router.push({ name: 'Home' })" /> -->
     <el-menu
       :default-active="activeIndex"
@@ -8,21 +8,21 @@
       mode="horizontal"
       router
     >
-      <el-menu-item index="Home" :route="{ name: 'Home' }">首页</el-menu-item>
+      <el-menu-item index="Home" :route="{ name: 'Home' }">Home</el-menu-item>
       <el-menu-item
         index="File"
         v-if="isLogin"
         :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }"
-        >网盘
+        >Storage
       </el-menu-item>
       <!-- <el-menu-item index="MyShare" :route="{ name: 'MyShare', query: { filePath: '/' } }">我的分享
       </el-menu-item>
       <li class="el-menu-item external-link"><a href="https://pan.qiwenshare.com/docs/"
           target="_blank">文档</a></li> -->
-      <!-- 为了和其他菜单样式保持一致，请一定要添加类名 el-menu-item -->
+
 
       <div class="el-menu-item exit" @click="exitButton()" v-show="isLogin">
-        退出
+        Exit
       </div>
       <div class="el-menu-item username" v-show="isLogin">
         <i class="el-icon-user-solid"></i>{{ username }}
@@ -32,19 +32,15 @@
         index="Login"
         :route="{ name: 'Login' }"
         v-show="!isLogin"
-        >登录
+        >Sign In
       </el-menu-item>
-      <!-- 生产环境 -->
-      <!-- <el-menu-item class="register" v-if="isProductEnv" v-show="!isLogin">
-        <a href="https://www.qiwenshare.com/register" target="_blank">注册</a>
-      </el-menu-item> -->
-      <!-- 开发环境 -->
+
       <el-menu-item
         class="register"
         v-show="!isLogin"
         index="Register"
         :route="{ name: 'Register' }"
-        >注册</el-menu-item
+        >Sing Up</el-menu-item
       >
     </el-menu>
   </div>
@@ -66,12 +62,7 @@ export default {
     activeIndex() {
       return this.$route.name || 'Home' //  获取当前路由名称
     },
-    isProductEnv() {
-      return (
-        process.env.NODE_ENV !== 'development' &&
-        location.origin === 'https://pan.qiwenshare.com'
-      )
-    },
+
   },
   methods: {
     /**
@@ -84,7 +75,7 @@ export default {
       // localStorage.removeItem('userInfoObj')
       this.$store.commit('changeIsLogin', '')
       this.$store.commit('changeUserInfoObj', {})
-      this.$message.success('退出登录成功！')
+      this.$message.success('log out！')
       this.$router.push({ path: '/login' })
       // this.$store.dispatch('getUserInfo').then(() => {
       //   this.removeCookies('token')
@@ -97,22 +88,40 @@ export default {
 
 <style lang="stylus" scoped>
 @import '~@/assets/styles/varibles.styl'
+
 .header-wrapper
   width: 100%
   padding: 0 20px
-  box-shadow: $tabBoxShadow
+  //box-shadow: $tabBoxShadow
   display: flex
+  background-color: #2196F3
+  color white
   .logo_text
+    text-align center
     line-height 61px
+    width 200px
   .logo
     margin: 14px 24px 0 24px
     display: inline-block
     height: 40px
     cursor: pointer
-  >>> .el-menu--horizontal
+    .el-menu--horizontal{
+      border:none
+    }
+  >>> .el-menu
+
+    .el-menu-item
+      color white
+
     .el-menu-item:not(.is-disabled):hover
-      border-bottom-color: $Primary !important
-      background: $tabBackColor
+      color white
+      border-bottom-color: white !important
+      background: #2196F3
+    .el-menu-item.is-active {
+      background: #2196F3
+      border-bottom-color: white !important
+      color white
+    }
     .external-link
       padding: 0
       a
@@ -120,13 +129,9 @@ export default {
         padding: 0 20px
   .el-menu-demo
     flex: 1
-    .headerLogo
-      color: $Primary
-      font-size: 60px
-      opacity: 1
-      cursor: default
-      a
-        display: block
+    background-color: #2196F3
+    border none
     .login, .register, .username, .exit
       float: right
+      color white
 </style>

@@ -2,7 +2,7 @@
   <div class="login-wrapper" id="loginBackground">
     <div class="form-wrapper" v-loading="loading">
       <h1 class="login-title">登录</h1>
-      <p class="login-system">永恒云盘</p>
+      <p class="login-system">Metes</p>
       <!-- 登录表单 -->
       <el-form
         class="login-form"

@@ -89,7 +89,7 @@ The project was developed and deployed in a front-end separation approach, using
 
 ## Deployment instructions
 
-Please move to Qiwenshare [手把手教你部署永恒云盘](https://www.qiwenshare.com/essay/detail/169)
+Please move to Qiwenshare [手把手教你部署Metes](https://www.qiwenshare.com/essay/detail/169)
 
 ## Screenshots of some functions
 

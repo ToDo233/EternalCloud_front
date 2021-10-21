@@ -2,7 +2,7 @@
   <div class="global-uploader">
     <!-- 上传文件组件 -->
     <el-dialog
-      title="加密上传"
+      title="upload"
       :visible.sync="open"
       width="400px"
       append-to-body
@@ -31,8 +31,8 @@
         <!-- <el-button size="mini" type="primary" ref="uploadBtn">加密上传</el-button> -->
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
-        <el-button @click="close">取 消</el-button>
+        <el-button type="primary" @click="submitFileForm">submit</el-button>
+        <el-button @click="close">close</el-button>
       </div>
     </el-dialog>
   </div>
