@@ -267,6 +267,9 @@ export default {
         .then((res) => {
           if (res.code == 200) {
             this.$message.success('文件上传成功')
+            this.$emit('closeUploadDialog')
+            //fileList
+            this.$EventBus.$emit('refreshList', '')
           }
         })
         .catch((err) => {

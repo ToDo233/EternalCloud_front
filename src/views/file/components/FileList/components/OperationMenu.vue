@@ -89,7 +89,7 @@
 <!--          :format-tooltip="formatTooltip"></el-slider>-->
 <!--      </div>-->
 <!--    </el-popover>-->
-    <el-button size="mini" type="primary" @click="uploadShow">upload</el-button>
+    <el-button size="big" type="primary" @click="uploadShow">upload</el-button>
     <!-- 新建文件夹对话框 -->
     <AddFolderDialog :visible.sync="dialogAddFolder.visible" :filePath="filePath"
       @confirmDialog="$emit('getTableDataByType')"></AddFolderDialog>
@@ -206,9 +206,9 @@ export default {
     this.$EventBus.$on('refreshList', () => {
       this.$emit('getTableDataByType')
     })
-    this.$EventBus.$on('refreshStorage', () => {
-      this.$store.dispatch('showStorage')
-    })
+    // this.$EventBus.$on('refreshStorage', () => {
+    //   this.$store.dispatch('showStorage')
+    // })
   },
   methods: {
     uploadShow() {

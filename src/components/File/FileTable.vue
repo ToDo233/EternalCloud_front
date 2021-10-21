@@ -21,7 +21,9 @@
       @selection-change="handleSelectRow"
       @sort-change="handleSortChange"
       @row-contextmenu="handleContextMenu"
+      :header-cell-style="{color: '#666' }"
     >
+
       <el-table-column
         type="selection"
         key="selection"
@@ -495,10 +497,11 @@ export default {
   },
   watch: {
     downloadProgress() {
-      if (this.downloadProgress > 99) {
+      if (this.downloadProgress > 80) {
+        this.downloadProgress = 99
         clearInterval(this.timer)
-        //延迟3秒
         setTimeout(()=>{
+
           this.downloadDialogVisible = false
           this.downloadProgress = 0
           this.aftProgress = 0
@@ -1048,7 +1051,7 @@ export default {
     height: calc(100vh - 203px)
     >>> .el-table__header-wrapper
       th
-        background: $tabBackColor
+
         padding: 8px 0
       .el-icon-circle-plus, .el-icon-remove
         margin-left: 6px

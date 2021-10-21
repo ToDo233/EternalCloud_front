@@ -52,7 +52,7 @@
       :fileList="fileList"
     ></FileTimeLine>
     <div class="pagination-wrapper">
-      <div class="current-page-count">当前页{{ fileList.length }}条</div>
+      <div class="current-page-count">current{{ fileList.length }}</div>
       <el-pagination
         :current-page="pageData.currentPage"
         :page-size="pageData.pageCount"
@@ -284,7 +284,7 @@ export default {
         // 全部文件
         this.showFileList()
       }
-      this.$store.dispatch('showStorage')
+      //this.$store.dispatch('showStorage')
     },
     /**
      * 表格数据获取相关事件 | 获取当前路径下的文件列表
@@ -518,8 +518,8 @@ export default {
   .pagination-wrapper
     position: relative
     border-top: 1px solid $BorderBase
-    height: 44px
-    line-height: 44px
+    height: 34px
+    line-height: 34px
     text-align: center
     .current-page-count
       position: absolute

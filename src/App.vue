@@ -63,6 +63,7 @@ export default {
   overflow-x: hidden
   -webkit-text-size-adjust: none
   overflow-y: auto
+  font-family: Roboto
   >>> .el-backtop
     background-color: $Success
     color: #fff
@@ -73,4 +74,9 @@ export default {
     min-height: calc(100vh - 70px)
     margin: 0 auto
     display: flex
+@font-face {
+  font-family: 'Roboto';
+  font-weight: normal;
+  font-style: normal;
+}
 </style>
