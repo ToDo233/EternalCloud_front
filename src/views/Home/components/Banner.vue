@@ -47,22 +47,22 @@ export default {
   width: 0;
   font-size 48pt
   white-space: nowrap;
-  animation: a1 7.6s steps(38) forwards;
-  content: "My Eternal EncryptS toreage,";
+  animation: a1 1.6s steps(38) forwards;
+  content: "My Eternal Encrypt Storeage,";
 }
 
 .message:after {
-  animation: a2 6.4s steps(38) 7.6s forwards;
+  animation: a2 1.4s steps(38) 1.6s forwards;
   content: "just Metes.me.";
 }
 @keyframes a1 {
   to {
-    width: 70ch;
+    width: 30ch;
   }
 }
 @keyframes a2 {
   to {
-    width: 70ch;
+    width: 30ch;
   }
 }
 </style>
