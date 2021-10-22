@@ -12,7 +12,7 @@ export default new Router({
       name: 'Home',
       component: () => import(/* webpackChunkName: "home" */ '@/views/Home'),
       meta: {
-        title: '永恒云盘',
+        title: 'Metes',
         content: {
           description:
             '基于Spring Boot + Vue CLI@3 框架开发的Web文件系统，旨在为用户提供一个简单、方便的文件存储方案',
@@ -24,14 +24,14 @@ export default new Router({
       name: 'Login',
       component: () =>
         import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
-      meta: { title: '登录 - 永恒云盘' },
+      meta: { title: '登录 - Metes' },
     },
     {
       path: '/register',
       name: 'Register',
       component: () =>
         import(/* webpackChunkName: "register" */ '@/views/Register.vue'),
-      meta: { title: '注册 - 永恒云盘' },
+      meta: { title: '注册 - Metes' },
     },
     {
       path: '/file',
@@ -40,19 +40,19 @@ export default new Router({
         import(/* webpackChunkName: "file" */ '@/views/file/File.vue'),
       meta: {
         requireAuth: true, //  当前路由是否需要登录才可进入
-        title: '永恒云盘',
+        title: 'Metes',
         content: {
           description:
             '基于Crust IPFS + Vue CLI@3 开发的Web云盘系统，旨在为用户提供一个简单、方便、安全的文件存储方案',
         },
-        breadCrumbName: '全部文件',
+        breadCrumbName: 'All',
       },
     },
     {
       path: '/onlyoffice',
       name: 'Onlyoffice',
       meta: {
-        title: '在线编辑预览 - 永恒云盘',
+        title: '在线编辑预览 - Metes',
         content: {
           description: '在线编辑预览',
         },
@@ -65,7 +65,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "share" */ '@/views/Share/index.vue'),
       meta: {
-        title: '分享 - 永恒云盘',
+        title: '分享 - Metes',
         breadCrumbName: '分享文件',
       },
       props: true,
@@ -77,7 +77,7 @@ export default new Router({
         import(/* webpackChunkName: "my_share" */ '@/views/MyShare/index.vue'),
       meta: {
         requireAuth: true,
-        title: '我的分享 - 永恒云盘',
+        title: '我的分享 - Metes',
         breadCrumbName: '我的分享',
       },
     },
@@ -86,7 +86,7 @@ export default new Router({
       name: 'Error_404',
       component: () =>
         import(/* webpackChunkName: "error_404" */ '@/views/ErrorPage/404.vue'),
-      meta: { title: '404 - 永恒云盘' },
+      meta: { title: '404 - Metes' },
     },
   ],
 })
