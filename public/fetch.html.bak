@@ -2,8 +2,9 @@
 <html lang="zh" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>解密下载</title>
+    <title>解密下载--crato</title>
     <script src="/crypto-f.js"></script>
+<!--    <script src="/jsdelivr.js"></script>-->
   </head>
   <body>
    <div id='msg'>正在解密下载中</div>
@@ -23,10 +24,11 @@
     const mimeType = tempArr.length > 1 ? tempArr[tempArr.length-1] : ''
     console.log(mimeType)
     let pg=document.getElementById('pg');
+    let pgmsg=document.getElementById('pgmsg');
     let close = 0;
      window.addEventListener("message", function(event){
 	          let data = event.data;
-               if (data === 'xx'){
+               if (data == 'xx'){
                    close = 1;
                }
 	        },false);
@@ -35,46 +37,38 @@
     fetch(url).then(res => {
       const reader = res.body.getReader()
       let cent = []
-        let length = 0;
-        let count = 0;
       const pump = () => reader.read()
         .then(res =>
         {
           if(res.done){
           console.log('done')
-              let buffer = new ArrayBuffer(length)
-              let arr = new Uint8Array(buffer)
-              let k = 0
-              for (let i = 0; i < cent.length; i++) {
-                  for (let j = 0; j <  cent[i].length; j++) {
-                     arr[k] = cent[i][j]
-                      k++
-                  }
-              }
-
+          let len = cent.length
+          let buffer = new ArrayBuffer(len)
+          let arr = new Uint8Array(buffer)
+          for (var i = 0;i<len;i++){
+            arr[i] = cent[i]
+          }
           let ab = arr.buffer
           const f = buf2File(ab,fileName)
-          if(fileKey !== 'null'){
-           decryptFile(f ,fileKey ,fileName)
+          if(fileKey != 'null'){
+          decryptFile(f ,fileKey ,fileName)
           }else{
             const blob = buf2Blob(ab)
             document.getElementById("btn").download = fileName
             document.getElementById("btn").href = window.URL.createObjectURL(blob)
             document.getElementById("btn").click()
           }
-              setTimeout("self.close()", 3000)
         }else{
-              if(close === 1){
+              if(close == 1){
                   console.log("取消了下载")
                   return
               }
-              cent[count] = res.value
-              count ++
-              length = length + res.value.length
-              pg.value = length / size * 100
-              let currp =  length / size * 100
-
-            currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
+          let temp = Array.from(res.value)
+          cent = cent.concat(temp)
+          pg.value = cent.length / size * 100
+         // pgmsg.innerHTML = cent.length / size * 100 + '%'
+         let currp =  cent.length / size * 100
+         currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
             window.parent.postMessage({
 	            cmd: 'report',
 	            params: {
@@ -92,15 +86,24 @@
     })
 
 
-function getQueryVariable(variable){
-   const query = window.location.search.substring(1);
-    const vars = query.split("&");
-   for (let i=0;i<vars.length;i++) {
-       let pair = vars[i].split("=");
-           if(pair[0] === variable){return pair[1];}
-   }
 
-    return false;
+  function arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
+function getQueryVariable(variable){
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0;i<vars.length;i++) {
+           var pair = vars[i].split("=");
+           if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
 }
 
 function buf2Blob(buf){
