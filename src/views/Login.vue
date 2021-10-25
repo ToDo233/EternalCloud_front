@@ -166,7 +166,7 @@ export default {
               }
               // 1 使用密码解密masterkey
               let MasterKey_af = Crypto.decryptAes(keykey, res.data.masterKeyBa)
-              console.log(MasterKey_af);
+              console.log(MasterKey_af)
               // 解密不出来说明密码错误
               if (!MasterKey_af) {
                 this.$message.error('密码错误，请重试')
@@ -175,7 +175,7 @@ export default {
                 this.loading = false
                 return
               }
-               console.log('解密出 MasterKey '+ MasterKey_af)
+              console.log('解密出 MasterKey ' + MasterKey_af)
               this.MasterKey_af = MasterKey_af
 
               //  let rsa_private_key = Crypto.decryptAes(MasterKey_af , rsa_private_key_ba)
@@ -184,7 +184,7 @@ export default {
                 MasterKey_af,
                 res.data.privateKeyBa
               )
-              console.log('解密出 rsa_private_key '+ rsa_private_key)
+              console.log('解密出 rsa_private_key ' + rsa_private_key)
 
               let token_ba = res.data.token
               // let tokens = token_ba.split('==')
@@ -192,19 +192,16 @@ export default {
               let trust_token = ''
               // for (let index = 0; index < tokens.length - 1; index++) {
               //   let element = tokens[index]
-                //console.log(element)
-                // 3 使用RSA私钥解密出token
-                trust_token += Crypto.decryptRsa(
-                  rsa_private_key,
-                  token_ba + '=='
-                )
+              //console.log(element)
+              // 3 使用RSA私钥解密出token
+              trust_token += Crypto.decryptRsa(rsa_private_key, token_ba + '==')
               // }
               //console.log('解密出token：'+ trust_token)
               // this.ttoken = trust_token
               let check = {
                 token: trust_token,
               }
-              console.log(trust_token);
+              console.log(trust_token)
               this.setCookies('token', trust_token) //  存储登录状态
               checkToken().then((res) => {
                 if (res.checkResult) {
@@ -215,7 +212,6 @@ export default {
                     username: this.loginForm.userName,
                   })
                   this.$router.replace(this.url) //  跳转到前一个页面或者网盘主页
-
 
                   this.$refs[formName].resetFields() //  清空表单
                 }

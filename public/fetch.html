@@ -1,116 +1,118 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>解密下载</title>
-    <script src="/crypto-f.js"></script>
-  </head>
-  <body>
-   <div id='msg'>正在解密下载中</div>
-    <a href="" download="文件.csv" id="btn" style="display: none;">下载</a>
-   <div>
+
+<head>
+  <meta charset="utf-8">
+  <title>解密下载</title>
+  <script src="/crypto-f.js"></script>
+</head>
+
+<body>
+  <div id='msg'>正在解密下载中</div>
+  <a href="" download="文件.csv" id="btn" style="display: none;">下载</a>
+  <div>
     <progress max="100" value="0" id="pg" style="height: 40px;"></progress>
     <span id="pgmsg"></span>
   </div>
-  </body>
-  <script>
-    const cid = getQueryVariable('cid')
-    const fileKey = getQueryVariable('xxkey').replace('equalEqual','=').replace('andAnd','&').replace('poundPound','#')
-    const fileName = getQueryVariable('filename').replace("Encrypted-","")
-    const tempArr = fileName.split('.')
-    console.log(fileName)
-    const size = getQueryVariable('size')
-    const mimeType = tempArr.length > 1 ? tempArr[tempArr.length-1] : ''
-    console.log(mimeType)
-    let pg=document.getElementById('pg');
-    let close = 0;
-     window.addEventListener("message", function(event){
-	          let data = event.data;
-               if (data === 'xx'){
-                   close = 1;
-               }
-	        },false);
+</body>
+<script>
+  const cid = getQueryVariable('cid')
+  const fileKey = getQueryVariable('xxkey').replace('equalEqual', '=').replace('andAnd', '&').replace('poundPound', '#')
+  const fileName = getQueryVariable('filename').replace("Encrypted-", "")
+  const tempArr = fileName.split('.')
+  console.log(fileName)
+  const size = getQueryVariable('size')
+  const mimeType = tempArr.length > 1 ? tempArr[tempArr.length - 1] : ''
+  console.log(mimeType)
+  let pg = document.getElementById('pg');
+  let close = 0;
+  window.addEventListener("message", function (event) {
+    let data = event.data;
+    if (data === 'xx') {
+      close = 1;
+    }
+  }, false);
 
-    const url = 'https://ipfs-gw.decloud.foundation/ipfs/'+ cid +'?filename=' + fileName
-    fetch(url).then(res => {
-      const reader = res.body.getReader()
-      let cent = []
-        let length = 0;
-        let count = 0;
-      const pump = () => reader.read()
-        .then(res =>
-        {
-          if(res.done){
+  const url = 'https://ipfs-gw.decloud.foundation/ipfs/' + cid + '?filename=' + fileName
+  fetch(url).then(res => {
+    const reader = res.body.getReader()
+    let cent = []
+    let length = 0;
+    let count = 0;
+    const pump = () => reader.read()
+      .then(res => {
+        if (res.done) {
           console.log('done')
-              let buffer = new ArrayBuffer(length)
-              let arr = new Uint8Array(buffer)
-              let k = 0
-              for (let i = 0; i < cent.length; i++) {
-                  for (let j = 0; j <  cent[i].length; j++) {
-                     arr[k] = cent[i][j]
-                      k++
-                  }
-              }
+          let buffer = new ArrayBuffer(length)
+          let arr = new Uint8Array(buffer)
+          let k = 0
+          for (let i = 0; i < cent.length; i++) {
+            for (let j = 0; j < cent[i].length; j++) {
+              arr[k] = cent[i][j]
+              k++
+            }
+          }
 
           let ab = arr.buffer
-          const f = buf2File(ab,fileName)
-          if(fileKey !== 'null'){
-           decryptFile(f ,fileKey ,fileName)
-          }else{
+          const f = buf2File(ab, fileName)
+          if (fileKey !== 'null') {
+            decryptFile(f, fileKey, fileName)
+          } else {
             const blob = buf2Blob(ab)
             document.getElementById("btn").download = fileName
             document.getElementById("btn").href = window.URL.createObjectURL(blob)
             document.getElementById("btn").click()
           }
-              setTimeout("self.close()", 3000)
-        }else{
-              if(close === 1){
-                  console.log("取消了下载")
-                  return
-              }
-              cent[count] = res.value
-              count ++
-              length = length + res.value.length
-              pg.value = length / size * 100
-              let currp =  length / size * 100
+          setTimeout("self.close()", 3000)
+        } else {
+          if (close === 1) {
+            console.log("取消了下载")
+            return
+          }
+          cent[count] = res.value
+          count++
+          length = length + res.value.length
+          pg.value = length / size * 100
+          let currp = length / size * 100
 
-            currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
-            window.parent.postMessage({
-	            cmd: 'report',
-	            params: {
-	              success: true,
-	              data: currp
-	            }
-	        }, '*');
+          currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
+          window.parent.postMessage({
+            cmd: 'report',
+            params: {
+              success: true,
+              data: currp
+            }
+          }, '*');
           pump()
         }
-        }
-          )
+      }
+      )
 
-      pump()
+    pump()
 
-    })
+  })
 
 
-function getQueryVariable(variable){
-   const query = window.location.search.substring(1);
+  function getQueryVariable(variable) {
+    const query = window.location.search.substring(1);
     const vars = query.split("&");
-   for (let i=0;i<vars.length;i++) {
-       let pair = vars[i].split("=");
-           if(pair[0] === variable){return pair[1];}
-   }
+    for (let i = 0; i < vars.length; i++) {
+      let pair = vars[i].split("=");
+      if (pair[0] === variable) { return pair[1]; }
+    }
 
     return false;
-}
+  }
 
-function buf2Blob(buf){
-return new Blob([buf], { type: mimeType });
-}
+  function buf2Blob(buf) {
+    return new Blob([buf], { type: mimeType });
+  }
 
-function buf2File(buf, filename){
-return new File([buf], filename);
-}
+  function buf2File(buf, filename) {
+    return new File([buf], filename);
+  }
 
 
 </script>
+
 </html>
