@@ -26,8 +26,15 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="handleAddFileDialogCancel('addFileForm')">取 消</el-button>
-      <el-button type="primary" :loading="loading" @click="handleAddFileDialogOk('addFileForm')">确 定</el-button>
+      <el-button @click="handleAddFileDialogCancel('addFileForm')"
+        >取 消</el-button
+      >
+      <el-button
+        type="primary"
+        :loading="loading"
+        @click="handleAddFileDialogOk('addFileForm')"
+        >确 定</el-button
+      >
     </div>
   </el-dialog>
 </template>
@@ -41,28 +48,30 @@ export default {
     // 对话框是否可见
     visible: {
       type: Boolean,
-      required: true
+      required: true,
     },
     // 文件路径
     filePath: {
       required: true,
-      type: String
+      type: String,
     },
     // 文件扩展名
     extendName: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
       form: {
-        fileName: ''
+        fileName: '',
       },
       formRules: {
-        fileName: [{ required: true, message: '请输入文件名称', trigger: 'blur' }]
+        fileName: [
+          { required: true, message: '请输入文件名称', trigger: 'blur' },
+        ],
       },
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -73,8 +82,8 @@ export default {
       },
       set(val) {
         this.$emit('update:visible', val)
-      }
-    }
+      },
+    },
   },
   methods: {
     /**
@@ -98,7 +107,7 @@ export default {
           createOfficeFile({
             fileName: this.form.fileName,
             filePath: this.filePath,
-            extendName: this.extendName
+            extendName: this.extendName,
           }).then((res) => {
             this.loading = false
             if (res.success) {
@@ -114,7 +123,7 @@ export default {
           return false
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
