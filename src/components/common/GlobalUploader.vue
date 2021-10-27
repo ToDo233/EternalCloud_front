@@ -25,8 +25,8 @@
       >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">
-          将文件拖到此处，或
-          <em>点击上传</em>
+
+          <em>click to Select File</em>
         </div>
         <!-- <el-button size="mini" type="primary" ref="uploadBtn">加密上传</el-button> -->
       </el-upload>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import SparkMD5 from 'spark-md5'
+
 import FileCrypto from '@/utils/crypto-f.js'
 import Crypto from '@/utils/crypto-m.js'
 import { pinByHash } from '@/request/file.js'
@@ -148,7 +148,7 @@ export default {
           imgObj !== null
             ? new File(
                 [imgObj],
-                `qiwenshare_${new Date().valueOf()}.${
+                `metesShare_${new Date().valueOf()}.${
                   imgObj.name.split('.')[1]
                 }`,
                 {
@@ -174,46 +174,8 @@ export default {
       }
       reader.readAsDataURL(this.pasteImgObj)
     },
-    // 上传粘贴的图片
-    handleUploadPasteImg() {
-      this.uploaderInstance.addFile(this.pasteImgObj) //  触发文件添加事件
-    },
-    // 删除粘贴的图片
-    handleDeletePasteImg() {
-      this.pasteImg.src = ''
-      this.pasteImg.name = ''
-      this.pasteImgObj = null
-    },
-    /**
-     * 添加批量文件的回调函数
-     * @description 对单个或批量文件都按此逻辑处理
-     * @param {object} files 批量文件信息
-     */
-    handleFilesAdded(files) {
-      // 批量选择的文件的总体大小
-      const filesTotalSize = files
-        .map((item) => item.size)
-        .reduce((pre, next) => {
-          return pre + next
-        }, 0)
-      console.log(this.remainderStorageValue)
-      if (this.remainderStorageValue < filesTotalSize) {
-        // 批量选择的文件超出剩余存储空间
-        this.$message.warning(
-          `剩余存储空间不足，请重新选择${files.length > 1 ? '批量' : ''}文件`
-        )
-        // https://github.com/simple-uploader/vue-uploader/blob/master/README_zh-CN.md#%E4%BA%8B%E4%BB%B6
-        files.ignored = true //  本次选择的文件过滤掉
-      } else {
-        // 批量或单个选择的文件未超出剩余存储空间，正常上传
-        files.forEach((file) => {
-          this.dropBoxShow = false
-          this.panelShow = true
-          this.collapse = false
-          this.computeMD5(file)
-        })
-      }
-    },
+
+
     /**
      * 添加文件的回调函数
      * @param {object} file 文件信息
@@ -238,20 +200,7 @@ export default {
      * @param {string} response 服务端响应内容，永远都是字符串
      */
     handleFileSuccess(res, file) {
-      // if (response == '') {
-      //   file.statusStr = '上传失败'
-      //   return
-      // }
-      // let result = JSON.parse(response)
-      // if (result.success) {
-      //   this.$message.success(`${file.name} - 上传完毕`)
-      //   file.statusStr = ''
-      //   this.$EventBus.$emit('refreshList', '')
-      //   this.$EventBus.$emit('refreshStorage', '')
-      // } else {
-      //   this.$message.error(result.message)
-      //   file.statusStr = '上传失败'
-      // }
+
       let pinParams = {
         cid: res.Hash,
         fileName: res.Name,
@@ -288,87 +237,7 @@ export default {
         type: 'error',
       })
     },
-    /**
-     * 计算md5，实现断点续传及秒传
-     * @param {object} file 文件信息
-     */
-    computeMD5(file) {
-      let fileReader = new FileReader()
-      let blobSlice =
-        File.prototype.slice ||
-        File.prototype.mozSlice ||
-        File.prototype.webkitSlice
-      let currentChunk = 0
-      const chunkSize = 1 * 1024 * 1024
-      let chunks = Math.ceil(file.size / chunkSize)
-      let spark = new SparkMD5.ArrayBuffer()
-      // 文件状态设为"计算MD5"
-      file.statusStr = '计算MD5'
-      // file.pause()
-      loadNext()
-      fileReader.onload = (e) => {
-        spark.append(e.target.result)
-        if (currentChunk < chunks) {
-          currentChunk++
-          loadNext()
-          // 实时展示MD5的计算进度
-          file.statusStr = `校验MD5 ${((currentChunk / chunks) * 100).toFixed(
-            0
-          )}%`
-        } else {
-          let md5 = spark.end()
-          this.calculateFileMD5End(md5, file)
-        }
-      }
-      fileReader.onerror = function() {
-        this.$notify({
-          title: '错误',
-          message: `文件${file.name}读取出错，请检查该文件`,
-          type: 'error',
-          duration: 2000,
-        })
-        file.cancel()
-      }
-      function loadNext() {
-        let start = currentChunk * chunkSize
-        let end = start + chunkSize >= file.size ? file.size : start + chunkSize
-        fileReader.readAsArrayBuffer(blobSlice.call(file.file, start, end))
-      }
-    },
-    /**
-     * 文件MD5计算结束
-     * @param {string} md5 文件 MD5 值
-     * @param {object} file 文件对象
-     */
-    calculateFileMD5End(md5, file) {
-      if (this.fileKey != null) {
-        this.params.fileKey = Crypto.encryptAes(
-          localStorage.getItem('mk'),
-          this.fileKey
-        )
-      } else {
-        this.params.fileKey = null
-      }
 
-      console.log(this.params.fileKey)
-      // 将自定义参数直接加载uploader实例的opts上
-      Object.assign(this.uploaderInstance.opts, {
-        query: {
-          ...this.params,
-        },
-      })
-      file.uniqueIdentifier = md5
-      file.resume()
-      // 移除自定义状态
-      file.statusStr = ''
-    },
-    /**
-     * 关闭上传面板，并停止上传
-     */
-    handleClosePanel() {
-      this.uploaderInstance.cancel()
-      this.panelShow = false
-    },
   },
 }
 </script>

@@ -89,7 +89,7 @@ function encryptAes(secretKey, word) {
 // 使用aes秘钥解密
 function decryptAes(secretKey, word) {
   secretKey = CryptoJS.enc.Utf8.parse(secretKey)
-  var decrypted = CryptoJS.AES.decrypt(word, secretKey, {
+  let decrypted = CryptoJS.AES.decrypt(word, secretKey, {
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7,
   })
@@ -97,16 +97,16 @@ function decryptAes(secretKey, word) {
 }
 
 function masterKey() {
-  var s = []
-  var hexDigits = '0123456789abcdef'
-  for (var i = 0; i < 36; i++) {
+  let s = []
+  let hexDigits = '0123456789abcdef'
+  for (let i = 0; i < 36; i++) {
     s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
   }
   s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
   s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1) // bits 6-7 of the clock_seq_hi_and_reserved to 01
   s[8] = s[13] = s[18] = s[23] = '-'
 
-  var masterKey = s.join('')
+  let masterKey = s.join('')
   return masterKey
 }
 
@@ -127,7 +127,7 @@ function concatenate(resultConstructor, ...arrays) {
 }
 
 function dataURLtoFile(data, filename) {
-  var arr = data.split(','),
+  let arr = data.split(','),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,
@@ -138,30 +138,19 @@ function dataURLtoFile(data, filename) {
   return new File([u8arr], filename, { type: mime })
 }
 
-function arrayBufferToBase64(buffer) {
-  var binary = ''
-  var bytes = new Uint8Array(buffer)
-  var len = bytes.byteLength
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i])
-  }
-  var res = window.btoa(binary)
-  return res
-}
 
-var index = {
+
+let index = {
   getRsaKey: getRsaKey,
   encryptRsa: encryptRsa,
   decryptRsa: decryptRsa,
   sign: sign,
   verify: verify,
-  // decryptRsaByPublicKey,
   encryptRsaByPrivateKey: encryptRsaByPrivateKey,
   encryptAes: encryptAes,
   decryptAes: decryptAes,
   masterKey: masterKey,
   dataURLtoFile: dataURLtoFile,
-  arrayBufferToBase64: arrayBufferToBase64,
   concatenate: concatenate,
 }
 
@@ -178,6 +167,5 @@ export {
   verify,
   masterKey,
   dataURLtoFile,
-  arrayBufferToBase64,
   concatenate,
 }

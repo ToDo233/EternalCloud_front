@@ -1,6 +1,6 @@
 <template>
   <div class="header-wrapper">
-    <div class="logo_text">Metes</div>
+    <div class="logo_text" @click="$router.push({ name: 'Home' })">Metes</div>
     <!-- <img class="logo" :src="logoUrl" @click="$router.push({ name: 'Home' })" /> -->
     <el-menu
       :default-active="activeIndex"
@@ -8,17 +8,14 @@
       mode="horizontal"
       router
     >
-      <el-menu-item index="Home" :route="{ name: 'Home' }">Home</el-menu-item>
+<!--      <el-menu-item index="Home" :route="{ name: 'Home' }" class="logo_text"><div class="logo_text">Metes</div></el-menu-item>-->
       <el-menu-item
         index="File"
         v-if="isLogin"
         :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }"
         >Storage
       </el-menu-item>
-      <!-- <el-menu-item index="MyShare" :route="{ name: 'MyShare', query: { filePath: '/' } }">我的分享
-      </el-menu-item>
-      <li class="el-menu-item external-link"><a href="https://pan.qiwenshare.com/docs/"
-          target="_blank">文档</a></li> -->
+
 
 
       <div class="el-menu-item exit" @click="exitButton()" v-show="isLogin">
@@ -53,7 +50,7 @@ export default {
   name: 'Header',
   data() {
     return {
-      logoUrl: require('@/assets/images/common/logo_header.png'),
+
     }
   },
   computed: {

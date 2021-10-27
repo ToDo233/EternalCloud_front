@@ -2,7 +2,7 @@
   <div class="footer-wrapper">
     <div class="copy-right-wrapper">
       <div class="copy-right">
-        <span>Metes 2021 版权所有</span>
+        <span>Metes </span>
         <span class="split">|</span>
         <p class="tip-website">
 <!--          为获得最佳浏览体验，建议使用IE11、FireFox50.5、Chrome51.0及以上版本的浏览器-->
@@ -18,7 +18,7 @@ export default {
   name: 'Footer',
   data() {
     return {
-      logoUrl: require('@/assets/images/common/logo_footer.png'),
+
     }
   },
 }

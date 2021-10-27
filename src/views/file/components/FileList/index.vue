@@ -31,26 +31,8 @@
       @setSelectionFile="setSelectionFile"
       @getTableDataByType="getTableDataByType"
     ></FileTable>
-    <!-- 文件列表-网格模式 -->
-    <FileGrid
-      :fileType="fileType"
-      :filePath="filePath"
-      :fileList="fileList"
-      :loading="loading"
-      :batchOperate="batchOperate"
-      v-if="fileModel === 1"
-      @setMoveFileDialogData="setMoveFileDialogData"
-      @setShareFileDialogData="setShareFileDialogData"
-      @setOperationFile="setOperationFile"
-      @setSelectionFile="setSelectionFile"
-      @getTableDataByType="getTableDataByType"
-    ></FileGrid>
-    <!-- 图片-时间线模式 -->
-    <FileTimeLine
-      class="image-model"
-      v-if="fileModel === 2"
-      :fileList="fileList"
-    ></FileTimeLine>
+
+
     <div class="pagination-wrapper">
       <div class="current-page-count">current{{ fileList.length }}</div>
       <el-pagination
@@ -83,8 +65,6 @@
 import OperationMenu from './components/OperationMenu'
 import BreadCrumb from '@/components/BreadCrumb'
 import FileTable from '@/components/File/FileTable'
-import FileGrid from './components/FileGrid'
-import FileTimeLine from './components/FileTimeLine'
 import MoveFileDialog from '@/components/File/MoveFileDialog'
 import ShareFileDialog from './components/ShareFileDialog'
 
@@ -105,8 +85,6 @@ export default {
     OperationMenu,
     BreadCrumb,
     FileTable,
-    FileGrid,
-    FileTimeLine,
     MoveFileDialog,
     ShareFileDialog,
   },

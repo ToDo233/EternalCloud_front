@@ -22,7 +22,6 @@
     const size = getQueryVariable('size')
     const mimeType = tempArr.length > 1 ? tempArr[tempArr.length-1] : ''
     console.log(mimeType)
-    let pg=document.getElementById('pg');
     let close = 0;
      window.addEventListener("message", function(event){
 	          let data = event.data;
@@ -30,7 +29,6 @@
                    close = 1;
                }
 	        },false);
-
     const url = 'https://ipfs-gw.decloud.foundation/ipfs/'+ cid +'?filename=' + fileName
     fetch(url).then(res => {
       const reader = res.body.getReader()
@@ -66,22 +64,25 @@
         }else{
               if(close === 1){
                   console.log("取消了下载")
-                  return
+                  self.close()
               }
               cent[count] = res.value
               count ++
-              length = length + res.value.length
-              pg.value = length / size * 100
-              let currp =  length / size * 100
 
-            currp = currp.toString().match(/^\d+(?:\.\d{0,2})?/)
-            window.parent.postMessage({
-	            cmd: 'report',
-	            params: {
-	              success: true,
-	              data: currp
-	            }
-	        }, '*');
+              length = length + res.value.length
+              let speed =  length / size * 100
+
+              speed = speed.toString()//.match(/^\d+(?:\.\d{0,2})?/)
+
+              window.parent.postMessage({
+                      cmd: 'report',
+                      params: {
+                          success: true,
+                          data: speed
+                      }
+                  }, '*');
+
+
           pump()
         }
         }

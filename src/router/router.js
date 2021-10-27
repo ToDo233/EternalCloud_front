@@ -14,8 +14,8 @@ export default new Router({
       meta: {
         title: 'Metes',
         content: {
-          description:
-            '基于Spring Boot + Vue CLI@3 框架开发的Web文件系统，旨在为用户提供一个简单、方便的文件存储方案',
+          description:''
+            ,
         },
       },
     },
@@ -48,39 +48,7 @@ export default new Router({
         breadCrumbName: 'All',
       },
     },
-    {
-      path: '/onlyoffice',
-      name: 'Onlyoffice',
-      meta: {
-        title: '在线编辑预览 - Metes',
-        content: {
-          description: '在线编辑预览',
-        },
-      },
-      component: () => import('@/views/OnlyOffice/index.vue'),
-    },
-    {
-      path: '/share/:shareBatchNum',
-      name: 'Share',
-      component: () =>
-        import(/* webpackChunkName: "share" */ '@/views/Share/index.vue'),
-      meta: {
-        title: '分享 - Metes',
-        breadCrumbName: '分享文件',
-      },
-      props: true,
-    },
-    {
-      path: '/myshare',
-      name: 'MyShare',
-      component: () =>
-        import(/* webpackChunkName: "my_share" */ '@/views/MyShare/index.vue'),
-      meta: {
-        requireAuth: true,
-        title: '我的分享 - Metes',
-        breadCrumbName: '我的分享',
-      },
-    },
+
     {
       path: '*',
       name: 'Error_404',

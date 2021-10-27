@@ -1,6 +1,6 @@
 <template>
   <div class="error-404-wrapper">
-    <h2 class="title">您的页面飞走了……</h2>
+    <h2 class="title">404……</h2>
     <img :src="error_404_img" />
   </div>
 </template>

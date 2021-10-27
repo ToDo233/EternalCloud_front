@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper" id="loginBackground">
     <div class="form-wrapper" v-loading="loading">
-      <h1 class="login-title">登录</h1>
+      <h1 class="login-title">Login</h1>
       <p class="login-system">Metes</p>
       <!-- 登录表单 -->
       <el-form
@@ -27,26 +27,14 @@
             show-password
           ></el-input>
         </el-form-item>
-        <el-form-item>
-          <drag-verify
-            ref="dragVerifyRef"
-            text="请按住滑块拖动解锁"
-            successText="验证通过"
-            handlerIcon="el-icon-d-arrow-right"
-            successIcon="el-icon-circle-check"
-            handlerBg="#F5F7FA"
-            :width="375"
-            :isPassing.sync="isPassing"
-            @update:isPassing="updateIsPassing"
-          ></drag-verify>
-        </el-form-item>
+
         <el-form-item class="login-btn-form-item">
           <el-button
             class="login-btn"
             type="primary"
             :disabled="loginBtnDisabled"
             @click="submitForm('loginForm')"
-            >登录</el-button
+            >Login</el-button
           >
         </el-form-item>
       </el-form>
@@ -55,22 +43,14 @@
 </template>
 
 <script>
-import CanvasNest from 'canvas-nest.js'
-import DragVerify from '@/components/common/DragVerify.vue' //  引入滑动解锁组件
+
 import { getToken, checkToken } from '@/request/user.js'
 import Crypto from '../utils/crypto-m'
-// 配置
-const config = {
-  color: '64, 158, 255', // 线条颜色
-  pointColor: '64, 158, 255', // 节点颜色
-  opacity: 1, // 线条透明度
-  count: 99, // 线条数量
-  zIndex: -1, // 画面层级
-}
+import SparkMD5 from 'spark-md5'
+
 
 export default {
   name: 'Login',
-  components: { DragVerify },
   data() {
     return {
       // 登录表单数据
@@ -81,20 +61,20 @@ export default {
       // 登录表单验证规则
       loginFormRules: {
         userName: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { required: true, message: 'please input username', trigger: 'blur' },
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: 'please input password', trigger: 'blur' },
           {
             min: 5,
             max: 20,
-            message: '长度在 5 到 20 个字符',
+            message: ' should be 5 to 16 characters',
             trigger: 'blur',
           },
         ],
       },
-      isPassing: false, //  滑动解锁是否验证通过
-      loginBtnDisabled: true, //  登录按钮是否禁用
+      isPassing: true,
+      loginBtnDisabled: false,
       MasterKey_af: '',
       loading: false,
     }
@@ -108,45 +88,23 @@ export default {
     },
   },
   watch: {
-    //  滑动解锁验证通过时，若重新输入用户名或密码，滑动解锁恢复原样
-    'loginForm.userName'() {
-      this.isPassing = false
-      this.$refs.dragVerifyRef.reset()
-    },
-    'loginForm.password'() {
-      this.isPassing = false
-      this.$refs.dragVerifyRef.reset()
-    },
+
   },
   created() {
     // 用户若已登录，自动跳转到首页
     if (this.$store.getters.isLogin) {
       let username = this.$store.getters.username
       this.$message({
-        message: `${username} 您已登录！已跳转到首页`,
+         message: `${username} welcome back`,
         center: true,
         type: 'success',
       })
       this.$router.replace({ name: 'Home' })
     }
-    //  绘制背景图
-    this.$nextTick(() => {
-      let element = document.getElementById('loginBackground')
-      new CanvasNest(element, config)
-    })
+
   },
   methods: {
-    /**
-     * 滑动解锁完成 回调函数
-     * @param {boolean} isPassing 解锁是否通过
-     */
-    updateIsPassing(isPassing) {
-      if (isPassing) {
-        this.loginBtnDisabled = false
-      } else {
-        this.loginBtnDisabled = true
-      }
-    },
+
     /**
      * 登录按钮点击事件 表单验证&用户登录
      * @param {boolean} formName 表单ref值
@@ -158,12 +116,13 @@ export default {
           // 表单各项校验通过
           // 表单各项校验通过
           let keykey = this.loginForm.password
-          getToken(this.loginForm).then((res) => {
+          const trustForm = {
+            userName: this.loginForm.userName,
+          }
+          getToken(trustForm).then((res) => {
             if (res.code == 200) {
               // TODOS：md5 16位
-              while (keykey.length < 16) {
-                keykey += '0'
-              }
+              keykey = SparkMD5.hash(keykey);
               // 1 使用密码解密masterkey
               let MasterKey_af = Crypto.decryptAes(keykey, res.data.masterKeyBa)
               console.log(MasterKey_af);
@@ -251,6 +210,7 @@ export default {
 <style lang="stylus" scoped>
 .login-wrapper
   // height: 550px !important;
+
   min-height: calc(100vh - 189px) !important
   padding-top: 50px
   .form-wrapper
