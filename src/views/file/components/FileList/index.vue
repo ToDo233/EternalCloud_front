@@ -34,7 +34,7 @@
 
 
     <div class="pagination-wrapper">
-      <div class="current-page-count">current{{ fileList.length }}</div>
+
       <el-pagination
         :current-page="pageData.currentPage"
         :page-size="pageData.pageCount"

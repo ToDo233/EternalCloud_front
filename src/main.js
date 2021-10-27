@@ -11,14 +11,18 @@ import '@/assets/styles/iconfont/iconfont.css'
 import '@/assets/styles/css/mediaScreen.styl'
 import '@/router/before.js'
 import 'element-ui/lib/theme-chalk/index.css'
-import element from './element.js'
+import ElementUI from 'element-ui'
+
+
+
 /**
  * vue-simple-uploader 中文官方文档 https://github.com/simple-uploader/vue-uploader/blob/master/README_zh-CN.md
  * simple-uploader.js 中文官方文档 https://github.com/simple-uploader/Uploader/blob/develop/README_zh-CN.md
  */
 import uploader from 'vue-simple-uploader'
-// collapse 展开折叠
+// collapse
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+import locale from 'element-ui/lib/locale/lang/en'
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
@@ -28,7 +32,7 @@ for(let key in globalFunction) {
   Vue.prototype[key] = globalFunction[key]
 }
 
-Vue.use(element);
+Vue.use(ElementUI,{ locale });
 Vue.use(uploader);
 Vue.prototype.$EventBus = new Vue()
 
