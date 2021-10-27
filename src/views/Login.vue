@@ -113,8 +113,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true
-          // 表单各项校验通过
-          // 表单各项校验通过
           let keykey = this.loginForm.password
           const trustForm = {
             userName: this.loginForm.userName,

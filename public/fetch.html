@@ -15,8 +15,12 @@
   </body>
   <script>
     const cid = getQueryVariable('cid')
-    const fileKey = getQueryVariable('xxkey').replace('equalEqual','=').replace('andAnd','&').replace('poundPound','#')
-    const fileName = getQueryVariable('filename').replace("Encrypted-","")
+    const fileKey = getQueryVariable('xxkey')
+    const fileName = getQueryVariable('filename')
+        .replace('equalEqual','=')
+        .replace('andAnd','&')
+        .replace('poundPound','#')
+        .replace("Encrypted-","")
     const tempArr = fileName.split('.')
     console.log(fileName)
     const size = getQueryVariable('size')
@@ -65,20 +69,19 @@
               if(close === 1){
                   console.log("取消了下载")
                   self.close()
+                  return
               }
               cent[count] = res.value
               count ++
 
               length = length + res.value.length
-              let speed =  length / size * 100
-
-              speed = speed.toString()//.match(/^\d+(?:\.\d{0,2})?/)
-
+              let currSpeed =  length / size * 100
+              console.log( size);
               window.parent.postMessage({
                       cmd: 'report',
                       params: {
                           success: true,
-                          data: speed
+                          speed: currSpeed.toString().match(/^\d+(?:\.\d{0,2})?/)
                       }
                   }, '*');
 

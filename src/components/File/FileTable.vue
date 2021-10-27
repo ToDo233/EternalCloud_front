@@ -98,44 +98,10 @@
         <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            @click="handleDeleteFileBtnClick( scope.row)">Delete</el-button>
       </template>
     </el-table-column>
 
-
-<!--      <el-table-column-->
-<!--        label="分享时间"-->
-<!--        prop="shareTime"-->
-<!--        key="shareTime"-->
-<!--        min-width="100"-->
-<!--        :sort-by="['isDir', 'shareTime']"-->
-<!--        show-overflow-tooltip-->
-<!--        sortable-->
-<!--        align="center"-->
-<!--        v-if="routeName === 'MyShare'"-->
-<!--      ></el-table-column>-->
-<!--      <el-table-column-->
-<!--        label="过期时间"-->
-<!--        prop="endTime"-->
-<!--        key="endTime"-->
-<!--        min-width="100"-->
-<!--        :sort-by="['isDir', 'endTime']"-->
-<!--        show-overflow-tooltip-->
-<!--        sortable-->
-<!--        align="center"-->
-<!--        v-if="routeName === 'MyShare'"-->
-<!--      >-->
-<!--        <template slot-scope="scope">-->
-<!--          <div>-->
-<!--            <i-->
-<!--              class="el-icon-warning"-->
-<!--              v-if="getFileShareStatus(scope.row.endTime)"-->
-<!--            ></i>-->
-<!--            <i class="el-icon-time" v-else></i>-->
-<!--            {{ scope.row.endTime }}-->
-<!--          </div>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
     </el-table>
     <!-- 右键列表 -->
     <transition name="el-fade-in-linear">
@@ -149,107 +115,62 @@
           };left: ${rightMenu.left};`
         "
       >
-        <li
-          class="right-menu-item"
-          @click="handleFileNameClick(selectedFile, 0)"
-          v-if="seeBtnShow"
-        >
-          <i class="el-icon-view"></i> 查看
-        </li>
+
         <li
           class="right-menu-item"
           @click="handleDeleteFileBtnClick(selectedFile)"
           v-if="deleteBtnShow"
         >
-          <i class="el-icon-delete"></i> 删除
+          <i class="el-icon-delete"></i> Delete
         </li>
-        <li
-          class="right-menu-item"
-          @click="handleRestoreFileBtnClick(selectedFile)"
-          v-if="restoreBtnShow"
-        >
-          <i class="el-icon-refresh-left"></i> 还原
-        </li>
-        <li
-          class="right-menu-item"
-          @click="handleMoveFileBtnClick(selectedFile)"
-          v-if="moveBtnShow"
-        >
-          <i class="el-icon-s-promotion"></i> 移动
-        </li>
-        <li
-          class="right-menu-item"
-          @click="handleRenameFileBtnClick(selectedFile)"
-          v-if="renameBtnShow"
-        >
-          <i class="el-icon-edit-outline"></i> 重命名
-        </li>
-        <li
-          class="right-menu-item"
-          @click="handleShareFileBtnClick(selectedFile)"
-          v-if="shareBtnShow"
-        >
-          <i class="el-icon-share"></i> 分享
-        </li>
+
+<!--        <li-->
+<!--          class="right-menu-item"-->
+<!--          @click="handleMoveFileBtnClick(selectedFile)"-->
+<!--          v-if="moveBtnShow"-->
+<!--        >-->
+<!--          <i class="el-icon-s-promotion"></i> 移动-->
+<!--        </li>-->
+<!--        <li-->
+<!--          class="right-menu-item"-->
+<!--          @click="handleRenameFileBtnClick(selectedFile)"-->
+<!--          v-if="renameBtnShow"-->
+<!--        >-->
+<!--          <i class="el-icon-edit-outline"></i> 重命名-->
+<!--        </li>-->
+<!--        <li-->
+<!--          class="right-menu-item"-->
+<!--          @click="handleShareFileBtnClick(selectedFile)"-->
+<!--          v-if="shareBtnShow"-->
+<!--        >-->
+<!--          <i class="el-icon-share"></i> 分享-->
+<!--        </li>-->
         <li
           class="right-menu-item"
           v-if="downloadBtnShow"
           @click="getDownloadFilePath1(selectedFile)"
         >
-          <i class="el-icon-download"></i> 下载
+          <i class="el-icon-download"></i> Download
         </li>
-        <!-- 0-解压到当前文件夹， 1-自动创建该文件名目录，并解压到目录里， 3-手动选择解压目录 -->
-        <li class="right-menu-item unzip-menu-item" v-if="unzipBtnShow">
-          <i class="el-icon-files"></i> 解压缩
-          <i class="el-icon-arrow-right"></i>
-          <ul
-            class="unzip-list"
-            :style="
-              `top: ${unzipMenu.top};bottom: ${unzipMenu.bottom};left: ${
-                unzipMenu.left
-              };right: ${unzipMenu.right};`
-            "
-          >
-            <li
-              class="unzip-item"
-              @click="handleUnzipFileBtnClick(selectedFile, 0)"
-              v-if="unzipBtnShow"
-            >
-              <i class="el-icon-files"></i> 解压到当前文件夹
-            </li>
-            <li
-              class="unzip-item"
-              @click="handleUnzipFileBtnClick(selectedFile, 1)"
-              v-if="unzipBtnShow"
-              :title="`解压到&quot;${selectedFile.fileName}&quot;`"
-            >
-              <i class="el-icon-files"></i> 解压到"{{ selectedFile.fileName }}"
-            </li>
-          </ul>
-        </li>
-        <li
-          class="right-menu-item"
-          @click="getFileOnlineEditPathByOffice(selectedFile)"
-          v-if="onlineEditBtnShow"
-        >
-          <i class="el-icon-edit"></i> 在线编辑
-        </li>
-        <li
-          class="right-menu-item"
-          @click="
-            copyShareLink(
-              selectedFile.shareBatchNum,
-              selectedFile.extractionCode
-            )
-          "
-          v-if="copyLinkBtnShow"
-        >
-          <i class="el-icon-edit"></i> 复制链接
-        </li>
+
+
+<!--        <li-->
+<!--          class="right-menu-item"-->
+<!--          @click="-->
+<!--            copyShareLink(-->
+<!--              selectedFile.shareBatchNum,-->
+<!--              selectedFile.extractionCode-->
+<!--            )-->
+<!--          "-->
+<!--          v-if="copyLinkBtnShow"-->
+<!--        >-->
+<!--          <i class="el-icon-edit"></i> 复制链接-->
+<!--        </li>-->
+<!--        -->
       </ul>
     </transition>
     <el-dialog
-      title="下载"
+      title="download"
       :visible.sync="downloadDialogVisible"
       width="30%"
       :show-close="false"
@@ -261,7 +182,7 @@
         :percentage="downloadProgress"
       ></el-progress>
       <div>
-        <span>下载速度：{{ curSpeed }} /S</span>
+        <span>speed：{{ curSpeed }} /S</span>
       </div>
       <iframe
         :src="downloadSrc"
@@ -271,7 +192,7 @@
       ></iframe>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="handlerDownloadClose">取 消</el-button>
+          <el-button @click="handlerDownloadClose">cancel</el-button>
         </span>
       </template>
     </el-dialog>
@@ -280,7 +201,6 @@
 
 <script>
 import {
-  unzipFile,
   deleteFile,
   renameFile,
   deleteRecoveryFile,
@@ -550,7 +470,7 @@ export default {
       switch (data.cmd) {
         case 'report':
           this.aftProgress = this.downloadProgress
-          this.downloadProgress = Number(data.params.data[0])
+          this.downloadProgress = Number(data.params.speed)
           break
         case 'catch':
           // error
@@ -659,137 +579,137 @@ export default {
      * @param {object} row 文件信息
      */
     handleFileNameClick(row, activeIndex) {
-      // 若是目录则进入目录
-      if (row.isDir) {
-        if (this.routeName === 'Share') {
-          // 当前是查看他人分享列表的页面
-          this.$router.push({
-            query: {
-              filePath: row.shareFilePath + row.fileName + '/',
-            },
-          })
-        } else if (this.routeName === 'MyShare') {
-          // 当前是我的已分享列表页面
-          this.$router.push({
-            query: {
-              filePath: row.shareFilePath + row.fileName + '/',
-              shareBatchNum: row.shareBatchNum,
-            },
-          })
-        } else {
-          // 网盘页面
-          this.$router.push({
-            query: {
-              filePath: row.filePath + row.fileName + '/',
-              fileType: 0,
-            },
-          })
-        }
-      }
-      // 若是文件，则进行相应的预览
-      else {
-        // 若当前点击项是图片
-        const PIC = ['png', 'jpg', 'jpeg', 'gif', 'svg']
-        if (PIC.includes(row.extendName)) {
-          if (this.fileType === 1) {
-            //  图片分类下 - 大图查看
-            let data = {
-              imgPreviewVisible: true,
-              imgPreviewList: this.sortedFileList.map((item) => {
-                return {
-                  fileUrl: this.getViewFilePath(item),
-                  downloadLink: this.getDownloadFilePath(item),
-                  fileName: item.fileName,
-                  extendName: item.extendName,
-                }
-              }),
-              activeIndex: activeIndex,
-            }
-            this.$store.commit('setImgPreviewData', data)
-          } else {
-            //  非图片分类下 - 大图查看
-            let data = {
-              imgPreviewVisible: true,
-              imgPreviewList: [
-                {
-                  fileUrl: this.getViewFilePath(row),
-                  downloadLink: this.getDownloadFilePath(row),
-                  fileName: row.fileName,
-                  extendName: row.extendName,
-                },
-              ],
-              activeIndex: 0,
-            }
-            this.$store.commit('setImgPreviewData', data)
-          }
-        }
-        //  若当前点击项是可以使用office在线预览的
-        if ([...this.officeFileType, 'pdf'].includes(row.extendName)) {
-          this.getFileOnlineViewPathByOffice(row)
-        }
-        //  若当前点击项是代码或文本文件
-        const CODE = ['html', 'js', 'css', 'json', 'c', 'java', 'txt']
-        if (CODE.includes(row.extendName)) {
-          window.open(this.getViewFilePath(row), '_blank')
-        }
-        //  若当前点击项是视频mp4格式
-        const VIDEO = ['mp4']
-        if (VIDEO.includes(row.extendName)) {
-          if (this.fileType === 3) {
-            // 视频分类下 加载播放列表
-            let data = {
-              videoPreviewVisible: true,
-              videoPreviewList: this.sortedFileList.map((item) => {
-                return {
-                  ...item,
-                  fileUrl: this.getViewFilePath(item),
-                  downloadLink: this.getDownloadFilePath(item),
-                  fileName: item.fileName,
-                  extendName: item.extendName,
-                }
-              }),
-              activeIndex: activeIndex,
-            }
-            this.$store.commit('setVideoPreviewData', data)
-          } else {
-            // 非视频分类下 - 单个视频预览
-            let data = {
-              videoPreviewVisible: true,
-              videoPreviewList: [
-                {
-                  ...row,
-                  fileUrl: this.getViewFilePath(row),
-                  downloadLink: this.getDownloadFilePath(row),
-                  fileName: row.fileName,
-                  extendName: row.extendName,
-                },
-              ],
-              activeIndex: 0,
-            }
-            this.$store.commit('setVideoPreviewData', data)
-          }
-        }
-        //  若当前点击项是音频mp3格式
-        const AUDIO = ['mp3']
-        if (AUDIO.includes(row.extendName)) {
-          if (this.audioObj.src !== this.getViewFilePath(row)) {
-            this.$notify.closeAll()
-            this.audioObj.src = this.getViewFilePath(row)
-            this.$notify({
-              title: `${row.fileName}.${row.extendName}`,
-              dangerouslyUseHTMLString: true,
-              message: `<audio class="audio-preview" src="${
-                this.audioObj.src
-              }" controls autoplay style="padding-right: 16px; margin-top: 16px;"></audio>`,
-              duration: 0, //  不自动关闭
-              offset: 100,
-              onClose: () => {
-                this.audioObj.src = ''
-              },
-            })
-          }
-        }
-      }
+      // // 若是目录则进入目录
+      // if (row.isDir) {
+      //   if (this.routeName === 'Share') {
+      //     // 当前是查看他人分享列表的页面
+      //     this.$router.push({
+      //       query: {
+      //         filePath: row.shareFilePath + row.fileName + '/',
+      //       },
+      //     })
+      //   } else if (this.routeName === 'MyShare') {
+      //     // 当前是我的已分享列表页面
+      //     this.$router.push({
+      //       query: {
+      //         filePath: row.shareFilePath + row.fileName + '/',
+      //         shareBatchNum: row.shareBatchNum,
+      //       },
+      //     })
+      //   } else {
+      //     // 网盘页面
+      //     this.$router.push({
+      //       query: {
+      //         filePath: row.filePath + row.fileName + '/',
+      //         fileType: 0,
+      //       },
+      //     })
+      //   }
+      // }
+      // // 若是文件，则进行相应的预览
+      // else {
+      //   // 若当前点击项是图片
+      //   const PIC = ['png', 'jpg', 'jpeg', 'gif', 'svg']
+      //   if (PIC.includes(row.extendName)) {
+      //     if (this.fileType === 1) {
+      //       //  图片分类下 - 大图查看
+      //       let data = {
+      //         imgPreviewVisible: true,
+      //         imgPreviewList: this.sortedFileList.map((item) => {
+      //           return {
+      //             fileUrl: this.getViewFilePath(item),
+      //             downloadLink: this.getDownloadFilePath(item),
+      //             fileName: item.fileName,
+      //             extendName: item.extendName,
+      //           }
+      //         }),
+      //         activeIndex: activeIndex,
+      //       }
+      //       this.$store.commit('setImgPreviewData', data)
+      //     } else {
+      //       //  非图片分类下 - 大图查看
+      //       let data = {
+      //         imgPreviewVisible: true,
+      //         imgPreviewList: [
+      //           {
+      //             fileUrl: this.getViewFilePath(row),
+      //             downloadLink: this.getDownloadFilePath(row),
+      //             fileName: row.fileName,
+      //             extendName: row.extendName,
+      //           },
+      //         ],
+      //         activeIndex: 0,
+      //       }
+      //       this.$store.commit('setImgPreviewData', data)
+      //     }
+      //   }
+      //   //  若当前点击项是可以使用office在线预览的
+      //   if ([...this.officeFileType, 'pdf'].includes(row.extendName)) {
+      //     this.getFileOnlineViewPathByOffice(row)
+      //   }
+      //   //  若当前点击项是代码或文本文件
+      //   const CODE = ['html', 'js', 'css', 'json', 'c', 'java', 'txt']
+      //   if (CODE.includes(row.extendName)) {
+      //     window.open(this.getViewFilePath(row), '_blank')
+      //   }
+      //   //  若当前点击项是视频mp4格式
+      //   const VIDEO = ['mp4']
+      //   if (VIDEO.includes(row.extendName)) {
+      //     if (this.fileType === 3) {
+      //       // 视频分类下 加载播放列表
+      //       let data = {
+      //         videoPreviewVisible: true,
+      //         videoPreviewList: this.sortedFileList.map((item) => {
+      //           return {
+      //             ...item,
+      //             fileUrl: this.getViewFilePath(item),
+      //             downloadLink: this.getDownloadFilePath(item),
+      //             fileName: item.fileName,
+      //             extendName: item.extendName,
+      //           }
+      //         }),
+      //         activeIndex: activeIndex,
+      //       }
+      //       this.$store.commit('setVideoPreviewData', data)
+      //     } else {
+      //       // 非视频分类下 - 单个视频预览
+      //       let data = {
+      //         videoPreviewVisible: true,
+      //         videoPreviewList: [
+      //           {
+      //             ...row,
+      //             fileUrl: this.getViewFilePath(row),
+      //             downloadLink: this.getDownloadFilePath(row),
+      //             fileName: row.fileName,
+      //             extendName: row.extendName,
+      //           },
+      //         ],
+      //         activeIndex: 0,
+      //       }
+      //       this.$store.commit('setVideoPreviewData', data)
+      //     }
+      //   }
+      //   //  若当前点击项是音频mp3格式
+      //   const AUDIO = ['mp3']
+      //   if (AUDIO.includes(row.extendName)) {
+      //     if (this.audioObj.src !== this.getViewFilePath(row)) {
+      //       this.$notify.closeAll()
+      //       this.audioObj.src = this.getViewFilePath(row)
+      //       this.$notify({
+      //         title: `${row.fileName}.${row.extendName}`,
+      //         dangerouslyUseHTMLString: true,
+      //         message: `<audio class="audio-preview" src="${
+      //           this.audioObj.src
+      //         }" controls autoplay style="padding-right: 16px; margin-top: 16px;"></audio>`,
+      //         duration: 0, //  不自动关闭
+      //         offset: 100,
+      //         onClose: () => {
+      //           this.audioObj.src = ''
+      //         },
+      //       })
+      //     }
+      //   }
+      // }
     },
     getDownloadFilePath1(row) {
       let mk = null
@@ -798,16 +718,15 @@ export default {
         mk = localStorage.getItem('mk')
         let fk = row.fileKey
         fileKey = Crypto.decryptAes(mk, fk)
-          .replace('=', 'equalEqual')
-          .replace('&', 'andAnd')
-          .replace('#', 'poundPound')
+
       }
-      const downurl =  `/fetch.html?cid=${row.cid}&filename=${row.fileName}&xxkey=${fileKey}&size=${row.fileSize}`
-      //const url =  `http://localhost:9099/fetch.html?cid=${row.cid}&filename=${row.fileName}.${row.extendName}&xxkey=${fileKey}&size=${row.fileSize}`
-      //window.open(url, '_blank','toolbar=no, width=400, height=400')
+      let fileName = row.fileName
+      .replace('=', 'equalEqual')
+      .replace('&', 'andAnd')
+      .replace('#', 'poundPound')
+      const downUrl =  `/fetch.html?cid=${row.cid}&filename=${fileName}&xxkey=${fileKey}&size=${row.fileSize}`
       this.downloadDialogVisible = true
-      this.downloadSrc = downurl
-      // this.downloadSrc = url
+      this.downloadSrc = downUrl
       this.$nextTick(() => {
         this.downloadFrame = this.$refs.downloadDia.contentWindow
         this.timer = setInterval(this.currSpeed, 1000, row.fileSize)
@@ -835,39 +754,7 @@ export default {
       //  第一个参数: 是否批量移动；第二个参数：打开/关闭移动文件对话框
       this.$emit('setMoveFileDialogData', false, true)
     },
-    /**
-     * 解压缩按钮点击事件
-     * @description 调用解压缩文件接口，并展示新的文件列表
-     * @param {object} fileInfo 文件信息
-     * @param {number} unzipMode 解压模式 0-解压到当前文件夹， 1-自动创建该文件名目录，并解压到目录里， 2-手动选择解压目录
-     */
-    handleUnzipFileBtnClick(fileInfo, unzipMode) {
-      if (unzipMode === 0 || unzipMode === 1) {
-        const loading = this.$loading({
-          lock: true,
-          text: '正在解压缩，请稍等片刻...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)',
-        })
-        unzipFile({
-          unzipMode: unzipMode,
-          userFileId: fileInfo.userFileId,
-        }).then((res) => {
-          if (res.success) {
-            this.$emit('getTableDataByType')
-            this.$store.dispatch('showStorage')
-            this.$message.success('解压成功')
-            loading.close()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      } else if (unzipMode === 2) {
-        this.$emit('setOperationFile', fileInfo)
-        //  第一个参数: 是否批量移动；第二个参数：打开/关闭移动文件对话框
-        this.$emit('setMoveFileDialogData', false, true)
-      }
-    },
+
     handlerDownloadClose() {
       //下载关闭事件
       this.downloadDialogVisible = false
@@ -878,43 +765,23 @@ export default {
     },
     /**
      * 删除按钮点击事件
-     * @description 区分 删除到回收站中 | 在回收站中彻底删除，打开确认对话框
+     * @description
      * @param {object} fileInfo 文件信息
      */
     handleDeleteFileBtnClick(fileInfo) {
-      if (this.fileType === 6) {
-        //  回收站里 - 彻底删除
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        })
-          .then(() => {
-            this.confirmDeleteFile(fileInfo, true)
-          })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除',
-            })
-          })
-      } else {
-        //  非回收站
-        this.$confirm('删除后可在回收站查看, 是否继续删除?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        })
-          .then(() => {
-            this.confirmDeleteFile(fileInfo, false)
-          })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除',
-            })
-          })
-      }
+      deleteFile({
+        id:fileInfo.id
+      }).then(
+          (res) => {
+            if (res.code === 200) {
+              this.$emit('getTableDataByType')
+              this.$message.success('delete file success')
+            }else {
+              this.$message.error(res.message)
+            }
+          }
+      )
+
     },
     /**
      * 删除文件确认对话框 | 确定按钮点击事件

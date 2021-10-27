@@ -24,7 +24,7 @@ SOFTWARE.
  */
 
 const DEC = {
-  signature: "VXBsb2FkIGJ5IENyYXRvLmlvIHBvd2VyIGJ5IGhhdC5zaA",//"RW5jcnlwdGVkIFVzaW5nIEhhdC5zaA", 
+  signature: "VXBsb2FkIGJ5IE1ldGVzLm1lIHBvd2VyIGJ5IGhhdC5zaA",
   hash: "SHA-512",
   algoName1: "PBKDF2",
   algoName2: "AES-GCM",
@@ -71,13 +71,13 @@ function str2ab(str) {
     });
     document.getElementById("btn").download = name
     document.getElementById("btn").href = window.URL.createObjectURL(blob)
-    document.getElementById("btn").click() 
+    document.getElementById("btn").click()
     setTimeout("window.opener=null;window.close()", 3000 )
   }
-} 
+}
 
 
-function generateKey() { 
+function generateKey() {
   const usedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@$%&_-+=~'
   let keyArray = new Uint8Array(20)
   window.crypto.getRandomValues(keyArray)
@@ -87,21 +87,21 @@ function generateKey() {
 }
 
 
-function importSecretKey() { 
+function importSecretKey() {
   let rawPassword = str2ab(file_key)
   console.log(file_key);
   return window.crypto.subtle.importKey(
     "raw", //raw
-    rawPassword, 
+    rawPassword,
     {
       name: DEC.algoName1
-    }, 
-    false, 
-    DEC.perms1 
+    },
+    false,
+    DEC.perms1
   );
 }
 
-async function deriveEncryptionSecretKey() { 
+async function deriveEncryptionSecretKey() {
   let getSecretKey = await importSecretKey();
   return window.crypto.subtle.deriveKey({
       name: DEC.algoName1,
@@ -111,35 +111,35 @@ async function deriveEncryptionSecretKey() {
         name: DEC.hash
       },
     },
-    getSecretKey, 
-    { 
+    getSecretKey,
+    {
       name: DEC.algoName2,
       length: DEC.algoLength,
     },
-    false, 
-    DEC.perms2 
+    false,
+    DEC.perms2
   )
 }
 
 
 async function encryptFile(old_file ,fileKey) {
     file_key = fileKey
-    const derivedKey = await deriveEncryptionSecretKey(); 
-    const file = old_file.file 
-    const fr = new FileReader(); 
+    const derivedKey = await deriveEncryptionSecretKey();
+    const file = old_file.file
+    const fr = new FileReader();
     const n = new Promise((resolve, reject) => {
-      fr.onload = async () => { 
+      fr.onload = async () => {
 
-        const iv = window.crypto.getRandomValues(new Uint8Array(16)); 
-        const content = new Uint8Array(fr.result); 
+        const iv = window.crypto.getRandomValues(new Uint8Array(16));
+        const content = new Uint8Array(fr.result);
         await window.crypto.subtle.encrypt({
             iv,
             name: DEC.algoName2
-          }, derivedKey, content) 
+          }, derivedKey, content)
           .then(function (encrypted) {
             resolve(
                processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, DEC.salt, new Uint8Array(encrypted)], 1,  file_key ,old_file)
-              ); 
+              );
           })
           .catch(function (err) {
             errorMsg("An error occured while Encrypting the file, try again!"); //reject
@@ -147,7 +147,7 @@ async function encryptFile(old_file ,fileKey) {
       }
       fr.readAsArrayBuffer(file)
     });
-  
+
 }
 
 
@@ -157,7 +157,7 @@ async function decryptFile(old_file ,fileKey ,fileName) {
   const fr = new FileReader() //request a file read
   const file = old_file
   const d = new Promise((resolve, reject) => {
-    fr.onload = async () => { //load        
+    fr.onload = async () => { //load
       async function deriveDecryptionSecretKey() { //derive the secret key from a master key.
         let getSecretKey = await importSecretKey();
         return window.crypto.subtle.deriveKey({
@@ -168,18 +168,18 @@ async function decryptFile(old_file ,fileKey ,fileName) {
               name: DEC.hash
             },
           },
-          getSecretKey, 
-          { 
+          getSecretKey,
+          {
             name: DEC.algoName2,
             length: DEC.algoLength,
           },
-          false, 
-          DEC.perms2 
+          false,
+          DEC.perms2
         )
       }
-      const derivedKey = await deriveDecryptionSecretKey() 
+      const derivedKey = await deriveDecryptionSecretKey()
       const iv = new Uint8Array(fr.result.slice(34, 50))
-      const content = new Uint8Array(fr.result.slice(66)); 
+      const content = new Uint8Array(fr.result.slice(66));
       await window.crypto.subtle.decrypt({
           iv,
           name: DEC.algoName2
@@ -191,7 +191,7 @@ async function decryptFile(old_file ,fileKey ,fileName) {
           errorMsg("You have entered a wrong Decryption Key!");
         });
     }
-    fr.readAsArrayBuffer(file) 
+    fr.readAsArrayBuffer(file)
   });
 
 

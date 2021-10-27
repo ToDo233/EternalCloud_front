@@ -1,5 +1,5 @@
 const DEC = {
-  signature: 'VXBsb2FkIGJ5IENyYXRvLmlvIHBvd2VyIGJ5IGhhdC5zaA',
+  signature: 'VXBsb2FkIGJ5IE1ldGVzLm1lIHBvd2VyIGJ5IGhhdC5zaA',
   hash: 'SHA-512',
   algoName1: 'PBKDF2',
   algoName2: 'AES-GCM',
@@ -46,7 +46,7 @@ function processFinished(name, data, method, dKey, old_file) {
 
 function generateKey() {
   const usedChars =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&_-+=~'
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let keyArray = new Uint8Array(20)
   window.crypto.getRandomValues(keyArray)
   keyArray = keyArray.map((x) => usedChars.charCodeAt(x % usedChars.length))
