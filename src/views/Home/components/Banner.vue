@@ -1,7 +1,7 @@
 <template>
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
-     <div class="message"></div>
+      <div class="message"></div>
     </div>
   </div>
 </template>
@@ -11,13 +11,11 @@
 export default {
   name: 'Banner',
   data() {
-    return {
-
-    }
+    return {}
   },
   methods: {
     goFile() {
-      this.$router.push({ name: 'File', query: { filePath: '/', fileType: 0 } })
+      this.$router.push({name: 'File', query: {filePath: '/', fileType: 0}})
     },
   },
 }
@@ -31,6 +29,7 @@ export default {
   position: relative;
   background-color: #2196F3;
 }
+
 .message {
   position: absolute;
   top: 40%;
@@ -39,8 +38,8 @@ export default {
   transform: translate(-50%, -50%);
   color white
 }
-.message:before,
 
+.message:before,
 .message:after {
   display: block;
   overflow: hidden;
@@ -55,11 +54,13 @@ export default {
   animation: a2 1.4s steps(38) 1.6s forwards;
   content: "just Metes.me.";
 }
+
 @keyframes a1 {
   to {
     width: 30ch;
   }
 }
+
 @keyframes a2 {
   to {
     width: 30ch;

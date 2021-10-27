@@ -1,46 +1,48 @@
 <template>
   <!-- 新建文件对话框 -->
   <el-dialog
-    title="新建文件"
-    :visible.sync="dialogFileStatus"
-    :close-on-click-modal="false"
-    width="550px"
+      title="新建文件"
+      :visible.sync="dialogFileStatus"
+      :close-on-click-modal="false"
+      width="550px"
   >
     <el-form
-      class="add-File-form"
-      :model="form"
-      :rules="formRules"
-      ref="addFileForm"
-      label-width="100px"
-      label-position="top"
+        class="add-File-form"
+        :model="form"
+        :rules="formRules"
+        ref="addFileForm"
+        label-width="100px"
+        label-position="top"
     >
       <el-form-item label="文件名称" prop="fileName">
         <el-input
-          v-model="form.fileName"
-          placeholder="请输入文件名称"
-          type="textarea"
-          autosize
-          maxlength="255"
-          show-word-limit
+            v-model="form.fileName"
+            placeholder="请输入文件名称"
+            type="textarea"
+            autosize
+            maxlength="255"
+            show-word-limit
         ></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleAddFileDialogCancel('addFileForm')"
-        >取 消</el-button
+      >取 消
+      </el-button
       >
       <el-button
-        type="primary"
-        :loading="loading"
-        @click="handleAddFileDialogOk('addFileForm')"
-        >确 定</el-button
+          type="primary"
+          :loading="loading"
+          @click="handleAddFileDialogOk('addFileForm')"
+      >确 定
+      </el-button
       >
     </div>
   </el-dialog>
 </template>
 
 <script>
-import { createOfficeFile } from '@/request/onlyoffice.js'
+import {createOfficeFile} from '@/request/onlyoffice.js'
 
 export default {
   name: 'AddFileDialog',
@@ -68,7 +70,7 @@ export default {
       },
       formRules: {
         fileName: [
-          { required: true, message: '请输入文件名称', trigger: 'blur' },
+          {required: true, message: '请输入文件名称', trigger: 'blur'},
         ],
       },
       loading: false,

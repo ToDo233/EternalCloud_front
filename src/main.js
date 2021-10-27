@@ -14,7 +14,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 
 
-
 /**
  * vue-simple-uploader 中文官方文档 https://github.com/simple-uploader/vue-uploader/blob/master/README_zh-CN.md
  * simple-uploader.js 中文官方文档 https://github.com/simple-uploader/Uploader/blob/develop/README_zh-CN.md
@@ -28,20 +27,20 @@ Vue.component(CollapseTransition.name, CollapseTransition)
 
 Vue.config.productionTip = false;
 
-for(let key in globalFunction) {
-  Vue.prototype[key] = globalFunction[key]
+for (let key in globalFunction) {
+    Vue.prototype[key] = globalFunction[key]
 }
 
-Vue.use(ElementUI,{ locale });
+Vue.use(ElementUI, {locale});
 Vue.use(uploader);
 Vue.prototype.$EventBus = new Vue()
 
 Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
+    Vue.filter(key, filters[key])
 })
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

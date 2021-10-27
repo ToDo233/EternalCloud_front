@@ -57,7 +57,7 @@ export default {
     },
     /**
      * 对话框 确定按钮点击事件
-     * @description 通过提交 mutation 更新表格显示列 
+     * @description 通过提交 mutation 更新表格显示列
      *              并关闭对话框
      */
     dialogOk() {
@@ -75,9 +75,10 @@ export default {
   .text {
     padding-top 8px
     cursor pointer
+
     &:hover {
       color $Primary
     }
-  }  
+  }
 }
 </style>

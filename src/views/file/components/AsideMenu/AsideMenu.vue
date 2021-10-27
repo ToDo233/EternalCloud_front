@@ -2,13 +2,13 @@
   <div class="side-menu-wrapper">
     <!-- collapse 属性：控制菜单收缩展开 -->
     <el-menu
-      class="side-menu"
-      :default-active="activeIndex"
-      :router="true"
-      :collapse="isCollapse"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+        class="side-menu"
+        :default-active="activeIndex"
+        :router="true"
+        :collapse="isCollapse"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
     >
       <el-menu-item index="0" :route="{ name: 'File', query: { fileType: 0, filePath: '/' } }">
         <!-- 图标均来自 Element UI 官方图标库 https://element.eleme.cn/#/zh-CN/component/icon -->
@@ -43,13 +43,13 @@
     <!-- 存储信息显示 -->
     <div class="storage-wrapper" :class="{ fold: isCollapse }">
       <el-progress
-        :percentage="storagePercentage"
-        :color="storageColor"
-        :show-text="false"
-        :type="isCollapse ? 'circle' : 'line'"
-        :width="32"
-        :stroke-width="isCollapse ? 4 : 6"
-        stroke-linecap="square"
+          :percentage="storagePercentage"
+          :color="storageColor"
+          :show-text="false"
+          :type="isCollapse ? 'circle' : 'line'"
+          :width="32"
+          :stroke-width="isCollapse ? 4 : 6"
+          stroke-linecap="square"
       ></el-progress>
       <div class="text" v-show="!isCollapse">
         <span class="label">存储</span>
@@ -79,9 +79,9 @@ export default {
       isCollapse: false, //  控制菜单收缩展开
       //  自定义进度条颜色，不同占比，进度条颜色不同
       storageColor: [
-        { color: '#67C23A', percentage: 50 },
-        { color: '#E6A23C', percentage: 80 },
-        { color: '#F56C6C', percentage: 100 }
+        {color: '#67C23A', percentage: 50},
+        {color: '#E6A23C', percentage: 80},
+        {color: '#F56C6C', percentage: 100}
       ]
     }
   },
@@ -132,11 +132,13 @@ export default {
   }
 
   // 对展开状态下的菜单设置宽度
+
   .side-menu:not(.el-menu--collapse) {
     width: 200px;
   }
 
   // 存储空间展示区
+
   .storage-wrapper {
     position: absolute;
     bottom: 0;
@@ -175,6 +177,7 @@ export default {
   }
 
   // 折叠图标调整样式
+
   .aside-title {
     position: absolute;
     top: calc(50% - 50px);
@@ -189,6 +192,7 @@ export default {
 
     // transition left 0.5s
     // -webkit-transition left 0.5s
+
     &:hover {
       opacity: 0.7;
     }

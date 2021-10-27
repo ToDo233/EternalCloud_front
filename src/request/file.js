@@ -1,5 +1,5 @@
 // 文件模块相关接口
-import { get, post } from './http'
+import {get, post} from './http'
 /**
  * 以登录接口为例
  * export const login = p => get('/user/login', p);
@@ -22,9 +22,9 @@ import { get, post } from './http'
  *
  * 获取文件上传api接口
  */
- export const getFileUploadUrl = p => get('/file/inlet', p);
- export const pinByHash = p => post('/file/pinByHash', p);
- export const getFileList = p => get('/file/list', p);
+export const getFileUploadUrl = p => get('/file/inlet', p);
+export const pinByHash = p => post('/file/pinByHash', p);
+export const getFileList = p => get('/file/list', p);
 
 /**
  * 获取文件列表相关接口

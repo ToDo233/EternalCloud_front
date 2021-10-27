@@ -1,46 +1,48 @@
 <template>
   <!-- 新建文件夹对话框 -->
   <el-dialog
-    title="新建文件夹"
-    :visible.sync="dialogStatus"
-    :close-on-click-modal="false"
-    width="550px"
+      title="新建文件夹"
+      :visible.sync="dialogStatus"
+      :close-on-click-modal="false"
+      width="550px"
   >
     <el-form
-      class="add-folder-form"
-      :model="form"
-      :rules="formRules"
-      ref="addFolderForm"
-      label-width="100px"
-      label-position="top"
+        class="add-folder-form"
+        :model="form"
+        :rules="formRules"
+        ref="addFolderForm"
+        label-width="100px"
+        label-position="top"
     >
       <el-form-item label="文件夹名称" prop="fileName">
         <el-input
-          v-model="form.fileName"
-          placeholder="请输入文件夹名称"
-          type="textarea"
-          autosize
-          maxlength="255"
-          show-word-limit
+            v-model="form.fileName"
+            placeholder="请输入文件夹名称"
+            type="textarea"
+            autosize
+            maxlength="255"
+            show-word-limit
         ></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleAddFolderDialogCancel('addFolderForm')"
-        >取 消</el-button
+      >取 消
+      </el-button
       >
       <el-button
-        type="primary"
-        :loading="loading"
-        @click="handleAddFolderDialogOk('addFolderForm')"
-        >确 定</el-button
+          type="primary"
+          :loading="loading"
+          @click="handleAddFolderDialogOk('addFolderForm')"
+      >确 定
+      </el-button
       >
     </div>
   </el-dialog>
 </template>
 
 <script>
-import { createFold } from '@/request/file.js'
+import {createFold} from '@/request/file.js'
 
 export default {
   name: 'AddFolderDialog',
@@ -71,8 +73,8 @@ export default {
       },
       formRules: {
         fileName: [
-          { required: true, message: '请输入文件夹名称', trigger: 'blur' },
-          { validator: validateFileName, trigger: ['blur', 'change'] },
+          {required: true, message: '请输入文件夹名称', trigger: 'blur'},
+          {validator: validateFileName, trigger: ['blur', 'change']},
         ],
       },
       loading: false,

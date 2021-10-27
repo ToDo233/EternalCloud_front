@@ -2,26 +2,26 @@
   <div class="global-uploader">
     <!-- 上传文件组件 -->
     <el-dialog
-      title="upload"
-      :visible.sync="open"
-      width="400px"
-      append-to-body
-      :show-close="false"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
+        title="upload"
+        :visible.sync="open"
+        width="400px"
+        append-to-body
+        :show-close="false"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
     >
       <el-upload
-        class="uploader-app"
-        ref="uploader"
-        :action="options.target"
-        :headers="options.headers"
-        :on-change="handleFileAdded"
-        :on-success="handleFileSuccess"
-        :on-error="handleFileError"
-        :on-progress="handleFileProcess"
-        :auto-upload="false"
-        :file-list="uploadFileList"
-        drag
+          class="uploader-app"
+          ref="uploader"
+          :action="options.target"
+          :headers="options.headers"
+          :on-change="handleFileAdded"
+          :on-success="handleFileSuccess"
+          :on-error="handleFileError"
+          :on-progress="handleFileProcess"
+          :auto-upload="false"
+          :file-list="uploadFileList"
+          drag
       >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">
@@ -42,7 +42,8 @@
 
 import FileCrypto from '@/utils/crypto-f.js'
 import Crypto from '@/utils/crypto-m.js'
-import { pinByHash } from '@/request/file.js'
+import {pinByHash} from '@/request/file.js'
+
 export default {
   props: {
     open: {
@@ -145,17 +146,17 @@ export default {
         // 获取剪切板中最新的对象
         let imgObj = pasteItems[0].getAsFile()
         this.pasteImgObj =
-          imgObj !== null
-            ? new File(
+            imgObj !== null
+                ? new File(
                 [imgObj],
                 `metesShare_${new Date().valueOf()}.${
-                  imgObj.name.split('.')[1]
+                    imgObj.name.split('.')[1]
                 }`,
                 {
                   type: imgObj.type,
                 }
-              )
-            : null
+                )
+                : null
       } else {
         this.$message.error('当前浏览器不支持')
         return false
@@ -169,7 +170,7 @@ export default {
       // 如果需要预览，可以执行下面代码
       let reader = new FileReader()
       let _this = this
-      reader.onload = function(event) {
+      reader.onload = function (event) {
         _this.pasteImg.src = event.target.result
       }
       reader.readAsDataURL(this.pasteImgObj)
@@ -190,7 +191,8 @@ export default {
       this.fileKey = FileCrypto.generateKey()
 
       file.statusStr = '文件加密完成'
-      await FileCrypto.encryptFile(file, this.fileKey).then(() => {})
+      await FileCrypto.encryptFile(file, this.fileKey).then(() => {
+      })
     },
 
     /**
@@ -207,23 +209,23 @@ export default {
         fileSize: res.Size,
         fileKey: '',
       }
-      pinParams.fileKey =  Crypto.encryptAes(
+      pinParams.fileKey = Crypto.encryptAes(
           localStorage.getItem('mk'),
           this.fileKey
       )
       console.log(pinParams)
       pinByHash(pinParams)
-        .then((res) => {
-          if (res.code == 200) {
-            this.$message.success('文件上传成功')
-            this.$emit('closeUploadDialog')
-            //fileList
-            this.$EventBus.$emit('refreshList', '')
-          }
-        })
-        .catch((err) => {
-          this.$message.error(err)
-        })
+          .then((res) => {
+            if (res.code == 200) {
+              this.$message.success('文件上传成功')
+              this.$emit('closeUploadDialog')
+              //fileList
+              this.$EventBus.$emit('refreshList', '')
+            }
+          })
+          .catch((err) => {
+            this.$message.error(err)
+          })
     },
     /**
      * 文件上传失败 回调函数
@@ -250,6 +252,7 @@ export default {
   z-index: 20
   right: 15px
   bottom: 15px
+
   .drop-box
     position: fixed
     z-index: 19
@@ -263,6 +266,7 @@ export default {
     height: 100%
     line-height: 100%
     width: 100%
+
     .text
       position: absolute
       top: 50%
@@ -270,70 +274,90 @@ export default {
       width: 100%
       transform: translate(-50%, -50%)
       font-size: 30px
+
     .upload-icon
       position: absolute
       right: 176px
       top: 16px
       cursor: pointer
+
       &:hover
         color: $Primary
+
     .delete-icon
       position: absolute
       right: 80px
       top: 16px
       cursor: pointer
+
       &:hover
         color: $Danger
+
     .close-icon
       position: absolute
       right: 16px
       top: 16px
       cursor: pointer
+
       &:hover
         color: $Success
+
     .paste-img-wrapper
       width: 100%
       height: 100%
+
     .paste-img
       margin-top: 16px
       max-width: 90%
       max-height: 80%
+
     .paste-name
       height: 24px
       line-height: 24px
       font-size: 18px
       color: $PrimaryText
+
   .uploader-app
     width: 560px
+
   .file-panel
     background-color: #fff
     border: 1px solid #e2e2e2
     border-radius: 7px 7px 0 0
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+
     .file-title
       display: flex
       height: 40px
       line-height: 40px
       padding: 0 15px
       border-bottom: 1px solid #ddd
+
       .title-span
         padding-left: 0
         margin-bottom: 0
         font-size: 16px
+
         .count
           color: $SecondaryText
+
       .operate
         flex: 1
         text-align: right
+
         >>> .el-button--text
           color: $PrimaryText
+
           i[class^=el-icon-]
             font-weight: 600
+
           &:hover
             .el-icon-full-screen, .el-icon-minus
               color: $Success
+
             .el-icon-close
               color: $Danger
+
     .file-list
       position: relative
       height: 240px
@@ -342,34 +366,45 @@ export default {
       background-color: #fff
       font-size: 12px
       setScrollbar(8px, #EBEEF5, #C0C4CC)
+
       .file-item
         position: relative
         background-color: #fff
+
         >>> .uploader-file
           height: 40px
           line-height: 40px
+
           .uploader-file-progress
             border: 1px solid $Success
             border-right: none
             border-left: none
             background: #e1f3d8
+
           .uploader-file-name
             width: 44%
+
           .uploader-file-size
             width: 16%
+
           .uploader-file-meta
             display: none
+
           .uploader-file-status
             width: 30%
             text-indent: 0
-          .uploader-file-actions>span
+
+          .uploader-file-actions > span
             margin-top: 12px
+
         >>> .uploader-file[status='success']
           .uploader-file-progress
             border: none
+
       .file-item.custom-status-item
         >>> .uploader-file-status
           visibility: hidden
+
         .custom-status
           position: absolute
           top: 0
@@ -377,19 +412,24 @@ export default {
           width: 24%
           height: 40px
           line-height: 40px
+
     &.collapse
       .file-title
         background-color: #E7ECF2
+
   .no-file
     position: absolute
     top: 50%
     left: 50%
     transform: translate(-50%, -50%)
     font-size: 16px
-  /deep/.uploader-file-icon
+
+  /deep/ .uploader-file-icon
     display: none
-  /deep/.uploader-file-actions > span
+
+  /deep/ .uploader-file-actions > span
     margin-right: 6px
+
 /* 隐藏上传按钮 */
 .select-file-btn
   display: none

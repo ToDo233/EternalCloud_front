@@ -16,94 +16,94 @@
       </el-dropdown> -->
 
 
-<!--      <el-button size="mini" type="primary" icon="el-icon-plus"-->
-<!--        @click="dialogAddFolder.visible = true"-->
-<!--        :disabled="selectionFile.length && batchOperate || fileType !== 0">新建文件夹</el-button>-->
-<!--      <el-dropdown class="drop-btn" trigger="hover">-->
-<!--        <el-button size="mini" type="primary" icon="el-icon-edit-outline" id="uploadFileId"-->
-<!--          :disabled="selectionFile.length && batchOperate || fileType !== 0">新建在线文档<i-->
-<!--            class="el-icon-arrow-down el-icon&#45;&#45;right"></i></el-button>-->
-<!--        <el-dropdown-menu slot="dropdown"-->
-<!--          :disabled="selectionFile.length && batchOperate || fileType !== 0">-->
-<!--          <el-dropdown-item @click.native="handleCreateFile('docx')">-->
-<!--            <img src="@/assets/images/file/file_word.png"-->
-<!--              style="width: 30px; max-height: 30px; cursor: pointer" />Word文档-->
-<!--          </el-dropdown-item>-->
-<!--          <el-dropdown-item @click.native="handleCreateFile('xlsx')"><img-->
-<!--              src="@/assets/images/file/file_excel.png"-->
-<!--              style="width: 30px; max-height: 30px; cursor: pointer" />Excel工作表</el-dropdown-item>-->
-<!--          <el-dropdown-item @click.native="handleCreateFile('pptx')"><img-->
-<!--              src="@/assets/images/file/file_ppt.png"-->
-<!--              style="width: 30px; max-height: 30px; cursor: pointer" />PPT演示文稿</el-dropdown-item>-->
-<!--        </el-dropdown-menu>-->
-<!--      </el-dropdown>-->
+      <!--      <el-button size="mini" type="primary" icon="el-icon-plus"-->
+      <!--        @click="dialogAddFolder.visible = true"-->
+      <!--        :disabled="selectionFile.length && batchOperate || fileType !== 0">新建文件夹</el-button>-->
+      <!--      <el-dropdown class="drop-btn" trigger="hover">-->
+      <!--        <el-button size="mini" type="primary" icon="el-icon-edit-outline" id="uploadFileId"-->
+      <!--          :disabled="selectionFile.length && batchOperate || fileType !== 0">新建在线文档<i-->
+      <!--            class="el-icon-arrow-down el-icon&#45;&#45;right"></i></el-button>-->
+      <!--        <el-dropdown-menu slot="dropdown"-->
+      <!--          :disabled="selectionFile.length && batchOperate || fileType !== 0">-->
+      <!--          <el-dropdown-item @click.native="handleCreateFile('docx')">-->
+      <!--            <img src="@/assets/images/file/file_word.png"-->
+      <!--              style="width: 30px; max-height: 30px; cursor: pointer" />Word文档-->
+      <!--          </el-dropdown-item>-->
+      <!--          <el-dropdown-item @click.native="handleCreateFile('xlsx')"><img-->
+      <!--              src="@/assets/images/file/file_excel.png"-->
+      <!--              style="width: 30px; max-height: 30px; cursor: pointer" />Excel工作表</el-dropdown-item>-->
+      <!--          <el-dropdown-item @click.native="handleCreateFile('pptx')"><img-->
+      <!--              src="@/assets/images/file/file_ppt.png"-->
+      <!--              style="width: 30px; max-height: 30px; cursor: pointer" />PPT演示文稿</el-dropdown-item>-->
+      <!--        </el-dropdown-menu>-->
+      <!--      </el-dropdown>-->
 
-<!--      <el-button size="mini" type="primary" v-if="selectionFile.length && batchOperate"-->
-<!--        icon="el-icon-delete" @click="handleBatchDeleteBtnClick()">批量删除</el-button>-->
-<!--      <el-button size="mini" type="primary"-->
-<!--        v-if="selectionFile.length && !fileType && fileType !== 6 && batchOperate"-->
-<!--        icon="el-icon-rank" @click="handleBatchMoveBtnClick()">批量移动</el-button>-->
-<!--      <el-button size="mini" type="primary"-->
-<!--        v-if="selectionFile.length && fileType !== 6 && batchOperate" icon="el-icon-download"-->
-<!--        @click="handleBatchDownloadBtnClick()">批量下载</el-button>-->
-<!--      <el-button size="mini" type="primary"-->
-<!--        v-if="selectionFile.length && fileType !== 6 && $route.name !== 'Share' && batchOperate"-->
-<!--        icon="el-icon-share" @click="handleBatchShareBtnClick()">批量分享</el-button>-->
+      <!--      <el-button size="mini" type="primary" v-if="selectionFile.length && batchOperate"-->
+      <!--        icon="el-icon-delete" @click="handleBatchDeleteBtnClick()">批量删除</el-button>-->
+      <!--      <el-button size="mini" type="primary"-->
+      <!--        v-if="selectionFile.length && !fileType && fileType !== 6 && batchOperate"-->
+      <!--        icon="el-icon-rank" @click="handleBatchMoveBtnClick()">批量移动</el-button>-->
+      <!--      <el-button size="mini" type="primary"-->
+      <!--        v-if="selectionFile.length && fileType !== 6 && batchOperate" icon="el-icon-download"-->
+      <!--        @click="handleBatchDownloadBtnClick()">批量下载</el-button>-->
+      <!--      <el-button size="mini" type="primary"-->
+      <!--        v-if="selectionFile.length && fileType !== 6 && $route.name !== 'Share' && batchOperate"-->
+      <!--        icon="el-icon-share" @click="handleBatchShareBtnClick()">批量分享</el-button>-->
     </el-button-group>
 
     <!-- 全局搜索文件 -->
-<!--    <el-input v-if="fileType === 0" class="select-file-input" v-model="searchFile.fileName"-->
-<!--      placeholder="搜索您的文件" size="mini" maxlength="255" :clearable="true"-->
-<!--      @change="handleSearchInputChange" @clear="$emit('getTableDataByType')"-->
-<!--      @keyup.enter.native="handleSearchInputChange(searchFile.fileName)">-->
-<!--      <i slot="prefix" class="el-input__icon el-icon-search" title="点击搜索"-->
-<!--        @click="handleSearchClick"></i>-->
-<!--    </el-input>-->
+    <!--    <el-input v-if="fileType === 0" class="select-file-input" v-model="searchFile.fileName"-->
+    <!--      placeholder="搜索您的文件" size="mini" maxlength="255" :clearable="true"-->
+    <!--      @change="handleSearchInputChange" @clear="$emit('getTableDataByType')"-->
+    <!--      @keyup.enter.native="handleSearchInputChange(searchFile.fileName)">-->
+    <!--      <i slot="prefix" class="el-input__icon el-icon-search" title="点击搜索"-->
+    <!--        @click="handleSearchClick"></i>-->
+    <!--    </el-input>-->
 
     <!-- 批量操作 -->
     <i class="batch-icon el-icon-finished" :class="batchOperate ? 'active' : ''"
-      :title="batchOperate ? '取消批量操作' : '批量操作'" v-if="fileModel === 1"
-      @click="handleBatchOperationChange()"></i>
+       :title="batchOperate ? '取消批量操作' : '批量操作'" v-if="fileModel === 1"
+       @click="handleBatchOperationChange()"></i>
     <el-divider direction="vertical" v-if="fileModel === 1"></el-divider>
 
     <!-- 操作栏收纳 -->
-<!--    <el-popover placement="bottom" trigger="hover">-->
-<!--      <i slot="reference" class="setting-icon el-icon-setting"></i>-->
-<!--      &lt;!&ndash; 选择表格列 &ndash;&gt;-->
-<!--      <SelectColumn></SelectColumn>-->
-<!--      <el-divider class="split-line"></el-divider>-->
-<!--      &lt;!&ndash; 文件展示模式 &ndash;&gt;-->
-<!--      <div class="change-file-model">-->
-<!--        <div class="title">查看模式</div>-->
-<!--        <el-radio-group v-model="fileGroupLable" size="mini" @change="handleFileDisplayModelChange">-->
-<!--          <el-radio-button :label="0"> <i class="el-icon-tickets"></i> 列表 </el-radio-button>-->
-<!--          <el-radio-button :label="1"> <i class="el-icon-s-grid"></i> 网格 </el-radio-button>-->
-<!--          <el-radio-button :label="2" v-if="fileType === 1"> <i class="el-icon-date"></i> 时间线-->
-<!--          </el-radio-button>-->
-<!--        </el-radio-group>-->
-<!--      </div>-->
-<!--      &lt;!&ndash; 图标大小调整 &ndash;&gt;-->
-<!--      <div class="change-grid-size" v-if="fileGroupLable === 1 || fileGroupLable === 2">-->
-<!--        <div class="title">调整图标大小</div>-->
-<!--        <el-slider v-model="gridSize" :min="40" :max="150" :step="10"-->
-<!--          :format-tooltip="formatTooltip"></el-slider>-->
-<!--      </div>-->
-<!--    </el-popover>-->
+    <!--    <el-popover placement="bottom" trigger="hover">-->
+    <!--      <i slot="reference" class="setting-icon el-icon-setting"></i>-->
+    <!--      &lt;!&ndash; 选择表格列 &ndash;&gt;-->
+    <!--      <SelectColumn></SelectColumn>-->
+    <!--      <el-divider class="split-line"></el-divider>-->
+    <!--      &lt;!&ndash; 文件展示模式 &ndash;&gt;-->
+    <!--      <div class="change-file-model">-->
+    <!--        <div class="title">查看模式</div>-->
+    <!--        <el-radio-group v-model="fileGroupLable" size="mini" @change="handleFileDisplayModelChange">-->
+    <!--          <el-radio-button :label="0"> <i class="el-icon-tickets"></i> 列表 </el-radio-button>-->
+    <!--          <el-radio-button :label="1"> <i class="el-icon-s-grid"></i> 网格 </el-radio-button>-->
+    <!--          <el-radio-button :label="2" v-if="fileType === 1"> <i class="el-icon-date"></i> 时间线-->
+    <!--          </el-radio-button>-->
+    <!--        </el-radio-group>-->
+    <!--      </div>-->
+    <!--      &lt;!&ndash; 图标大小调整 &ndash;&gt;-->
+    <!--      <div class="change-grid-size" v-if="fileGroupLable === 1 || fileGroupLable === 2">-->
+    <!--        <div class="title">调整图标大小</div>-->
+    <!--        <el-slider v-model="gridSize" :min="40" :max="150" :step="10"-->
+    <!--          :format-tooltip="formatTooltip"></el-slider>-->
+    <!--      </div>-->
+    <!--    </el-popover>-->
     <el-button size="big" type="primary" @click="uploadShow">upload</el-button>
     <!-- 新建文件夹对话框 -->
     <AddFolderDialog :visible.sync="dialogAddFolder.visible" :filePath="filePath"
-      @confirmDialog="$emit('getTableDataByType')"></AddFolderDialog>
+                     @confirmDialog="$emit('getTableDataByType')"></AddFolderDialog>
 
     <!-- 新建文件对话框 -->
     <AddFileDialog :visible.sync="dialogAddFile.visible" :filePath="filePath"
-      :extendName="extendName" @confirmDialog="$emit('getTableDataByType')"></AddFileDialog>
+                   :extendName="extendName" @confirmDialog="$emit('getTableDataByType')"></AddFileDialog>
 
     <!-- 多选文件下载，页面隐藏 -->
     <a target="_blank" v-for="(item, index) in selectionFile" :key="index"
-      :href="getDownloadFilePath(item)" :download="item.fileName + '.' + item.extendName"
-      :title="'downloadLink' + index" :ref="'downloadLink' + index"></a>
+       :href="getDownloadFilePath(item)" :download="item.fileName + '.' + item.extendName"
+       :title="'downloadLink' + index" :ref="'downloadLink' + index"></a>
     <global-uploader :uploadData="uploadData" :open="uploadDialogShow"
-      @closeUploadDialog="closeUploadDialog">
+                     @closeUploadDialog="closeUploadDialog">
     </global-uploader>
   </div>
 </template>
@@ -118,6 +118,7 @@ import AddFolderDialog from '@/components/File/AddFolderDialog.vue'
 import AddFileDialog from '@/components/File/AddFileDialog.vue'
 import SelectColumn from './SelectColumn'
 import GlobalUploader from '@/components/common/GlobalUploader.vue'
+
 export default {
   name: 'OperationMenu',
   props: {
@@ -213,17 +214,17 @@ export default {
   methods: {
     uploadShow() {
       getFileUploadUrl()
-        .then((res) => {
-          if (res.code == 200) {
-            this.uploadDialogShow = true
-            this.uploadData = res.data
-          } else {
-            this.$message.error('获取上传地址失败')
-          }
-        })
-        .catch((err) => {
-          this.$message.error(err)
-        })
+          .then((res) => {
+            if (res.code == 200) {
+              this.uploadDialogShow = true
+              this.uploadData = res.data
+            } else {
+              this.$message.error('获取上传地址失败')
+            }
+          })
+          .catch((err) => {
+            this.$message.error(err)
+          })
     },
     closeUploadDialog() {
       this.uploadDialogShow = false
@@ -243,10 +244,10 @@ export default {
      */
     handleUploadFileBtnClick(type, isEncrypto) {
       this.$EventBus.$emit(
-        'openUploader',
-        this.uploadFileData,
-        type,
-        isEncrypto
+          'openUploader',
+          this.uploadFileData,
+          type,
+          isEncrypto
       )
     },
 
@@ -262,15 +263,15 @@ export default {
           cancelButtonText: '取消',
           type: 'warning',
         })
-          .then(() => {
-            this.confirmBatchDeleteFile(true)
-          })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除',
+            .then(() => {
+              this.confirmBatchDeleteFile(true)
             })
-          })
+            .catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
       } else {
         //  非回收站
         this.$confirm('删除后可在回收站查看, 是否继续删除?', '提示', {
@@ -278,15 +279,15 @@ export default {
           cancelButtonText: '取消',
           type: 'warning',
         })
-          .then(() => {
-            this.confirmBatchDeleteFile(false)
-          })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除',
+            .then(() => {
+              this.confirmBatchDeleteFile(false)
             })
-          })
+            .catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
       }
     },
     /**
@@ -400,38 +401,51 @@ export default {
 .operation-menu-wrapper.file-type-6
   margin: 8px 0
   justify-content: flex-end
+
 .operation-menu-wrapper
   padding: 16px 0
   display: flex
   justify-content: space-between
   align-items: center
+
   .operate-group
     flex: 1
+
     .drop-btn
       float: left
       border-radius: 4px 0 0 4px
+
       >>> .el-button
         border-radius: 4px 0 0 4px
+
   .select-file-input
     margin-right: 8px
     width: 250px
+
     .el-icon-search
       cursor: pointer
       font-size: 16px
+
       &:hover
         color: $Primary
+
   .batch-opera-btn
     margin-right: 8px
+
   .batch-icon, .setting-icon
     font-size: 20px
     cursor: pointer
     color: $SecondaryText
+
     &:hover
       color: $Primary
+
   .batch-icon.active
     color: $Primary
+
 .split-line
   margin: 8px 0
+
 .change-file-model, .change-grid-size
   .title
     margin: 8px 0

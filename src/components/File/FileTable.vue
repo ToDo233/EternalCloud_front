@@ -2,8 +2,8 @@
   <div class="file-table-wrapper">
     <!-- 文件表格 -->
     <el-table
-      class="file-table"
-      :class="[
+        class="file-table"
+        :class="[
         'file-type-' + fileType,
         routeName === 'Share'
           ? 'share'
@@ -11,40 +11,40 @@
           ? 'my-share'
           : '',
       ]"
-      ref="multipleTable"
-      fit
-      v-loading="loading"
-      element-loading-text="loading……"
-      tooltip-effect="dark"
-      :data="fileList"
-      :highlight-current-row="true"
-      @selection-change="handleSelectRow"
-      @sort-change="handleSortChange"
-      @row-contextmenu="handleContextMenu"
-      :header-cell-style="{color: '#666' }"
+        ref="multipleTable"
+        fit
+        v-loading="loading"
+        element-loading-text="loading……"
+        tooltip-effect="dark"
+        :data="fileList"
+        :highlight-current-row="true"
+        @selection-change="handleSelectRow"
+        @sort-change="handleSortChange"
+        @row-contextmenu="handleContextMenu"
+        :header-cell-style="{color: '#666' }"
     >
 
       <el-table-column
-        type="selection"
-        key="selection"
-        width="55"
+          type="selection"
+          key="selection"
+          width="55"
       ></el-table-column>
       <el-table-column
-        prop="fileName"
-        key="fileName"
-        :sort-by="['isDir', 'fileName']"
-        sortable
-        show-overflow-tooltip
-        width="455"
+          prop="fileName"
+          key="fileName"
+          :sort-by="['isDir', 'fileName']"
+          sortable
+          show-overflow-tooltip
+          width="455"
       >
-        <template slot="header" >
+        <template slot="header">
           <span>Name</span>
         </template>
-        <template slot-scope="scope" >
+        <template slot-scope="scope">
           <div
-            style="cursor: pointer;font-size: 10pt"
-            :title="`${scope.row.isDir ? '' : '点击预览'}`"
-            @click="handleFileNameClick(scope.row, scope.$index, fileList)"
+              style="cursor: pointer;font-size: 10pt"
+              :title="`${scope.row.isDir ? '' : '点击预览'}`"
+              @click="handleFileNameClick(scope.row, scope.$index, fileList)"
           >
             {{ scope.row | fileNameComplete }}
             <!--  | fileNameComplete -->
@@ -65,15 +65,15 @@
       </el-table-column>
 
       <el-table-column
-        label="Size"
-        min-width="150"
-        prop="fileSize"
-        key="fileSize"
-        :sort-by="['isDir', 'fileSize']"
-        sortable
-        show-overflow-tooltip
-        align="right"
-        v-if="selectedColumnList.includes('fileSize')"
+          label="Size"
+          min-width="150"
+          prop="fileSize"
+          key="fileSize"
+          :sort-by="['isDir', 'fileSize']"
+          sortable
+          show-overflow-tooltip
+          align="right"
+          v-if="selectedColumnList.includes('fileSize')"
       >
         <template slot-scope="scope">
           <div style="padding: 0 10px">
@@ -93,23 +93,24 @@
       >
       </el-table-column>
 
-    <el-table-column   label="Edit" width="120">
-      <template slot-scope="scope">
-        <el-button
-            size="mini"
-            type="danger"
-            @click="handleDeleteFileBtnClick( scope.row)">Delete</el-button>
-      </template>
-    </el-table-column>
+      <el-table-column label="Edit" width="120">
+        <template slot-scope="scope">
+          <el-button
+              size="mini"
+              type="danger"
+              @click="handleDeleteFileBtnClick( scope.row)">Delete
+          </el-button>
+        </template>
+      </el-table-column>
 
     </el-table>
     <!-- 右键列表 -->
     <transition name="el-fade-in-linear">
       <ul
-        class="right-menu-list"
-        id="rightMenuList"
-        v-show="rightMenu.isShow"
-        :style="
+          class="right-menu-list"
+          id="rightMenuList"
+          v-show="rightMenu.isShow"
+          :style="
           `top: ${rightMenu.top};right: ${rightMenu.right};bottom: ${
             rightMenu.bottom
           };left: ${rightMenu.left};`
@@ -117,78 +118,78 @@
       >
 
         <li
-          class="right-menu-item"
-          @click="handleDeleteFileBtnClick(selectedFile)"
-          v-if="deleteBtnShow"
+            class="right-menu-item"
+            @click="handleDeleteFileBtnClick(selectedFile)"
+            v-if="deleteBtnShow"
         >
           <i class="el-icon-delete"></i> Delete
         </li>
 
-<!--        <li-->
-<!--          class="right-menu-item"-->
-<!--          @click="handleMoveFileBtnClick(selectedFile)"-->
-<!--          v-if="moveBtnShow"-->
-<!--        >-->
-<!--          <i class="el-icon-s-promotion"></i> 移动-->
-<!--        </li>-->
-<!--        <li-->
-<!--          class="right-menu-item"-->
-<!--          @click="handleRenameFileBtnClick(selectedFile)"-->
-<!--          v-if="renameBtnShow"-->
-<!--        >-->
-<!--          <i class="el-icon-edit-outline"></i> 重命名-->
-<!--        </li>-->
-<!--        <li-->
-<!--          class="right-menu-item"-->
-<!--          @click="handleShareFileBtnClick(selectedFile)"-->
-<!--          v-if="shareBtnShow"-->
-<!--        >-->
-<!--          <i class="el-icon-share"></i> 分享-->
-<!--        </li>-->
+        <!--        <li-->
+        <!--          class="right-menu-item"-->
+        <!--          @click="handleMoveFileBtnClick(selectedFile)"-->
+        <!--          v-if="moveBtnShow"-->
+        <!--        >-->
+        <!--          <i class="el-icon-s-promotion"></i> 移动-->
+        <!--        </li>-->
+        <!--        <li-->
+        <!--          class="right-menu-item"-->
+        <!--          @click="handleRenameFileBtnClick(selectedFile)"-->
+        <!--          v-if="renameBtnShow"-->
+        <!--        >-->
+        <!--          <i class="el-icon-edit-outline"></i> 重命名-->
+        <!--        </li>-->
+        <!--        <li-->
+        <!--          class="right-menu-item"-->
+        <!--          @click="handleShareFileBtnClick(selectedFile)"-->
+        <!--          v-if="shareBtnShow"-->
+        <!--        >-->
+        <!--          <i class="el-icon-share"></i> 分享-->
+        <!--        </li>-->
         <li
-          class="right-menu-item"
-          v-if="downloadBtnShow"
-          @click="getDownloadFilePath1(selectedFile)"
+            class="right-menu-item"
+            v-if="downloadBtnShow"
+            @click="getDownloadFilePath1(selectedFile)"
         >
           <i class="el-icon-download"></i> Download
         </li>
 
 
-<!--        <li-->
-<!--          class="right-menu-item"-->
-<!--          @click="-->
-<!--            copyShareLink(-->
-<!--              selectedFile.shareBatchNum,-->
-<!--              selectedFile.extractionCode-->
-<!--            )-->
-<!--          "-->
-<!--          v-if="copyLinkBtnShow"-->
-<!--        >-->
-<!--          <i class="el-icon-edit"></i> 复制链接-->
-<!--        </li>-->
-<!--        -->
+        <!--        <li-->
+        <!--          class="right-menu-item"-->
+        <!--          @click="-->
+        <!--            copyShareLink(-->
+        <!--              selectedFile.shareBatchNum,-->
+        <!--              selectedFile.extractionCode-->
+        <!--            )-->
+        <!--          "-->
+        <!--          v-if="copyLinkBtnShow"-->
+        <!--        >-->
+        <!--          <i class="el-icon-edit"></i> 复制链接-->
+        <!--        </li>-->
+        <!--        -->
       </ul>
     </transition>
     <el-dialog
-      title="download"
-      :visible.sync="downloadDialogVisible"
-      width="30%"
-      :show-close="false"
-      center
+        title="download"
+        :visible.sync="downloadDialogVisible"
+        width="30%"
+        :show-close="false"
+        center
     >
       <el-progress
-        :text-inside="true"
-        :stroke-width="26"
-        :percentage="downloadProgress"
+          :text-inside="true"
+          :stroke-width="26"
+          :percentage="downloadProgress"
       ></el-progress>
       <div>
         <span>speed：{{ curSpeed }} /S</span>
       </div>
       <iframe
-        :src="downloadSrc"
-        ref="downloadDia"
-        height="0"
-        width="0"
+          :src="downloadSrc"
+          ref="downloadDia"
+          height="0"
+          width="0"
       ></iframe>
       <template #footer>
         <span class="dialog-footer">
@@ -207,7 +208,7 @@ import {
   restoreRecoveryFile,
 } from '@/request/file.js'
 import Crypto from '@/utils/crypto-m.js'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'FileTable',
@@ -350,8 +351,8 @@ export default {
     //  判断当前路径下是否有压缩文件
     isIncludeZipRarFile() {
       return (
-        this.fileList.map((data) => data.extendName).includes('zip') ||
-        this.fileList.map((data) => data.extendName).includes('rar')
+          this.fileList.map((data) => data.extendName).includes('zip') ||
+          this.fileList.map((data) => data.extendName).includes('rar')
       )
     },
     // 路由名称
@@ -369,25 +370,25 @@ export default {
     // 还原按钮是否显示
     restoreBtnShow() {
       return (
-        this.fileType === 6 && !['Share', 'MyShare'].includes(this.routeName)
+          this.fileType === 6 && !['Share', 'MyShare'].includes(this.routeName)
       )
     },
     // 移动按钮是否显示
     moveBtnShow() {
       return (
-        this.fileType !== 6 && !['Share', 'MyShare'].includes(this.routeName)
+          this.fileType !== 6 && !['Share', 'MyShare'].includes(this.routeName)
       )
     },
     // 重命名按钮是否显示
     renameBtnShow() {
       return (
-        this.fileType !== 6 && !['Share', 'MyShare'].includes(this.routeName)
+          this.fileType !== 6 && !['Share', 'MyShare'].includes(this.routeName)
       )
     },
     // 删除按钮是否显示
     shareBtnShow() {
       return (
-        this.fileType !== 6 && !['Share', 'MyShare'].includes(this.routeName)
+          this.fileType !== 6 && !['Share', 'MyShare'].includes(this.routeName)
       )
     },
     // 下载按钮是否显示
@@ -397,17 +398,17 @@ export default {
     // 解压缩按钮是否显示
     unzipBtnShow() {
       return (
-        this.fileType !== 6 &&
-        !['Share', 'MyShare'].includes(this.routeName) &&
-        ['zip', 'rar'].includes(this.selectedFile.extendName)
+          this.fileType !== 6 &&
+          !['Share', 'MyShare'].includes(this.routeName) &&
+          ['zip', 'rar'].includes(this.selectedFile.extendName)
       )
     },
     // 在线编辑按钮是否显示
     onlineEditBtnShow() {
       return (
-        this.fileType !== 6 &&
-        this.officeFileType.includes(this.selectedFile.extendName) &&
-        !['Share', 'MyShare'].includes(this.routeName)
+          this.fileType !== 6 &&
+          this.officeFileType.includes(this.selectedFile.extendName) &&
+          !['Share', 'MyShare'].includes(this.routeName)
       )
     },
     // 复制链接按钮是否显示
@@ -420,12 +421,12 @@ export default {
       if (this.downloadProgress > 80) {
         this.downloadProgress = 99
         clearInterval(this.timer)
-        setTimeout(()=>{
+        setTimeout(() => {
 
           this.downloadDialogVisible = false
           this.downloadProgress = 0
           this.aftProgress = 0
-        },1000)
+        }, 1000)
 
 
       }
@@ -494,15 +495,15 @@ export default {
       this.selectedFile = row
       // 纵坐标设置
       if (
-        document.body.clientHeight - event.clientY <
-        document.querySelectorAll('#rightMenuList > .right-menu-item').length *
+          document.body.clientHeight - event.clientY <
+          document.querySelectorAll('#rightMenuList > .right-menu-item').length *
           36 +
           10
       ) {
         // 如果到底部的距离小于元素总高度
         this.rightMenu.top = 'auto'
         this.rightMenu.bottom = `${document.body.clientHeight -
-          event.clientY}px`
+        event.clientY}px`
         this.unzipMenu.top = 'auto'
         this.unzipMenu.bottom = '0px'
       } else {
@@ -553,8 +554,8 @@ export default {
         //  无法识别文件类型的文件
         return this.fileImgMap.unknown
       } else if (
-        this.fileType !== 6 &&
-        ['jpg', 'png', 'jpeg', 'gif', 'mp4'].includes(row.extendName)
+          this.fileType !== 6 &&
+          ['jpg', 'png', 'jpeg', 'gif', 'mp4'].includes(row.extendName)
       ) {
         // 图片类型，直接显示缩略图
         return this.getImgMinPath(row)
@@ -721,10 +722,10 @@ export default {
 
       }
       let fileName = row.fileName
-      .replace('=', 'equalEqual')
-      .replace('&', 'andAnd')
-      .replace('#', 'poundPound')
-      const downUrl =  `/fetch.html?cid=${row.cid}&filename=${fileName}&xxkey=${fileKey}&size=${row.fileSize}`
+          .replace('=', 'equalEqual')
+          .replace('&', 'andAnd')
+          .replace('#', 'poundPound')
+      const downUrl = `/fetch.html?cid=${row.cid}&filename=${fileName}&xxkey=${fileKey}&size=${row.fileSize}`
       this.downloadDialogVisible = true
       this.downloadSrc = downUrl
       this.$nextTick(() => {
@@ -770,13 +771,13 @@ export default {
      */
     handleDeleteFileBtnClick(fileInfo) {
       deleteFile({
-        id:fileInfo.id
+        id: fileInfo.id
       }).then(
           (res) => {
             if (res.code === 200) {
               this.$emit('getTableDataByType')
               this.$message.success('delete file success')
-            }else {
+            } else {
               this.$message.error(res.message)
             }
           }
@@ -850,17 +851,17 @@ export default {
         inputErrorMessage: '请输入文件名',
         closeOnClickModal: false,
       })
-        .then(({ value }) => {
-          fileInfo.oldFileName = fileInfo.fileName
-          fileInfo.fileName = value
-          this.confirmRenameFile(fileInfo)
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入',
+          .then(({value}) => {
+            fileInfo.oldFileName = fileInfo.fileName
+            fileInfo.fileName = value
+            this.confirmRenameFile(fileInfo)
           })
-        })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '取消输入',
+            })
+          })
     },
     /**
      * 文件重命名对话框 | 确定按钮点击事件
@@ -897,47 +898,64 @@ export default {
 @import '~@/assets/styles/mixins.styl'
 .file-table-wrapper
   margin-top: 2px
+
   .file-type-0
     height: calc(100vh - 206px) !important
+
     >>> .el-table__body-wrapper
       height: calc(100vh - 264px) !important
+
   .file-type-6
     height: calc(100vh - 211px) !important
+
     >>> .el-table__body-wrapper
       height: calc(100vh - 263px) !important
+
   .file-table.share
     height: calc(100vh - 109px) !important
+
     >>> .el-table__body-wrapper
       height: calc(100vh - 161px) !important
+
   .file-table.my-share
     height: calc(100vh - 157px) !important
+
     >>> .el-table__body-wrapper
       height: calc(100vh - 209px) !important
+
   .file-table
     width: 100% !important
     height: calc(100vh - 203px)
+
     >>> .el-table__header-wrapper
       th
 
         padding: 8px 0
+
       .el-icon-circle-plus, .el-icon-remove
         margin-left: 6px
         cursor: pointer
         font-size: 16px
+
         &:hover
           color: $Primary
+
     >>> .el-table__body-wrapper
       height: calc(100vh - 255px)
       overflow-y: auto
       setScrollbar(10px)
+
       td
         padding: 8px 0
+
       .el-icon-warning
         font-size: 16px
         color: $Warning
+
       .el-icon-time
         font-size: 16px
         color: $Success
+
 .right-menu-list
   position: fixed
   display: flex
@@ -949,27 +967,35 @@ export default {
   z-index: 2
   padding: 4px 0
   color: $RegularText
+
   .right-menu-item, .unzip-item
     padding: 0 16px
     height: 36px
     line-height: 36px
     cursor: pointer
+
     &:hover
       background: $PrimaryHover
       color: $Primary
+
     i
       margin-right: 8px
+
   .unzip-menu-item
     position: relative
+
     &:hover
       .unzip-list
         display: block
+
     .unzip-list
       position: absolute
       display: none
+
       .unzip-item
         width: 200px
         setEllipsis(1)
+
 .right-menu-list, .unzip-list
   background: #fff
   border: 1px solid $BorderLighter

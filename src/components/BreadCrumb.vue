@@ -1,15 +1,15 @@
 <template>
-<!--  <div class="breadcrumb-wrapper">-->
-<!--    <div class="title">Root：</div>-->
-<!--    <el-breadcrumb v-if="fileType && !['Share', 'MyShare'].includes($route.name)" separator="/">-->
-<!--      <el-breadcrumb-item>{{ fileTypeMap[fileType] }}</el-breadcrumb-item>-->
-<!--    </el-breadcrumb>-->
-<!--    <el-breadcrumb v-else separator="/">-->
-<!--      <el-breadcrumb-item v-for="(item, index) in breadCrumbList" :key="index" :to="getRouteQuery(item)">{{-->
-<!--        item.name-->
-<!--      }}</el-breadcrumb-item>-->
-<!--    </el-breadcrumb>-->
-<!--  </div>-->
+  <!--  <div class="breadcrumb-wrapper">-->
+  <!--    <div class="title">Root：</div>-->
+  <!--    <el-breadcrumb v-if="fileType && !['Share', 'MyShare'].includes($route.name)" separator="/">-->
+  <!--      <el-breadcrumb-item>{{ fileTypeMap[fileType] }}</el-breadcrumb-item>-->
+  <!--    </el-breadcrumb>-->
+  <!--    <el-breadcrumb v-else separator="/">-->
+  <!--      <el-breadcrumb-item v-for="(item, index) in breadCrumbList" :key="index" :to="getRouteQuery(item)">{{-->
+  <!--        item.name-->
+  <!--      }}</el-breadcrumb-item>-->
+  <!--    </el-breadcrumb>-->
+  <!--  </div>-->
 </template>
 
 <script>
@@ -74,7 +74,7 @@ export default {
       let routeName = this.$route.name
       if (routeName === 'Share') {
         // 当前是查看他人分享列表的页面
-        return { query: { filePath: item.path } }
+        return {query: {filePath: item.path}}
       } else if (routeName === 'MyShare') {
         // 当前是我的已分享列表页面
         return {
@@ -85,7 +85,7 @@ export default {
         }
       } else {
         // 网盘页面
-        return { query: { filePath: item.path, fileType: 0 } }
+        return {query: {filePath: item.path, fileType: 0}}
       }
     }
   }

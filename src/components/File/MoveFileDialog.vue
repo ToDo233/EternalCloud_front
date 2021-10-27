@@ -10,13 +10,13 @@
         </div>
         <!-- 文件目录树 -->
         <el-tree
-          :data="fileTree"
-          :props="defaultProps"
-          :highlight-current="true"
-          :expand-on-click-node="false"
-          :default-expanded-keys="defaultExpandedKeys"
-          node-key="id"
-          @node-click="handleNodeClick"
+            :data="fileTree"
+            :props="defaultProps"
+            :highlight-current="true"
+            :expand-on-click-node="false"
+            :default-expanded-keys="defaultExpandedKeys"
+            node-key="id"
+            @node-click="handleNodeClick"
         >
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span class="label">{{ node.label }}</span>
@@ -33,16 +33,16 @@
     </el-dialog>
     <!-- 新建文件夹对话框 -->
     <AddFolderDialog
-      :visible.sync="dialogAddFolder.visible"
-      :filePath="dialogAddFolder.filePath"
-      @confirmDialog="initFileTree(dialogAddFolder.id)"
+        :visible.sync="dialogAddFolder.visible"
+        :filePath="dialogAddFolder.filePath"
+        @confirmDialog="initFileTree(dialogAddFolder.id)"
     ></AddFolderDialog>
   </div>
 </template>
 
 <script>
 import AddFolderDialog from '@/components/File/AddFolderDialog.vue'
-import { getFoldTree } from '@/request/file.js'
+import {getFoldTree} from '@/request/file.js'
 
 export default {
   name: 'MoveFileDialog',
@@ -170,7 +170,7 @@ export default {
             }
           }
 
-          .el-tree-node.is-current>.el-tree-node__content {
+          .el-tree-node.is-current > .el-tree-node__content {
             color: $Primary;
           }
         }

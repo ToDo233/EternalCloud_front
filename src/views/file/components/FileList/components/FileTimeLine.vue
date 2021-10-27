@@ -10,21 +10,22 @@
     </div>
     <el-timeline class="image-timeline-list" :reverse="reverse" v-if="imageTimelineData.length">
       <el-timeline-item
-        class="image-timeline-item"
-        v-for="(item, index) in imageTimelineData"
-        :key="index"
-        :timestamp="item.uploadDate"
-        color="#409EFF"
-        placement="top"
+          class="image-timeline-item"
+          v-for="(item, index) in imageTimelineData"
+          :key="index"
+          :timestamp="item.uploadDate"
+          color="#409EFF"
+          placement="top"
       >
         <ul class="image-list">
-          <li class="image-item" v-for="(image, imageIndex) in item.imageList" :key="`${index}-${imageIndex}`" :style="`width: ${gridSize + 40}px; `">
+          <li class="image-item" v-for="(image, imageIndex) in item.imageList" :key="`${index}-${imageIndex}`"
+              :style="`width: ${gridSize + 40}px; `">
             <img
-              class="image"
-              :src="getImgMinPath(image)"
-              :alt="item | fileNameComplete"
-              :style="`width: ${gridSize}px; height: ${gridSize}px;`"
-              @click="handleImgClick(item.imageList, imageIndex)"
+                class="image"
+                :src="getImgMinPath(image)"
+                :alt="item | fileNameComplete"
+                :style="`width: ${gridSize}px; height: ${gridSize}px;`"
+                @click="handleImgClick(item.imageList, imageIndex)"
             />
             <div class="image-name">{{ image | fileNameComplete }}</div>
           </li>

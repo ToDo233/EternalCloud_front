@@ -1,7 +1,7 @@
 <template>
   <div class="error-404-wrapper">
     <h2 class="title">404……</h2>
-    <img :src="error_404_img" />
+    <img :src="error_404_img"/>
   </div>
 </template>
 

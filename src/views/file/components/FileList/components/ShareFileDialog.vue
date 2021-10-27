@@ -2,31 +2,31 @@
   <div>
     <!-- 分享对话框 -->
     <el-dialog
-      title="分享文件"
-      :visible.sync="dialogShareFile.visible"
-      :close-on-click-modal="false"
-      width="550px"
-      @close="handleShareFileDialogCancel('shareFileForm')"
+        title="分享文件"
+        :visible.sync="dialogShareFile.visible"
+        :close-on-click-modal="false"
+        width="550px"
+        @close="handleShareFileDialogCancel('shareFileForm')"
     >
       <el-form
-        v-show="!dialogShareFile.success"
-        class="share-file-form"
-        :model="form"
-        ref="shareFileForm"
-        label-suffix="："
-        label-width="130px"
-        :rules="rules"
+          v-show="!dialogShareFile.success"
+          class="share-file-form"
+          :model="form"
+          ref="shareFileForm"
+          label-suffix="："
+          label-width="130px"
+          :rules="rules"
       >
         <el-form-item label="链接有效期至" prop="endTime">
           <el-date-picker
-            v-model="form.endTime"
-            type="datetime"
-            placeholder="选择日期时间"
-            align="right"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            :editable="false"
-            :clearable="false"
-            :picker-options="pickerOptions"
+              v-model="form.endTime"
+              type="datetime"
+              placeholder="选择日期时间"
+              align="right"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :editable="false"
+              :clearable="false"
+              :picker-options="pickerOptions"
           >
           </el-date-picker>
         </el-form-item>
@@ -38,12 +38,12 @@
         </el-form-item>
       </el-form>
       <el-form
-        v-if="dialogShareFile.success"
-        class="share-success-form"
-        :model="dialogShareFile.shareData"
-        ref="shareSuccessForm"
-        label-suffix="："
-        label-width="90px"
+          v-if="dialogShareFile.success"
+          class="share-success-form"
+          :model="dialogShareFile.shareData"
+          ref="shareSuccessForm"
+          label-suffix="："
+          label-width="90px"
       >
         <div class="success-tip">
           <i class="el-icon-success"></i>
@@ -51,10 +51,10 @@
         </div>
         <el-form-item label="分享链接" prop="shareBatchNum">
           <el-input
-            :value="getShareLink(dialogShareFile.shareData.shareBatchNum)"
-            :readonly="true"
-            type="textarea"
-            autosize
+              :value="getShareLink(dialogShareFile.shareData.shareBatchNum)"
+              :readonly="true"
+              type="textarea"
+              autosize
           ></el-input>
         </el-form-item>
         <el-form-item label="提取码" prop="extractionCode" v-if="dialogShareFile.shareData.extractionCode">
@@ -63,15 +63,17 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button
-          v-if="dialogShareFile.success"
-          type="primary"
-          @click="copyShareLink(dialogShareFile.shareData.shareBatchNum, dialogShareFile.shareData.extractionCode)"
-          >复制链接及提取码</el-button
+            v-if="dialogShareFile.success"
+            type="primary"
+            @click="copyShareLink(dialogShareFile.shareData.shareBatchNum, dialogShareFile.shareData.extractionCode)"
+        >复制链接及提取码
+        </el-button
         >
         <template v-else>
           <el-button @click="handleShareFileDialogCancel('shareFileForm')">取 消</el-button>
           <el-button type="primary" :loading="dialogShareFile.loading" @click="handleShareFileDialogOk('shareFileForm')"
-            >确 定</el-button
+          >确 定
+          </el-button
           >
         </template>
       </div>
@@ -97,7 +99,7 @@ export default {
         shareType: 0
       },
       rules: {
-        endTime: [{ required: true, message: '请选择链接有效期', trigger: 'blur' }]
+        endTime: [{required: true, message: '请选择链接有效期', trigger: 'blur'}]
       },
       loading: false,
       pickerOptions: {

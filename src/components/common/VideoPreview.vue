@@ -7,34 +7,34 @@
           <span class="size">{{ calculateFileSize(activeFileObj.fileSize) }}</span>
         </div>
         <a class="download-link" :href="getDownloadFilePath(activeFileObj)" target="_blank"
-          ><i class="download-icon el-icon-download" title="下载"></i
+        ><i class="download-icon el-icon-download" title="下载"></i
         ></a>
         <i
-          class="fold-icon"
-          :class="isFoldVideoList ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
-          :title="isFoldVideoList ? '展开播放列表' : '折叠播放列表'"
-          @click="isFoldVideoList = !isFoldVideoList"
+            class="fold-icon"
+            :class="isFoldVideoList ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
+            :title="isFoldVideoList ? '展开播放列表' : '折叠播放列表'"
+            @click="isFoldVideoList = !isFoldVideoList"
         ></i>
         <i class="close-icon el-icon-close" title="关闭" @click="handleClosePreview"></i>
       </div>
       <div class="bottom">
         <video-player
-          class="video-player vjs-custom-skin"
-          ref="videoPlayer"
-          :playsinline="true"
-          :options="playerOptions"
-          v-if="videoPreviewVisible"
+            class="video-player vjs-custom-skin"
+            ref="videoPlayer"
+            :playsinline="true"
+            :options="playerOptions"
+            v-if="videoPreviewVisible"
         ></video-player>
         <el-collapse-transition>
           <div class="video-list-wrapper" v-show="!isFoldVideoList">
             <div class="list-title">播放列表</div>
             <ul class="video-list">
               <li
-                class="video-item"
-                v-for="(item, index) in videoPreviewList"
-                :key="index"
-                :class="[activeIndex === index ? 'active' : '']"
-                @click="activeIndex = index"
+                  class="video-item"
+                  v-for="(item, index) in videoPreviewList"
+                  :key="index"
+                  :class="[activeIndex === index ? 'active' : '']"
+                  @click="activeIndex = index"
               >
                 <span class="name">{{ item.fileName }}.{{ item.extendName }}</span>
                 <span class="size">{{ calculateFileSize(item.fileSize) }}</span>
@@ -52,7 +52,7 @@
  * vue-video-player 官方文档 https://github.com/surmon-china/vue-video-player
  * 此插件依赖于 video.js 官方文档 https://docs.videojs.com/
  */
-import { videoPlayer } from 'vue-video-player'
+import {videoPlayer} from 'vue-video-player'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
 
@@ -123,7 +123,7 @@ export default {
   methods: {
     // 关闭图片预览
     handleClosePreview() {
-      this.$store.commit('setVideoPreviewData', { videoPreviewVisible: false })
+      this.$store.commit('setVideoPreviewData', {videoPreviewVisible: false})
     }
   }
 }

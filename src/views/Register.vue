@@ -5,18 +5,18 @@
       <p class="register-system">Metes</p>
       <!-- 注册表单 -->
       <el-form
-        class="register-form"
-        ref="registerForm"
-        :model="registerForm"
-        :rules="registerFormRules"
-        label-width="100px"
-        hide-required-asterisk
+          class="register-form"
+          ref="registerForm"
+          :model="registerForm"
+          :rules="registerFormRules"
+          label-width="100px"
+          hide-required-asterisk
       >
         <el-form-item prop="username">
           <el-input
-            prefix-icon="el-icon-user"
-            v-model="registerForm.username"
-            placeholder="userName"
+              prefix-icon="el-icon-user"
+              v-model="registerForm.username"
+              placeholder="userName"
           >
           </el-input>
         </el-form-item>
@@ -26,20 +26,21 @@
         </el-form-item> -->
         <el-form-item prop="password">
           <el-input
-            prefix-icon="el-icon-lock"
-            v-model="registerForm.password"
-            placeholder="passWord"
-            show-password
+              prefix-icon="el-icon-lock"
+              v-model="registerForm.password"
+              placeholder="passWord"
+              show-password
           ></el-input>
         </el-form-item>
 
         <el-form-item class="registerButtonWrapper">
           <el-button
-            class="registerButton"
-            type="primary"
-            :disabled="submitDisabled"
-            @click="submitForm('registerForm')"
-            >注册</el-button
+              class="registerButton"
+              type="primary"
+              :disabled="submitDisabled"
+              @click="submitForm('registerForm')"
+          >注册
+          </el-button
           >
         </el-form-item>
       </el-form>
@@ -49,7 +50,7 @@
 
 <script>
 
-import { addUser } from '@/request/user.js'
+import {addUser} from '@/request/user.js'
 import Crypto from '../utils/crypto-m'
 import SparkMD5 from 'spark-md5'
 
@@ -67,10 +68,10 @@ export default {
       // 注册表单校验规则
       registerFormRules: {
         username: [
-          { required: true, message: 'please input username', trigger: 'blur' },
+          {required: true, message: 'please input username', trigger: 'blur'},
         ],
         password: [
-          { required: true, message: 'please input password', trigger: 'blur' },
+          {required: true, message: 'please input password', trigger: 'blur'},
           {
             min: 5,
             max: 20,
@@ -93,9 +94,7 @@ export default {
       return _url ? _url : '/' //  若登录之前有页面，则登录后仍然进入该页面
     },
   },
-  watch: {
-
-  },
+  watch: {},
   created() {
 
   },
@@ -115,13 +114,13 @@ export default {
           console.log('master_key：' + master_key)
           let ps = this.registerForm.password
           // TODOS:改成md5 16位
-            ps = SparkMD5.hash(ps);
+          ps = SparkMD5.hash(ps);
           console.log('password：' + ps)
           this.registerForm.password = ps
           // 2 使用用户密码 加密masterkey
           this.registerForm.masterKeyBa = Crypto.encryptAes(
-            this.registerForm.password,
-            master_key
+              this.registerForm.password,
+              master_key
           )
           // console.log('masterKeyBa:' + this.registerForm.masterKeyBa)
           // console.log(Crypto.decryptAes(this.registerForm.password ,this.registerForm.masterKeyBa))
@@ -130,15 +129,15 @@ export default {
           const key = Crypto.getRsaKey()
           // 4 使用 MasterKey 加密 RSA 私钥
           this.registerForm.privateKeyBa = Crypto.encryptAes(
-            master_key,
-            key.privateKey
+              master_key,
+              key.privateKey
           )
           // console.log('privateKeyBa' + this.registerForm.privateKeyBa)
           // 5 获取RSA公钥
           this.registerForm.publicKey = key.publicKey
-            .replace('-----BEGIN PUBLIC KEY-----', '')
-            .replace('-----END PUBLIC KEY-----', '')
-            .trim()
+              .replace('-----BEGIN PUBLIC KEY-----', '')
+              .replace('-----END PUBLIC KEY-----', '')
+              .trim()
           // console.log('publicKey' + this.registerForm.publicKey)
           addUser({
             userName: this.registerForm.username,
@@ -153,7 +152,7 @@ export default {
                 type: 'success',
               })
               this.$refs[formName].resetFields()
-              this.$router.replace({ path: '/login' })
+              this.$router.replace({path: '/login'})
             } else {
               this.$message.error(res.msg)
             }
@@ -173,31 +172,40 @@ export default {
   min-height: calc(100vh - 189px) !important
   width: 100% !important
   padding-top: 50px
+
   .form-wrapper
     width: 375px
     margin: 0 auto
     text-align: center
+
     .register-title
       margin-bottom: 10px
       font-weight: 300
       font-size: 30px
       color: #000
+
     .register-system
       font-weight: 300
       color: #999
+
     .register-form
       width: 100%
       margin-top: 20px
+
       >>> .el-form-item__content
         margin-left: 0 !important
-      &>>> .el-input__inner
+
+      & >>> .el-input__inner
         font-size: 16px
+
       .registerButtonWrapper
         .registerButton
           width: 100%
-        &>>> .el-button
+
+        & >>> .el-button
           padding: 10px 90px
           font-size: 16px
+
     .tip
       width: 70%
       margin-left: 86px

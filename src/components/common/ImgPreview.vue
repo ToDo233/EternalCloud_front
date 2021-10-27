@@ -1,33 +1,34 @@
 <template>
   <transition name="el-fade-in-linear el-fade-in">
     <div
-      class="img-preview-wrapper"
-      v-show="imgPreviewVisible"
-      @click.self="closeImgReview"
-      @mousewheel.prevent="rollImg()"
+        class="img-preview-wrapper"
+        v-show="imgPreviewVisible"
+        @click.self="closeImgReview"
+        @mousewheel.prevent="rollImg()"
     >
       <!-- 顶部信息栏 & 工具栏 -->
       <div class="tip-wrapper" v-if="imgPreviewVisible">
         <div class="name" :title="activeFileName + activeExtendName">{{ activeFileName }}.{{ activeExtendName }}</div>
         <div class="opera-btn-group">
-          <el-input-number v-model="inputActiveIndex" :min="1" :max="imgPreviewList.length" size="mini"></el-input-number>
+          <el-input-number v-model="inputActiveIndex" :min="1" :max="imgPreviewList.length"
+                           size="mini"></el-input-number>
           <span class="split-line">/</span>{{ imgPreviewList.length }}
         </div>
         <div class="tool-wrapper">
           <i class="item el-icon-refresh-right" title="向右旋转" @click="rotateImg"></i>
           <a
-            class="item download-link"
-            target="_blank"
-            :href="activeDownloadLink"
-            :download="activeFileName + '.' + activeExtendName"
+              class="item download-link"
+              target="_blank"
+              :href="activeDownloadLink"
+              :download="activeFileName + '.' + activeExtendName"
           >
             <i class="el-icon-download" title="保存到本地"></i>
           </a>
           <el-tooltip effect="dark" placement="bottom">
             <div slot="content">
-              操作提示：<br />
-              点击图片以外的区域可退出查看；<br />
-              按Esc键可退出查看；<br />
+              操作提示：<br/>
+              点击图片以外的区域可退出查看；<br/>
+              按Esc键可退出查看；<br/>
               鼠标滚轮可放大缩小图片
             </div>
             <div class="item text-wrapper">
@@ -39,29 +40,29 @@
       </div>
       <!-- 大图查看 -->
       <img
-        class="img-large"
-        ref="imgLarge"
-        v-for="(item, index) in imgPreviewList"
-        :key="index"
-        :src="item.fileUrl"
-        v-show="index === activeIndex"
+          class="img-large"
+          ref="imgLarge"
+          v-for="(item, index) in imgPreviewList"
+          :key="index"
+          :src="item.fileUrl"
+          v-show="index === activeIndex"
       />
       <!-- 左右切换图标 -->
       <i class="pre-icon el-icon-arrow-left" title="上一张" v-show="activeIndex > 0" @click.stop="activeIndex--"></i>
       <i
-        class="next-icon el-icon-arrow-right"
-        title="下一张"
-        v-show="activeIndex < imgPreviewList.length - 1"
-        @click.stop="activeIndex++"
+          class="next-icon el-icon-arrow-right"
+          title="下一张"
+          v-show="activeIndex < imgPreviewList.length - 1"
+          @click.stop="activeIndex++"
       ></i>
       <!-- 底部显示放大缩小比例 -->
       <div class="zoom-bar">
         <el-slider
-          v-model="imgZoom"
-          :min="imgZoomMin"
-          :max="imgZoomMax"
-          :format-tooltip="formatZoom"
-          @input="changeZoom"
+            v-model="imgZoom"
+            :min="imgZoomMin"
+            :max="imgZoomMax"
+            :format-tooltip="formatZoom"
+            @input="changeZoom"
         ></el-slider>
         <div class="zoom-count">{{ imgZoom }}%</div>
       </div>
@@ -163,7 +164,7 @@ export default {
      * 关闭图片预览，恢复旋转角度
      */
     closeImgReview() {
-      this.$store.commit('setImgPreviewData', { imgPreviewVisible: false })
+      this.$store.commit('setImgPreviewData', {imgPreviewVisible: false})
       this.rotate = 0
       this.$refs.imgLarge[this.activeIndex].style.transform = `rotate(${this.rotate}deg)`
     },

@@ -3,15 +3,15 @@
     <!-- 操作按钮 -->
     <el-header>
       <OperationMenu
-        :fileType="fileType"
-        :filePath="filePath"
-        :operationFile="operationFile"
-        :selectionFile="selectionFile"
-        :batchOperate.sync="batchOperate"
-        @getSearchFileList="getSearchFileList"
-        @getTableDataByType="getTableDataByType"
-        @setMoveFileDialogData="setMoveFileDialogData"
-        @setShareFileDialogData="setShareFileDialogData"
+          :fileType="fileType"
+          :filePath="filePath"
+          :operationFile="operationFile"
+          :selectionFile="selectionFile"
+          :batchOperate.sync="batchOperate"
+          @getSearchFileList="getSearchFileList"
+          @getTableDataByType="getTableDataByType"
+          @setMoveFileDialogData="setMoveFileDialogData"
+          @setShareFileDialogData="setShareFileDialogData"
       ></OperationMenu>
     </el-header>
     <div class="middle-wrapper">
@@ -20,43 +20,43 @@
     </div>
     <!-- 文件列表-表格模式 -->
     <FileTable
-      :fileType="fileType"
-      :filePath="filePath"
-      :fileList="fileList"
-      :loading="loading"
-      v-if="fileModel === 0"
-      @setMoveFileDialogData="setMoveFileDialogData"
-      @setShareFileDialogData="setShareFileDialogData"
-      @setOperationFile="setOperationFile"
-      @setSelectionFile="setSelectionFile"
-      @getTableDataByType="getTableDataByType"
+        :fileType="fileType"
+        :filePath="filePath"
+        :fileList="fileList"
+        :loading="loading"
+        v-if="fileModel === 0"
+        @setMoveFileDialogData="setMoveFileDialogData"
+        @setShareFileDialogData="setShareFileDialogData"
+        @setOperationFile="setOperationFile"
+        @setSelectionFile="setSelectionFile"
+        @getTableDataByType="getTableDataByType"
     ></FileTable>
 
 
     <div class="pagination-wrapper">
 
       <el-pagination
-        :current-page="pageData.currentPage"
-        :page-size="pageData.pageCount"
-        :total="pageData.total"
-        :page-sizes="[10, 50, 100, 200]"
-        layout="sizes, total, prev, pager, next"
-        @current-change="handleCurrentChange"
-        @size-change="handleSizeChange"
+          :current-page="pageData.currentPage"
+          :page-size="pageData.pageCount"
+          :total="pageData.total"
+          :page-sizes="[10, 50, 100, 200]"
+          layout="sizes, total, prev, pager, next"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
       >
       </el-pagination>
     </div>
     <!-- 移动文件模态框 -->
     <MoveFileDialog
-      :dialogData="dialogMoveFile"
-      @setSelectFilePath="setSelectFilePath"
-      @confirmDialog="confirmMoveFile"
-      @setDialogData="setMoveFileDialogData"
+        :dialogData="dialogMoveFile"
+        @setSelectFilePath="setSelectFilePath"
+        @confirmDialog="confirmMoveFile"
+        @setDialogData="setMoveFileDialogData"
     ></MoveFileDialog>
     <!-- 分享文件模态框 -->
     <ShareFileDialog
-      :dialogShareFile="dialogShareFile"
-      @setDialogShareFileData="setDialogShareFileData"
+        :dialogShareFile="dialogShareFile"
+        @setDialogShareFileData="setDialogShareFileData"
     ></ShareFileDialog>
   </div>
 </template>
@@ -270,16 +270,16 @@ export default {
     showFileList() {
       this.loading = true
       getFileList()
-        .then((res) => {
-          if (res.code == 200) {
-            this.fileList = res.rows
-            this.pageData.total = res.total
-          }
-          this.loading = false
-        })
-        .catch((err) => {
-          this.loading = false
-        })
+          .then((res) => {
+            if (res.code == 200) {
+              this.fileList = res.rows
+              this.pageData.total = res.total
+            }
+            this.loading = false
+          })
+          .catch((err) => {
+            this.loading = false
+          })
       // let data = {
       //   filePath: this.filePath,
       //   currentPage: this.pageData.currentPage,
@@ -366,8 +366,8 @@ export default {
      */
     setMoveFileDialogData(isBatchMove, visible) {
       this.dialogMoveFile.isBatchMove = isBatchMove
-        ? isBatchMove
-        : this.dialogMoveFile.isBatchMove
+          ? isBatchMove
+          : this.dialogMoveFile.isBatchMove
       this.dialogMoveFile.visible = visible
     },
     /**
@@ -454,27 +454,27 @@ export default {
           ...data,
           remarks: '',
           files: JSON.stringify(
-            this.selectionFile.map((item) => {
-              return {
-                userFileId: item.userFileId,
-              }
-            })
+              this.selectionFile.map((item) => {
+                return {
+                  userFileId: item.userFileId,
+                }
+              })
           ),
         }).then(
-          (res) => {
-            this.dialogShareFile.loading = false
-            if (res.success) {
-              this.dialogShareFile.success = true
-              this.dialogShareFile.shareData = res.data
-            } else {
-              this.$message.error(res.message)
+            (res) => {
+              this.dialogShareFile.loading = false
+              if (res.success) {
+                this.dialogShareFile.success = true
+                this.dialogShareFile.shareData = res.data
+              } else {
+                this.$message.error(res.message)
+              }
+            },
+            (error) => {
+              console.log(error)
+              this.$message.error(error.message)
+              this.dialogShareFile.loading = false
             }
-          },
-          (error) => {
-            console.log(error)
-            this.$message.error(error.message)
-            this.dialogShareFile.loading = false
-          }
         )
       } else {
         this.dialogShareFile.visible = false
@@ -491,14 +491,17 @@ export default {
 .file-list-wrapper
   >>> .el-header
     padding: 0
+
   .middle-wrapper
     margin-bottom: 8px
+
   .pagination-wrapper
     position: relative
     border-top: 1px solid $BorderBase
     height: 34px
     line-height: 34px
     text-align: center
+
     .current-page-count
       position: absolute
       left: 16px

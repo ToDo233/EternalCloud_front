@@ -31,10 +31,12 @@ export default {
 @import '~@/assets/styles/mixins.styl'
 .file-wrapper
   width: 100% !important
+
 .el-container
   .el-aside
     height: calc(100vh - 61px)
     overflow: hidden
+
 .el-main
   padding: 0px 16px !important
   overflow: hidden

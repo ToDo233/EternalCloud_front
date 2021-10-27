@@ -1,5 +1,5 @@
 // 用户信息相关接口
-import { post } from './http'
+import {post} from './http'
 
 // 创建文档
 export const createOfficeFile = p => post('/office/createofficefile', p);

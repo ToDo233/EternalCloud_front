@@ -5,36 +5,37 @@
       <p class="login-system">Metes</p>
       <!-- 登录表单 -->
       <el-form
-        class="login-form"
-        ref="loginForm"
-        :model="loginForm"
-        :rules="loginFormRules"
-        label-width="100px"
-        hide-required-asterisk
+          class="login-form"
+          ref="loginForm"
+          :model="loginForm"
+          :rules="loginFormRules"
+          label-width="100px"
+          hide-required-asterisk
       >
         <el-form-item prop="userName">
           <el-input
-            prefix-icon="el-icon-mobile-phone"
-            v-model="loginForm.userName"
-            placeholder="用户名"
+              prefix-icon="el-icon-mobile-phone"
+              v-model="loginForm.userName"
+              placeholder="用户名"
           ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-            prefix-icon="el-icon-lock"
-            v-model="loginForm.password"
-            placeholder="密码"
-            show-password
+              prefix-icon="el-icon-lock"
+              v-model="loginForm.password"
+              placeholder="密码"
+              show-password
           ></el-input>
         </el-form-item>
 
         <el-form-item class="login-btn-form-item">
           <el-button
-            class="login-btn"
-            type="primary"
-            :disabled="loginBtnDisabled"
-            @click="submitForm('loginForm')"
-            >Login</el-button
+              class="login-btn"
+              type="primary"
+              :disabled="loginBtnDisabled"
+              @click="submitForm('loginForm')"
+          >Login
+          </el-button
           >
         </el-form-item>
       </el-form>
@@ -44,7 +45,7 @@
 
 <script>
 
-import { getToken, checkToken } from '@/request/user.js'
+import {getToken, checkToken} from '@/request/user.js'
 import Crypto from '../utils/crypto-m'
 import SparkMD5 from 'spark-md5'
 
@@ -61,10 +62,10 @@ export default {
       // 登录表单验证规则
       loginFormRules: {
         userName: [
-          { required: true, message: 'please input username', trigger: 'blur' },
+          {required: true, message: 'please input username', trigger: 'blur'},
         ],
         password: [
-          { required: true, message: 'please input password', trigger: 'blur' },
+          {required: true, message: 'please input password', trigger: 'blur'},
           {
             min: 5,
             max: 20,
@@ -83,23 +84,21 @@ export default {
     url() {
       let _url = this.$route.query.Rurl //  获取路由前置守卫中 next 函数的参数，即登录后要去的页面
       return _url
-        ? { path: _url }
-        : { name: 'File', query: { fileType: 0, filePath: '/' } } //  若登录之前有页面，则登录后仍然进入该页面
+          ? {path: _url}
+          : {name: 'File', query: {fileType: 0, filePath: '/'}} //  若登录之前有页面，则登录后仍然进入该页面
     },
   },
-  watch: {
-
-  },
+  watch: {},
   created() {
     // 用户若已登录，自动跳转到首页
     if (this.$store.getters.isLogin) {
       let username = this.$store.getters.username
       this.$message({
-         message: `${username} welcome back`,
+        message: `${username} welcome back`,
         center: true,
         type: 'success',
       })
-      this.$router.replace({ name: 'Home' })
+      this.$router.replace({name: 'Home'})
     }
 
   },
@@ -138,8 +137,8 @@ export default {
               //  let rsa_private_key = Crypto.decryptAes(MasterKey_af , rsa_private_key_ba)
               // 2 使用masterkey解密出RSA私钥
               let rsa_private_key = Crypto.decryptAes(
-                MasterKey_af,
-                res.data.privateKeyBa
+                  MasterKey_af,
+                  res.data.privateKeyBa
               )
               console.log('解密出 rsa_private_key ' + rsa_private_key)
 
@@ -207,31 +206,40 @@ export default {
 
   min-height: calc(100vh - 189px) !important
   padding-top: 50px
+
   .form-wrapper
     width: 375px
     margin: 0 auto
     text-align: center
+
     .login-title
       margin-bottom: 10px
       font-weight: 300
       font-size: 30px
       color: #000
+
     .login-system
       font-weight: 300
       color: #999
+
     .login-form
       width: 100%
       margin-top: 20px
+
       >>> .el-form-item__content
         margin-left: 0 !important
-      &>>> .el-input__inner
+
+      & >>> .el-input__inner
         font-size: 16px
+
       .login-btn-form-item
         .login-btn
           width: 100%
-        &>>> .el-button
+
+        & >>> .el-button
           padding: 10px 90px
           font-size: 16px
+
     .tip
       width: 70%
       margin-left: 86px

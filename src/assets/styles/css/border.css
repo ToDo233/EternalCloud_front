@@ -12,6 +12,7 @@
 .border-bottomleft {
     position: relative;
 }
+
 .border::before,
 .border-top::before,
 .border-right::before,
@@ -33,6 +34,7 @@
     overflow: hidden;
     position: absolute;
 }
+
 /* border
  * 因，边框是由伪元素区域遮盖在父级
  * 故，子级若有交互，需要对子级设置
@@ -47,6 +49,7 @@
     border: 1px solid #eaeaea;
     transform-origin: 0 0;
 }
+
 .border-top::before,
 .border-bottom::before,
 .border-topbottom::before,
@@ -59,6 +62,7 @@
     width: 100%;
     height: 1px;
 }
+
 .border-right::before,
 .border-left::before,
 .border-rightleft::before,
@@ -71,6 +75,7 @@
     width: 1px;
     height: 100%;
 }
+
 .border-top::before,
 .border-topbottom::before,
 .border-topleft::before,
@@ -78,6 +83,7 @@
     border-top: 1px solid #eaeaea;
     transform-origin: 0 0;
 }
+
 .border-right::before,
 .border-rightbottom::before,
 .border-rightleft::before,
@@ -85,6 +91,7 @@
     border-right: 1px solid #eaeaea;
     transform-origin: 100% 0;
 }
+
 .border-bottom::before,
 .border-topbottom::after,
 .border-rightbottom::after,
@@ -92,6 +99,7 @@
     border-bottom: 1px solid #eaeaea;
     transform-origin: 0 100%;
 }
+
 .border-left::before,
 .border-topleft::after,
 .border-rightleft::after,
@@ -99,39 +107,46 @@
     border-left: 1px solid #eaeaea;
     transform-origin: 0 0;
 }
+
 .border-top::before,
 .border-topbottom::before,
 .border-topleft::before,
 .border-topright::before {
     top: 0;
 }
+
 .border-right::before,
 .border-rightleft::after,
 .border-rightbottom::before,
 .border-topright::after {
     right: 0;
 }
+
 .border-bottom::before,
 .border-topbottom::after,
 .border-rightbottom::after,
 .border-bottomleft::after {
     bottom: 0;
 }
+
 .border-left::before,
 .border-rightleft::before,
 .border-topleft::after,
 .border-bottomleft::before {
     left: 0;
 }
+
 @media (max--moz-device-pixel-ratio: 1.49), (-webkit-max-device-pixel-ratio: 1.49), (max-device-pixel-ratio: 1.49), (max-resolution: 143dpi), (max-resolution: 1.49dppx) {
     /* 默认值，无需重置 */
 }
+
 @media (min--moz-device-pixel-ratio: 1.5) and (max--moz-device-pixel-ratio: 2.49), (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 2.49), (min-device-pixel-ratio: 1.5) and (max-device-pixel-ratio: 2.49), (min-resolution: 144dpi) and (max-resolution: 239dpi), (min-resolution: 1.5dppx) and (max-resolution: 2.49dppx) {
     .border::before {
         width: 200%;
         height: 200%;
         transform: scale(.5);
     }
+
     .border-top::before,
     .border-bottom::before,
     .border-topbottom::before,
@@ -142,6 +157,7 @@
     .border-bottomleft::before {
         transform: scaleY(.5);
     }
+
     .border-right::before,
     .border-left::before,
     .border-rightleft::before,
@@ -153,12 +169,14 @@
         transform: scaleX(.5);
     }
 }
+
 @media (min--moz-device-pixel-ratio: 2.5), (-webkit-min-device-pixel-ratio: 2.5), (min-device-pixel-ratio: 2.5), (min-resolution: 240dpi), (min-resolution: 2.5dppx) {
     .border::before {
         width: 300%;
         height: 300%;
         transform: scale(.33333);
     }
+
     .border-top::before,
     .border-bottom::before,
     .border-topbottom::before,
@@ -169,6 +187,7 @@
     .border-bottomleft::before {
         transform: scaleY(.33333);
     }
+
     .border-right::before,
     .border-left::before,
     .border-rightleft::before,
@@ -180,6 +199,7 @@
         transform: scaleX(.33333);
     }
 }
+
 .border-radius {
     border-radius: 4px;
 }
